@@ -278,9 +278,17 @@ missing rather than shown a button that would fail. An unseeded run is refused r
 under seed 0.
 
 Everything here is local: the catalog is a file on this machine, so publishing shares a binder with
-nobody yet. Ten Rust tests cover the loop, including a binder that leaves one library and comes back
-out of the catalog into another; the view tests cover the publish preview, the ownership rules and
-the posting path against the mock host.
+nobody yet.
+
+**Tested on three levels.** `catalog.rs` in memory, for the rules — the aggregate, the ownership
+check, the seed board, the sync merge. The publish path on disk, for what only files can show: two
+databases opened from a directory, a deck written into the catalog folder, and the byte count the
+entry reports taken off that file rather than from a second count of the tables. And the views
+against the mock host, for the preview, the ownership rules and the posting path.
+
+What none of the three touches is the Tauri host: the `#[tauri::command]` wrappers are now thin
+enough that what they add over the tested functions is the `State` lookup and a log line, but
+`catalog.sqlite3` has still never been opened by the running app.
 
 ## M11 — Language and colours
 

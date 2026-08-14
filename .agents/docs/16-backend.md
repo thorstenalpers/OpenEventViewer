@@ -37,6 +37,11 @@ So the split is: everything above `catalog.rs` — the commands, the contract, t
 preview, the question key, the merge rule — is the real thing and does not change. `catalog.rs` is
 the part that gets replaced.
 
+The orchestration is kept out of the `#[tauri::command]` wrappers for the same reason `import_into`
+is: `preview_publication`, `publish_into`, `withdraw_from` and `import_entry` take connections and a
+path, so a test can run the whole publish against real files. The wrappers add a `State` lookup and a
+log line and nothing else.
+
 What the file cannot stand in for, and what will therefore still be unproven on the day a project
 exists: the transport. Latency, partial writes, an expired token, two machines writing at once. A
 `Mutex` around a SQLite connection settles all four for free, and a network settles none of them.

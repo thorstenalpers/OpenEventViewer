@@ -978,23 +978,27 @@ pub fn catalog_list(
     catalog::list(&state.catalog(), &filter.unwrap_or_default())
 }
 
-/// What publishing would put in the catalog. Builds the real deck, measures it, and throws it away
-/// — a preview counted off the tables instead would be a preview of a different file.
-#[tauri::command(async)]
-pub fn catalog_preview(state: State<'_, AppState>, binder_id: i64) -> AppResult<UploadPreview> {
-    let library = state.db();
-    let binder = db::binder(&library, binder_id)?
+/// What publishing would put in the catalog, free of Tauri so it can be measured against real files.
+///
+/// Builds the real deck, measures it and throws it away. A preview counted off the tables instead
+/// would be a preview of a different file, which is not what [hard rule 2](../../AGENTS.md) asks for.
+pub fn preview_publication(
+    library: &Connection,
+    data_dir: &Path,
+    binder_id: i64,
+) -> AppResult<UploadPreview> {
+    let binder = db::binder(library, binder_id)?
         .ok_or_else(|| AppError::Message(format!("no binder {binder_id}")))?;
-    let questions = db::list_questions(&library, binder_id, false)?;
+    let questions = db::list_questions(library, binder_id, false)?;
     let mut figures: Vec<&String> = questions.iter().flat_map(|q| &q.figures).collect();
     figures.sort();
     figures.dedup();
 
-    let scratch = catalog::deck_path(&state.data_dir, &format!("{binder_id}.preview"));
+    let scratch = catalog::deck_path(data_dir, &format!("{binder_id}.preview"));
     if let Some(parent) = scratch.parent() {
         std::fs::create_dir_all(parent)?;
     }
-    deck::export(&library, binder_id, &state.data_dir, &scratch)?;
+    deck::export(library, binder_id, data_dir, &scratch)?;
     let bytes = std::fs::metadata(&scratch)?.len() as i64;
     std::fs::remove_file(&scratch).ok();
 
@@ -1003,21 +1007,27 @@ pub fn catalog_preview(state: State<'_, AppState>, binder_id: i64) -> AppResult<
         &binder.certification,
         &catalog::Contents {
             questions: questions.len(),
-            links: db::list_links(&library, binder_id)?.len(),
-            videos: db::list_videos(&library, binder_id)?.len(),
-            notes: db::list_notes(&library, binder_id)?.len(),
+            links: db::list_links(library, binder_id)?.len(),
+            videos: db::list_videos(library, binder_id)?.len(),
+            notes: db::list_notes(library, binder_id)?.len(),
             figures: figures.len(),
             bytes,
         },
     ))
 }
 
-#[tauri::command(async)]
-pub fn catalog_publish(state: State<'_, AppState>, binder_id: i64) -> AppResult<CatalogEntry> {
-    let library = state.db();
-    let catalog = state.catalog();
-
-    let binder = db::binder(&library, binder_id)?
+/// The whole publish, free of Tauri: the deck is written into the catalog folder, measured, and the
+/// manifest row follows the file rather than a second count of the tables.
+///
+/// A binder that has been published before keeps its entry id, so this rewrites that entry instead
+/// of leaving the old one beside the new.
+pub fn publish_into(
+    library: &Connection,
+    catalog: &Connection,
+    data_dir: &Path,
+    binder_id: i64,
+) -> AppResult<CatalogEntry> {
+    let binder = db::binder(library, binder_id)?
         .ok_or_else(|| AppError::Message(format!("no binder {binder_id}")))?;
     if binder.question_count == 0 {
         return Err(AppError::Message(
@@ -1025,19 +1035,19 @@ pub fn catalog_publish(state: State<'_, AppState>, binder_id: i64) -> AppResult<
         ));
     }
 
-    let entry_id = match db::remote_id(&library, binder_id)? {
+    let entry_id = match db::remote_id(library, binder_id)? {
         Some(existing) => existing,
-        None => catalog::new_entry_id(&catalog)?,
+        None => catalog::new_entry_id(catalog)?,
     };
-    let path = catalog::deck_path(&state.data_dir, &catalog::storage_path(&entry_id));
+    let path = catalog::deck_path(data_dir, &catalog::storage_path(&entry_id));
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent)?;
     }
-    deck::export(&library, binder_id, &state.data_dir, &path)?;
+    deck::export(library, binder_id, data_dir, &path)?;
     let bytes = std::fs::metadata(&path)?.len() as i64;
 
     catalog::publish(
-        &catalog,
+        catalog,
         &catalog::Publication {
             entry_id: &entry_id,
             title: &binder.title,
@@ -1048,14 +1058,59 @@ pub fn catalog_publish(state: State<'_, AppState>, binder_id: i64) -> AppResult<
             bytes,
         },
     )?;
-    db::set_remote_id(&library, binder_id, Some(&entry_id))?;
+    db::set_remote_id(library, binder_id, Some(&entry_id))?;
+
+    catalog::entry(catalog, &entry_id)
+}
+
+/// Removes an entry, its deck, and the pointer the local binder kept to it.
+///
+/// The pointer has to go with the row: publishing again should be a new entry rather than the
+/// resurrection of one somebody may already have rated.
+pub fn withdraw_from(
+    library: &Connection,
+    catalog: &Connection,
+    data_dir: &Path,
+    entry_id: &str,
+) -> AppResult<Vec<CatalogEntry>> {
+    catalog::withdraw(catalog, data_dir, entry_id)?;
+    for (remote_id, binder_id) in db::published_binders(library)? {
+        if remote_id == entry_id {
+            db::set_remote_id(library, binder_id, None)?;
+        }
+    }
+    catalog::list(catalog, &catalog::Filter::default())
+}
+
+/// Takes a published deck back out of the catalog and into the library.
+///
+/// The imported binder gets no `remote_id`: it is a copy, and letting it point at the original's
+/// entry would mean the reader's next publish overwrote the author's row.
+pub fn import_entry(
+    library: &mut Connection,
+    catalog: &Connection,
+    data_dir: &Path,
+    entry_id: &str,
+) -> AppResult<Binder> {
+    catalog::entry(catalog, entry_id)?;
+    let path = catalog::deck_path(data_dir, &catalog::storage_path(entry_id));
+    deck::import(library, data_dir, &path)
+}
+
+#[tauri::command(async)]
+pub fn catalog_preview(state: State<'_, AppState>, binder_id: i64) -> AppResult<UploadPreview> {
+    preview_publication(&state.db(), &state.data_dir, binder_id)
+}
+
+#[tauri::command(async)]
+pub fn catalog_publish(state: State<'_, AppState>, binder_id: i64) -> AppResult<CatalogEntry> {
+    let entry = publish_into(&state.db(), &state.catalog(), &state.data_dir, binder_id)?;
     state.log.record(
         crate::log::Level::Info,
         "catalog",
-        format!("published {} — {bytes} bytes", binder.title),
+        format!("published {} — {} bytes", entry.title, entry.bytes),
     );
-
-    catalog::entry(&catalog, &entry_id)
+    Ok(entry)
 }
 
 #[tauri::command(async)]
@@ -1063,31 +1118,23 @@ pub fn catalog_withdraw(
     state: State<'_, AppState>,
     entry_id: String,
 ) -> AppResult<Vec<CatalogEntry>> {
-    let library = state.db();
-    let catalog = state.catalog();
-    catalog::withdraw(&catalog, &state.data_dir, &entry_id)?;
-    // The binder keeps no pointer to an entry that is gone, so publishing it again is a new entry
-    // rather than a resurrection of the one somebody may already have rated.
-    for (remote_id, binder_id) in db::published_binders(&library)? {
-        if remote_id == entry_id {
-            db::set_remote_id(&library, binder_id, None)?;
-        }
-    }
-    catalog::list(&catalog, &catalog::Filter::default())
+    withdraw_from(&state.db(), &state.catalog(), &state.data_dir, &entry_id)
 }
 
 #[tauri::command(async)]
 pub fn catalog_import(state: State<'_, AppState>, entry_id: String) -> AppResult<Binder> {
-    let mut library = state.db();
-    let catalog = state.catalog();
-    let entry = catalog::entry(&catalog, &entry_id)?;
-    let path = catalog::deck_path(&state.data_dir, &catalog::storage_path(&entry_id));
+    let binder = import_entry(
+        &mut state.db(),
+        &state.catalog(),
+        &state.data_dir,
+        &entry_id,
+    )?;
     state.log.record(
         crate::log::Level::Info,
         "catalog",
-        format!("importing {}", entry.title),
+        format!("imported {} from the catalog", binder.title),
     );
-    deck::import(&mut library, &state.data_dir, &path)
+    Ok(binder)
 }
 
 #[tauri::command(async)]
@@ -1171,6 +1218,143 @@ pub fn library_search_paths(app: &AppHandle) -> Vec<PathBuf> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::dto::AnswerOption;
+    use openexamtrainer_ingest::model::QuestionKind;
+
+    fn question(number: u32, stem: &str) -> QuestionDto {
+        QuestionDto {
+            id: 0,
+            number,
+            topic: Some(1),
+            kind: QuestionKind::SingleChoice,
+            stem: stem.to_string(),
+            options: vec![
+                AnswerOption {
+                    letter: 'A',
+                    text: "first".into(),
+                    is_correct: true,
+                },
+                AnswerOption {
+                    letter: 'B',
+                    text: "second".into(),
+                    is_correct: false,
+                },
+            ],
+            answer_letters: vec!['A'],
+            matrix: Vec::new(),
+            explanation: "because".into(),
+            references: Vec::new(),
+            source_page: 1,
+            confidence: 1.0,
+            needs_source: false,
+            warnings: Vec::new(),
+            figures: Vec::new(),
+        }
+    }
+
+    /// The publish path against real files rather than in-memory ones: two databases opened from
+    /// disk, a deck written into the catalog folder, and the byte count the catalog reports taken
+    /// off that file. `catalog.rs`'s own tests cannot see any of this — they never touch a path.
+    #[test]
+    fn publishing_writes_a_deck_the_catalog_then_reports_the_size_of() {
+        const FIGURE: &str = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
+
+        let data_dir = std::env::temp_dir().join("oet-publish-on-disk");
+        let _ = std::fs::remove_dir_all(&data_dir);
+        std::fs::create_dir_all(data_dir.join("figures")).expect("store");
+        std::fs::write(figure_path(&data_dir, FIGURE), b"pretend png").expect("figure");
+
+        let mut library = db::open(&data_dir.join("library.sqlite3")).expect("library");
+        let catalog = catalog::open(&data_dir.join("catalog.sqlite3")).expect("catalog");
+
+        let mut questions = vec![
+            question(1, "Which service stores blobs?"),
+            question(2, "Which service runs containers?"),
+        ];
+        questions[0].figures = vec![FIGURE.to_string()];
+        let (binder_id, _) = db::insert_binder(
+            &mut library,
+            "AZ-900",
+            "AZ-900",
+            "certshared-az900.pdf",
+            "certshared",
+            &questions,
+        )
+        .expect("insert");
+
+        // The preview builds the deck to measure it and leaves nothing behind.
+        let preview = preview_publication(&library, &data_dir, binder_id).expect("preview");
+        assert_eq!(preview.question_count, 2);
+        assert_eq!(preview.figure_count, 1);
+        assert!(preview.bytes > 0);
+        assert!(!preview.includes_source);
+        assert!(!catalog::deck_path(&data_dir, &format!("{binder_id}.preview")).exists());
+
+        let entry = publish_into(&library, &catalog, &data_dir, binder_id).expect("publish");
+        let deck = catalog::deck_path(&data_dir, &catalog::storage_path(&entry.id));
+        assert!(deck.exists(), "the deck is where the entry says it is");
+        assert_eq!(
+            entry.bytes,
+            std::fs::metadata(&deck).expect("deck").len() as i64,
+            "the catalog reports the size of the file it wrote"
+        );
+        assert!(entry.mine);
+        assert_eq!(
+            db::remote_id(&library, binder_id).expect("remote id"),
+            Some(entry.id.clone())
+        );
+
+        // Publishing again rewrites that entry rather than leaving the old one beside the new.
+        let again = publish_into(&library, &catalog, &data_dir, binder_id).expect("republish");
+        assert_eq!(again.id, entry.id);
+        assert_eq!(
+            catalog::list(&catalog, &catalog::Filter::default())
+                .expect("list")
+                .len(),
+            1
+        );
+
+        // Taken back out, the copy points at no entry: the reader's next publish must not overwrite
+        // the author's row.
+        let mut reader = db::open(&data_dir.join("reader.sqlite3")).expect("second library");
+        let imported = import_entry(&mut reader, &catalog, &data_dir, &entry.id).expect("import");
+        assert_eq!(imported.question_count, 2);
+        assert_eq!(
+            db::remote_id(&reader, imported.id).expect("remote id"),
+            None
+        );
+
+        let left = withdraw_from(&library, &catalog, &data_dir, &entry.id).expect("withdraw");
+        assert!(left.is_empty());
+        assert!(!deck.exists(), "the deck goes with the entry");
+        assert_eq!(db::remote_id(&library, binder_id).expect("remote id"), None);
+
+        // And the next publish is a new entry, not the resurrection of a rated one.
+        let fresh = publish_into(&library, &catalog, &data_dir, binder_id).expect("publish");
+        assert_ne!(fresh.id, entry.id);
+
+        std::fs::remove_dir_all(&data_dir).ok();
+    }
+
+    #[test]
+    fn an_empty_project_and_an_unknown_entry_are_both_refused() {
+        let data_dir = std::env::temp_dir().join("oet-publish-refusals");
+        let _ = std::fs::remove_dir_all(&data_dir);
+        std::fs::create_dir_all(&data_dir).expect("store");
+
+        let mut library = db::open(&data_dir.join("library.sqlite3")).expect("library");
+        let catalog = catalog::open(&data_dir.join("catalog.sqlite3")).expect("catalog");
+        let binder_id = db::create_project(&mut library, "AI-102", "AI-102", "").expect("project");
+
+        let error = publish_into(&library, &catalog, &data_dir, binder_id).expect_err("refused");
+        assert!(error.to_string().contains("nothing to publish"), "{error}");
+
+        let error =
+            import_entry(&mut library, &catalog, &data_dir, "not-an-entry").expect_err("refused");
+        assert!(error.to_string().contains("not-an-entry"), "{error}");
+
+        std::fs::remove_dir_all(&data_dir).ok();
+    }
 
     #[test]
     fn a_certification_code_is_read_out_of_the_file_name() {
