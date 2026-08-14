@@ -4,10 +4,11 @@ A Windows desktop app that imports certification exam material (PDF dumps, VCE f
 extracts the questions, drills them, and feeds every wrong answer back into a targeted
 follow-up session. Around that core sit a study binder ("Lernmappe") with links, docs and
 videos, an embedded browser for learning portals, an AI assistant, a podcast generator, and
-an optional cloud catalog for sharing, rating and challenging other users' binders.
+a catalog for publishing, rating and challenging binders.
 
-Desktop is the primary product. Everything works offline with no account. The server is
-opt-in and adds sharing, sync and challenges — never a precondition for studying.
+Desktop is the primary product and there is no server: everything, catalog included, is a file
+in the app's own data directory. Nothing needs an account and nothing reaches the network
+except a voice pack somebody asked for.
 
 ## Language
 
@@ -16,19 +17,19 @@ All documentation, code, comments, commit messages, and diagram labels are writt
 
 ## Stack
 
-| Layer     | Technology                                                                        |
-| --------- | --------------------------------------------------------------------------------- |
-| Host      | Tauri 2 (Rust) in `src-tauri/`, WebView2                                          |
-| UI        | SvelteKit (prerendered, `adapter-static`), Svelte 5 runes, TypeScript             |
-| UI kit    | shadcn-svelte (`new-york`, `neutral`), Tailwind v4, runtime colour presets        |
-| Language  | English and German, `src/lib/i18n/`; question text is never translated            |
-| Tables    | TanStack Table v8 (Svelte adapter) — catalog, question lists, statistics          |
-| Contracts | Zod — one source for types and runtime validation                                 |
-| Storage   | SQLite (`rusqlite`, bundled) in `app_local_data_dir`; assets on disk beside it    |
-| Ingest    | `pdfium-render` (text with coordinates, embedded images, page rendering)          |
-| Speech    | Windows `System.Speech`, or a downloaded Kokoro pack through `sherpa-onnx`        |
-| Catalog   | a second SQLite beside the library, `catalog.rs`; Supabase is the shape it copies |
-| Tests     | `cargo test` (host), Vitest + happy-dom + Testing Library (UI), Playwright (e2e)  |
+| Layer     | Technology                                                                       |
+| --------- | -------------------------------------------------------------------------------- |
+| Host      | Tauri 2 (Rust) in `src-tauri/`, WebView2                                         |
+| UI        | SvelteKit (prerendered, `adapter-static`), Svelte 5 runes, TypeScript            |
+| UI kit    | shadcn-svelte (`new-york`, `neutral`), Tailwind v4, runtime colour presets       |
+| Language  | English and German, `src/lib/i18n/`; question text is never translated           |
+| Tables    | TanStack Table v8 (Svelte adapter) — catalog, question lists, statistics         |
+| Contracts | Zod — one source for types and runtime validation                                |
+| Storage   | SQLite (`rusqlite`, bundled) in `app_local_data_dir`; assets on disk beside it   |
+| Ingest    | `pdfium-render` (text with coordinates, embedded images, page rendering)         |
+| Speech    | Windows `System.Speech`, or a downloaded Kokoro pack through `sherpa-onnx`       |
+| Catalog   | a second SQLite beside the library, `catalog.rs` — local, no server              |
+| Tests     | `cargo test` (host), Vitest + happy-dom + Testing Library (UI), Playwright (e2e) |
 
 The chrome page is prerendered, so the sidebar is in the HTML the webview receives — there is no
 skeleton because there is no gap for one to fill.
@@ -39,8 +40,9 @@ for `Window::add_child`; until then the window hosts one webview.
 
 ## Hard rules
 
-1. **Offline first.** Import, drill, review, export and podcast generation all work with no
-   network and no account. Login unlocks catalog, sync and challenges — nothing else.
+1. **Offline first.** Everything works with no network and no account, the catalog included. If a
+   server is ever added it unlocks sharing across machines and nothing else — never a precondition
+   for studying.
 2. **The user's material stays the user's.** Imported files, extracted questions and progress
    live in the local SQLite database. Nothing is uploaded until the user publishes a binder
    explicitly, per binder, with a preview of what leaves the machine.

@@ -207,7 +207,13 @@ queue drains, so every preview fell through to the escape hatch. Waiting on `sin
 The thread change is worth more to an episode than to a preview: a podcast is hundreds of segments,
 each one synthesised in turn.
 
-Still open: a hosted TTS driver.
+**The hosted TTS driver is dropped**, not pending. It was in the milestone as the answer to "the
+Windows voices are not good enough", and the downloadable packs answer that without an account, a key
+or a request leaving the machine — which is the better answer by
+[hard rule 1](../../AGENTS.md), not merely an equivalent one. Building it anyway would mean shipping
+a network client nobody here can run: verifying it needs a key in the Credential Manager, and code
+that has never once done its job is the thing this project refuses elsewhere. If a voice arrives that
+no pack can match, this is a day's work and the decision can be revisited.
 
 ## M8 — VCE probe
 
@@ -222,15 +228,15 @@ reality.
 
 ## M9 — Accounts and sync
 
-Supabase auth, progress sync, per-machine reconciliation.
+Progress sync and per-machine reconciliation.
 
 Done when progress made offline on one machine appears on another after login.
 
-**Status: the sync is built, against a file rather than a server.** There is no Supabase project, so
-the backend is a second SQLite database and a folder of decks in the app's own data directory —
-`catalog.sqlite3`, written by `src-tauri/src/catalog.rs`, with the tables, keys and constraints of
-`supabase/migrations/0001_catalog.sql` kept column for column. Everything above that module is the
-real thing; that module is the part a server replaces.
+**Status: the sync is built, against a file rather than a server.** The backend is a second SQLite
+database and a folder of decks in the app's own data directory — `catalog.sqlite3`, written by
+`src-tauri/src/catalog.rs`. Everything above that module is the real thing; that module is the part a
+server replaces, and which server is undecided. The schema is ordinary relational SQL with no
+extension in it, so it does not force the answer.
 
 **A question is paired across machines by its content.** `question_key` is the SHA-256 of the
 whitespace-collapsed stem and the sorted answer key, because row ids are per-machine and question
@@ -243,14 +249,14 @@ a stored row that holds more attempts than the local one — append-only means a
 older state whatever its clock says — and pull compares `last_review_at`, so running it twice reports
 nothing the second time.
 
-**No accounts.** `identity` is one row drawn on first open, standing in for `auth.users`. On one
-machine the sync is a round trip to itself: what it proves is the pairing, not the network. Latency,
-partial writes and expired tokens stay unproven until there is a project, and creating one is the
-user's step.
+**No accounts**, which is the one thing a server would have to bring. `identity` is a single row
+drawn on first open, and every ownership check this module makes happens in Rust — a check the client
+performs is a check the client can skip, so it is a stand-in and not a security boundary. On one
+machine the sync is a round trip to itself: what it proves is the pairing, not the network.
 
 ## M10 — Catalog and challenges
 
-Publish with an upload preview, catalog browse with Postgres-side filtering and sorting, ratings,
+Publish with an upload preview, catalog browse with the filtering and sorting done in SQL, ratings,
 challenge rule sets, leaderboards.
 
 Done when a binder published from one profile is importable and rateable from another, and two
@@ -269,12 +275,31 @@ so the next publish is a new entry rather than the resurrection of one somebody 
 
 **Ratings are one row per person per binder**, and the aggregate the catalog sorts on is kept by
 triggers rather than by the author — an author who could write those two numbers could invent their
-own score. Filtering and sorting run in SQL, not in the view, which is the division a Postgres
+own score. Filtering and sorting run in SQL, not in the view, which is the division a server-backed
 catalog needs.
 
+**A finished challenge reaches the board from the Train summary**, and only when the binder has been
+published — the board belongs to a catalog entry, so a binder without one is told why the offer is
+missing rather than shown a button that would fail. An unseeded run is refused rather than posted
+under seed 0.
+
 Everything here is local: the catalog is a file on this machine, so publishing shares a binder with
-nobody yet. Ten tests cover the loop, including a binder that leaves one library and comes back out
-of the catalog into another.
+nobody yet.
+
+**Tested on three levels.** `catalog.rs` in memory, for the rules — the aggregate, the ownership
+check, the seed board, the sync merge. The publish path on disk, for what only files can show: two
+databases opened from a directory, a deck written into the catalog folder, and the byte count the
+entry reports taken off that file rather than from a second count of the tables. And the views
+against the mock host, for the preview, the ownership rules and the posting path.
+
+**The host has now run it, as far as a start goes.** `tauri dev` on 14 August 2026 built and
+launched, and `app_local_data_dir` came out holding a `catalog.sqlite3` with all five tables, the
+three rating triggers and one drawn identity row — so `catalog::open` ran on a real path, and the
+`ALTER TABLE` that adds `binders.remote_id` ran on the real library beside it.
+
+What that does not cover is a command going over the bridge and back. The wrappers are thin enough
+that what they add over the tested functions is a `State` lookup and a log line, but publishing from
+the window has not been done, because doing it needs somebody at the window.
 
 ## M11 — Language and colours
 
@@ -344,8 +369,15 @@ uses — headings become chapters, because that is where the subject changes. Bo
 with a delete button. An artefact is addressed by name and never by path, so the webview cannot ask
 for a file elsewhere on the machine by dressing it up as one of these.
 
-Not built: PDF export. `pdfium` reads PDFs and cannot write them, so it needs a second library; the
-Markdown summary is what ships until then.
+**PDF export is built.** `pdfium` reads PDFs and cannot write one, and the library that would fill
+the gap brings seventy-odd crates for a single button — so `typeset.rs` writes the file: a text-only
+PDF over a built-in font is a page of structure. One typeface at three sizes, because wrapping needs
+the advance of every glyph it sets and a second set of metrics is a second table to get wrong.
+
+The claim a writer cannot make about itself is made by the reader instead. `pdfium` is already here,
+so a test sets a German summary, opens the result with it, and asserts the umlauts and the em dash
+came through WinAnsi and that no line's right edge passes the margin. What no test can say is
+whether it looks good: nobody has opened one in a viewer.
 
 **Verified in the mock host**, not in the app: the timeline draws all three fixtures with their pass
 markers, the checklist ticks and derives, the study shelves count and filter, and a note becomes a

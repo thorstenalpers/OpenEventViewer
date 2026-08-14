@@ -226,6 +226,8 @@ export const en = {
 		summarising: 'Summarising…',
 		asPodcast: 'As podcast',
 		recording: 'Recording…',
+		asPdf: 'As PDF',
+		typesetting: 'Typesetting…',
 		noArtefacts: 'Nothing made yet.',
 		removeAria: (name: string) => `Delete ${name}`,
 		assistantNote:
@@ -285,6 +287,10 @@ export const en = {
 		minutes: 'Minutes',
 		takeChallenge: 'Take the challenge',
 		noRuns: (seed: number) => `No runs on seed ${seed} yet.`,
+		postResult: 'Post to the catalog board',
+		postedAt: (place: number, total: number) => `Posted — ${place} of ${total} on that board.`,
+		publishToPost:
+			'Publish this binder to the catalog and a run on it can go on a board others can be measured against.',
 		chooseN: (count: number) => `Choose ${count}`,
 		noFeedback: 'no feedback until the end',
 		correct: 'Correct.',

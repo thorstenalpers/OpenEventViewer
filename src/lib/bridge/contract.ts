@@ -53,7 +53,9 @@ export const binder = z.object({
 	importedAt: z.string(),
 	lastStudiedAt: z.string().nullable(),
 	attemptCount: z.number(),
-	accuracy: z.number().nullable()
+	accuracy: z.number().nullable(),
+	/** The catalog entry this binder was published as; `null` until it is published. */
+	remoteId: z.string().nullable().default(null)
 });
 export type Binder = z.infer<typeof binder>;
 
@@ -465,6 +467,7 @@ export const commands = {
 	notes_podcast: { response: z.array(artefact) },
 	list_artefacts: { response: z.array(artefact) },
 	delete_artefact: { response: z.array(artefact) },
+	notes_pdf: { response: z.array(artefact) },
 	voice_packs: { response: z.array(voicePack) },
 	voice_install: { response: voicePack },
 	voice_cancel: { response: z.null() },
@@ -555,6 +558,7 @@ export interface CommandArgs {
 	notes_podcast: { binderId: number; name: string; options: PodcastOptions };
 	list_artefacts: { binderId: number };
 	delete_artefact: { binderId: number; name: string };
+	notes_pdf: { binderId: number; name: string };
 	voice_packs: Record<string, never>;
 	voice_install: { id: string };
 	voice_cancel: { id: string };

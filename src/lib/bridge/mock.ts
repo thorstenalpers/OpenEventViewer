@@ -132,7 +132,8 @@ const BINDER: Binder = {
 	importedAt: '2026-08-12T09:00:00Z',
 	lastStudiedAt: null,
 	attemptCount: 0,
-	accuracy: null
+	accuracy: null,
+	remoteId: null
 };
 
 /** Stands in for a rasterised answer area; the real host returns a PNG data URL of the same shape. */
@@ -283,6 +284,8 @@ const videos: Video[] = [];
 const notes: Note[] = [];
 const wrongPerSession = new Map<number, number[]>();
 const startedAt = new Map<number, number>();
+/** What each session was run as, so a finished challenge can be told apart from a practice run. */
+const ranAs = new Map<number, { mode: string; seed: number | null }>();
 
 const projects: Binder[] = [
 	BINDER,
@@ -487,6 +490,7 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			const { mode, sourceSessionId, rules } = args as CommandArgs['start_session'];
 			const id = nextSessionId++;
 			startedAt.set(id, Date.now());
+			ranAs.set(id, { mode, seed: rules?.seed ?? null });
 			const wrong = sourceSessionId ? (wrongPerSession.get(sourceSessionId) ?? []) : [];
 			const scored = SAMPLE_QUESTIONS.filter((q) => !q.needsSource);
 			const everMissed = [...new Set([...wrongPerSession.values()].flat())];
@@ -530,7 +534,7 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			return {
 				sessionId,
 				binderId: BINDER.id,
-				mode: 'practice',
+				mode: ranAs.get(sessionId)?.mode ?? 'practice',
 				total,
 				correct: total - wrong.length,
 				elapsedMs: Date.now() - (startedAt.get(sessionId) ?? Date.now()),
@@ -812,6 +816,19 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			return [...artefacts];
 		}
 
+		case 'notes_pdf': {
+			const { name } = args as CommandArgs['notes_pdf'];
+			if (!name.endsWith('.md')) {
+				throw new Error(`${name} is not a summary — only Markdown is set as a PDF`);
+			}
+			const paper = name.replace(/\.md$/, '.pdf');
+			artefacts = [
+				...artefacts.filter((entry) => entry.name !== paper),
+				{ name: paper, kind: 'pdf', bytes: 24_000, path: `C:\\mock\\${paper}` }
+			];
+			return [...artefacts];
+		}
+
 		case 'delete_artefact': {
 			const { name } = args as CommandArgs['delete_artefact'];
 			artefacts = artefacts.filter((entry) => entry.name !== name);
@@ -901,6 +918,9 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			catalogEntries = existing
 				? catalogEntries.map((entry) => (entry.id === existing.id ? published : entry))
 				: [published, ...catalogEntries];
+			// The binder remembers which entry it is, which is how a finished challenge knows
+			// there is a board to post to.
+			project.remoteId = published.id;
 			return published;
 		}
 
@@ -909,6 +929,9 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			const entry = catalogEntries.find((candidate) => candidate.id === entryId);
 			if (entry && !entry.mine) throw new Error('only the publisher may withdraw a binder');
 			catalogEntries = catalogEntries.filter((candidate) => candidate.id !== entryId);
+			for (const project of projects) {
+				if (project.remoteId === entryId) project.remoteId = null;
+			}
 			return [...catalogEntries];
 		}
 
@@ -965,18 +988,24 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			return [...(catalogRatings[(args as CommandArgs['catalog_ratings']).entryId] ?? [])];
 
 		case 'catalog_post_result': {
-			const { entryId } = args as CommandArgs['catalog_post_result'];
-			const board = boards[entryId] ?? [];
+			const { entryId, sessionId } = args as CommandArgs['catalog_post_result'];
+			const ran = ranAs.get(sessionId);
+			if (!ran || ran.seed === null) {
+				throw new Error(
+					`session ${sessionId} ran without a seed, so there is no board to post it to`
+				);
+			}
+			const total = SAMPLE_QUESTIONS.filter((q) => !q.needsSource).length;
 			boards[entryId] = [
-				...board,
+				...(boards[entryId] ?? []),
 				{
 					runnerId: publisher.id,
 					runnerName: publisher.name,
 					mine: true,
-					seed: 42,
-					questionCount: 20,
-					correct: 16,
-					elapsedMs: 512_000,
+					seed: ran.seed,
+					questionCount: total,
+					correct: total - (wrongPerSession.get(sessionId)?.length ?? 0),
+					elapsedMs: Date.now() - (startedAt.get(sessionId) ?? Date.now()),
 					finishedAt: new Date().toISOString()
 				}
 			].sort((a, b) => b.correct - a.correct || a.elapsedMs - b.elapsedMs);
