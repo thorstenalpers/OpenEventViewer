@@ -39,7 +39,9 @@ the part that gets replaced.
 The orchestration is kept out of the `#[tauri::command]` wrappers for the same reason `import_into`
 is: `preview_publication`, `publish_into`, `withdraw_from` and `import_entry` take connections and a
 path, so a test can run the whole publish against real files. The wrappers add a `State` lookup and a
-log line and nothing else.
+log line and nothing else — but "nothing else" includes the argument mapping, and that stays
+untested; see [14-roadmap.md](14-roadmap.md) M9 for why Tauri's mock runtime cannot be switched on
+here.
 
 What a file cannot stand in for, and what will still be unproven on the day a server exists: the
 transport. Latency, partial writes, an expired token, two machines writing at once. A `Mutex` around

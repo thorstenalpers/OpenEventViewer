@@ -30,10 +30,14 @@ One thing unknown until it runs: `an_episode_is_synthesised_end_to_end` drives W
 synthesis, which needs an installed voice. Whether a GitHub Windows runner has one has not been
 established here.
 
-`tauri build` runs locally and produces the NSIS installer. What that does _not_ prove is the thing
-the bundle exists for: the installer has not been installed and the installed app has not been
-started, so "the app runs as a package with `pdfium.dll` beside it" is still an untested claim. The
-app has only been run through `tauri dev`, out of `target/debug`.
+`tauri build` produces the NSIS installer, and on 14 August 2026 that installer was run and the
+result started. It writes to `%LOCALAPPDATA%\OpenExamTrainer` — a per-user install, so no elevation —
+and `pdfium.dll`, both sherpa libraries, `onnxruntime.dll` and the licence notices land beside
+`openexamtrainer.exe`. The installed app opens its window and holds it, which is the claim the bundle
+exists for and the one CI cannot make.
+
+What is still unexercised there is everything past the window opening: nothing was imported, drilled
+or published from the packaged build.
 
 Not in it, on purpose: the theme is browser-local rather than round-tripped through
 `get_settings` / `set_settings`, which exist on both sides but are not wired to a view yet.
@@ -297,9 +301,22 @@ launched, and `app_local_data_dir` came out holding a `catalog.sqlite3` with all
 three rating triggers and one drawn identity row — so `catalog::open` ran on a real path, and the
 `ALTER TABLE` that adds `binders.remote_id` ran on the real library beside it.
 
-What that does not cover is a command going over the bridge and back. The wrappers are thin enough
-that what they add over the tested functions is a `State` lookup and a log line, but publishing from
-the window has not been done, because doing it needs somebody at the window.
+**The bridge itself stays uncovered, and not for want of trying.** `#[tauri::command]` writes the
+argument mapping — `binderId` on the wire becomes `binder_id` in Rust — and the `State` lookup, and
+neither exists for a caller that hands the function its arguments directly, so a name that does not
+match compiles, passes everything above, and fails only in the window.
+
+Tauri ships a mock runtime for exactly this. Enabling it (`tauri = { features = ["test"] }` as a
+dev-dependency) makes the test binary import `TaskDialogIndirect`, which only Common Controls **6**
+exports. The app's own executable gets a manifest from `tauri-build` that binds comctl32 to the
+side-by-side v6 assembly; a `cargo test` binary gets no manifest, binds to the v5 in System32, and
+dies before `main` with `STATUS_ENTRYPOINT_NOT_FOUND` — every test in the crate, not just the new
+one. Verified by diffing the import tables of the two binaries with `dumpbin /imports`.
+
+The ways out are a linker manifest for every test target in the workspace, or dropping tauri's
+`common-controls-v6` default feature — both change how the product is built to serve one test, so
+neither was taken. What covers the argument names instead is a person pressing the button, and
+nobody has.
 
 ## M11 — Language and colours
 
