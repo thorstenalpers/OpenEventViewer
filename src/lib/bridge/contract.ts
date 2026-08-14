@@ -53,7 +53,9 @@ export const binder = z.object({
 	importedAt: z.string(),
 	lastStudiedAt: z.string().nullable(),
 	attemptCount: z.number(),
-	accuracy: z.number().nullable()
+	accuracy: z.number().nullable(),
+	/** The catalog entry this binder was published as; `null` until it is published. */
+	remoteId: z.string().nullable().default(null)
 });
 export type Binder = z.infer<typeof binder>;
 

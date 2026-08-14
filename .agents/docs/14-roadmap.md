@@ -272,9 +272,15 @@ triggers rather than by the author — an author who could write those two numbe
 own score. Filtering and sorting run in SQL, not in the view, which is the division a Postgres
 catalog needs.
 
+**A finished challenge reaches the board from the Train summary**, and only when the binder has been
+published — the board belongs to a catalog entry, so a binder without one is told why the offer is
+missing rather than shown a button that would fail. An unseeded run is refused rather than posted
+under seed 0.
+
 Everything here is local: the catalog is a file on this machine, so publishing shares a binder with
-nobody yet. Ten tests cover the loop, including a binder that leaves one library and comes back out
-of the catalog into another.
+nobody yet. Ten Rust tests cover the loop, including a binder that leaves one library and comes back
+out of the catalog into another; the view tests cover the publish preview, the ownership rules and
+the posting path against the mock host.
 
 ## M11 — Language and colours
 

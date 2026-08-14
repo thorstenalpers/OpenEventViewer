@@ -71,6 +71,13 @@ writes them directly.
 **Challenge results are never updated.** A posted time is a record. An editable record is not one. A
 second run is a second row.
 
+A result reaches a board from the Train summary, and only from a challenge run on a binder that has
+been published — a board belongs to a catalog entry, so a binder with no entry is told why the offer
+is missing rather than shown a button that would fail. `binders.remote_id` is what the summary reads
+to know which board it is. An unseeded run is refused in `db::session_result` rather than posted
+under seed 0: the board is per seed, and a run that shares its question order with nothing has
+nothing to be compared against.
+
 **Progress is keyed by question content, not by row id.** `question_key` is the SHA-256 of the
 whitespace-collapsed stem and the sorted answer key. Local ids are per-machine, so syncing them would
 pair the wrong rows on the second device; question numbers repeat inside a single dump, so those are

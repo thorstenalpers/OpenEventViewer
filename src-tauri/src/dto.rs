@@ -80,6 +80,9 @@ pub struct Binder {
     pub last_studied_at: Option<String>,
     pub attempt_count: i64,
     pub accuracy: Option<f64>,
+    /// The catalog entry this binder was published as, so a finished challenge knows which board
+    /// its result belongs on. `None` until it is published.
+    pub remote_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

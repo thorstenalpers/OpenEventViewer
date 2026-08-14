@@ -277,7 +277,8 @@ const BINDER_COLUMNS: &str = r#"
     (SELECT COUNT(*) FROM questions q WHERE q.binder_id = b.id AND q.needs_source = 1),
     (SELECT MAX(a.at) FROM attempts a JOIN questions q ON q.id = a.question_id WHERE q.binder_id = b.id),
     (SELECT COUNT(*) FROM attempts a JOIN questions q ON q.id = a.question_id WHERE q.binder_id = b.id),
-    (SELECT AVG(a.correct) FROM attempts a JOIN questions q ON q.id = a.question_id WHERE q.binder_id = b.id)
+    (SELECT AVG(a.correct) FROM attempts a JOIN questions q ON q.id = a.question_id WHERE q.binder_id = b.id),
+    b.remote_id
 "#;
 
 fn binder_from_row(row: &Row<'_>) -> rusqlite::Result<Binder> {
@@ -295,6 +296,7 @@ fn binder_from_row(row: &Row<'_>) -> rusqlite::Result<Binder> {
         last_studied_at: row.get(10)?,
         attempt_count: row.get(11)?,
         accuracy: row.get(12)?,
+        remote_id: row.get(13)?,
     })
 }
 

@@ -80,6 +80,23 @@
 		const minutes = Math.floor(seconds / 60);
 		return `${minutes}:${(seconds % 60).toString().padStart(2, '0')}`;
 	}
+
+	// A challenge result belongs on the board of the entry the binder was published as. Without a
+	// published entry there is no board, so the offer is not made rather than made and refused.
+	let posted = $state<string | null>(null);
+	let postError = $state<string | null>(null);
+
+	function post(sessionId: number, entryId: string) {
+		postError = null;
+		call('catalog_post_result', { entryId, sessionId })
+			.then((rows) => {
+				const mine = rows.findIndex((row) => row.mine);
+				posted = t.train.postedAt(mine + 1, rows.length);
+			})
+			.catch((caught: unknown) => {
+				postError = caught instanceof Error ? caught.message : String(caught);
+			});
+	}
 </script>
 
 <div class="mx-auto flex max-w-3xl flex-col gap-3 p-4 sm:p-6">
@@ -117,8 +134,23 @@
 							{t.train.startFocus(summary.wrongQuestionIds.length)}
 						</Button>
 					{/if}
+					{#if summary.mode === 'challenge' && binder.remoteId && !posted}
+						{@const entryId = binder.remoteId}
+						<Button variant="outline" onclick={() => post(summary.sessionId, entryId)}>
+							{t.train.postResult}
+						</Button>
+					{/if}
 					<Button variant="outline" onclick={() => trainer.reset()}>{t.common.back}</Button>
 				</div>
+				{#if summary.mode === 'challenge' && !binder.remoteId}
+					<p class="text-sm text-muted-foreground">{t.train.publishToPost}</p>
+				{/if}
+				{#if posted}
+					<p class="text-sm">{posted}</p>
+				{/if}
+				{#if postError}
+					<p class="text-sm text-destructive">{postError}</p>
+				{/if}
 				{#if summary.wrongQuestionIds.length === 0}
 					<p class="text-sm text-muted-foreground">{t.train.nothingMissed}</p>
 				{/if}

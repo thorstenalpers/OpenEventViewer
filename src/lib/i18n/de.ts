@@ -290,6 +290,11 @@ export const de: Translations = {
 		minutes: 'Minuten',
 		takeChallenge: 'Challenge starten',
 		noRuns: (seed: number) => `Noch keine Läufe auf Seed ${seed}.`,
+		postResult: 'In die Katalog-Bestenliste eintragen',
+		postedAt: (place: number, total: number) =>
+			`Eingetragen — Platz ${place} von ${total} auf dieser Liste.`,
+		publishToPost:
+			'Veröffentliche diese Mappe im Katalog, dann kann ein Lauf darauf in eine Bestenliste, an der sich andere messen lassen.',
 		chooseN: (count: number) => `Wähle ${count}`,
 		noFeedback: 'Rückmeldung erst am Ende',
 		correct: 'Richtig.',
