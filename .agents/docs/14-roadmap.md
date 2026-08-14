@@ -292,9 +292,14 @@ databases opened from a directory, a deck written into the catalog folder, and t
 entry reports taken off that file rather than from a second count of the tables. And the views
 against the mock host, for the preview, the ownership rules and the posting path.
 
-What none of the three touches is the Tauri host: the `#[tauri::command]` wrappers are now thin
-enough that what they add over the tested functions is the `State` lookup and a log line, but
-`catalog.sqlite3` has still never been opened by the running app.
+**The host has now run it, as far as a start goes.** `tauri dev` on 14 August 2026 built and
+launched, and `app_local_data_dir` came out holding a `catalog.sqlite3` with all five tables, the
+three rating triggers and one drawn identity row — so `catalog::open` ran on a real path, and the
+`ALTER TABLE` that adds `binders.remote_id` ran on the real library beside it.
+
+What that does not cover is a command going over the bridge and back. The wrappers are thin enough
+that what they add over the tested functions is a `State` lookup and a log line, but publishing from
+the window has not been done, because doing it needs somebody at the window.
 
 ## M11 — Language and colours
 
