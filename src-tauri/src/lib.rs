@@ -10,6 +10,7 @@ mod log;
 mod podcast;
 mod site;
 mod srs;
+mod typeset;
 mod voice;
 mod workshop;
 
@@ -153,6 +154,7 @@ pub fn run() {
             commands::notes_podcast,
             commands::list_artefacts,
             commands::delete_artefact,
+            commands::notes_pdf,
             commands::voice_packs,
             commands::voice_install,
             commands::voice_cancel,

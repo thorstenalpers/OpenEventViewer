@@ -929,6 +929,21 @@ pub fn delete_artefact(
 }
 
 #[tauri::command(async)]
+pub fn notes_pdf(
+    state: State<'_, AppState>,
+    binder_id: i64,
+    name: String,
+) -> AppResult<Vec<workshop::Artefact>> {
+    let artefact = workshop::to_pdf(&state.data_dir, binder_id, &name)?;
+    state.log.record(
+        crate::log::Level::Info,
+        "workshop",
+        format!("{} set as {}", name, artefact.name),
+    );
+    workshop::list(&state.data_dir, binder_id)
+}
+
+#[tauri::command(async)]
 pub fn get_settings(state: State<'_, AppState>) -> AppResult<Settings> {
     let path = state.settings_path();
     match std::fs::read_to_string(&path) {

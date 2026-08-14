@@ -75,6 +75,29 @@ pub fn summarise(
     describe(&path)
 }
 
+/// Sets one summary as a PDF beside it.
+///
+/// Reads the Markdown back off disk rather than taking it from the caller: the file is what the
+/// user has, and a PDF made from anything else would be a PDF of a document they never saw.
+pub fn to_pdf(data_dir: &Path, binder_id: i64, name: &str) -> AppResult<Artefact> {
+    let source = path_of(data_dir, binder_id, name)?;
+    if source.extension().and_then(|value| value.to_str()) != Some("md") {
+        return Err(AppError::Message(format!(
+            "{name} is not a summary — only Markdown is set as a PDF"
+        )));
+    }
+    let markdown = std::fs::read_to_string(&source)
+        .map_err(|error| AppError::Message(format!("cannot read {name}: {error}")))?;
+
+    let title = source
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .unwrap_or("summary");
+    let path = source.with_extension("pdf");
+    std::fs::write(&path, crate::typeset::markdown_to_pdf(title, &markdown))?;
+    describe(&path)
+}
+
 /// Everything made from this project's notes, newest last.
 pub fn list(data_dir: &Path, binder_id: i64) -> AppResult<Vec<Artefact>> {
     let mut found: Vec<Artefact> = std::fs::read_dir(folder(data_dir, binder_id)?)?

@@ -231,6 +231,8 @@ export const de: Translations = {
 		summarising: 'Wird zusammengefasst …',
 		asPodcast: 'Als Podcast',
 		recording: 'Wird aufgenommen …',
+		asPdf: 'Als PDF',
+		typesetting: 'Wird gesetzt …',
 		noArtefacts: 'Noch nichts erzeugt.',
 		removeAria: (name: string) => `${name} löschen`,
 		assistantNote:

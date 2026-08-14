@@ -226,6 +226,8 @@ export const en = {
 		summarising: 'Summarising…',
 		asPodcast: 'As podcast',
 		recording: 'Recording…',
+		asPdf: 'As PDF',
+		typesetting: 'Typesetting…',
 		noArtefacts: 'Nothing made yet.',
 		removeAria: (name: string) => `Delete ${name}`,
 		assistantNote:

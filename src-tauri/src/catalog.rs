@@ -1,14 +1,13 @@
 //! The catalog, as a file.
 //!
-//! [`16-backend.md`](../../.agents/docs/16-backend.md) describes this surface as Supabase: Postgres
-//! for the manifests, a storage bucket for the decks, RLS for who may write what. There is no
-//! project, so it is a second SQLite database next to the library one and a folder of `.examdeck`
-//! files next to that. The tables and their constraints mirror
-//! `supabase/migrations/0001_catalog.sql` column for column; what Postgres would enforce with a
-//! policy is enforced here by comparing against the local identity before the statement runs.
+//! A second SQLite database next to the library one and a folder of `.examdeck` files next to that:
+//! publish, browse, import, rate, post a time, sync a schedule. No server, so no account — the
+//! ownership rules a server would enforce with a policy are enforced here by comparing against the
+//! local identity before the statement runs, which makes them a stand-in and not a boundary.
 //!
-//! The point of keeping the shapes identical is that the commands above this module do not change
-//! when a real backend arrives — only this file does.
+//! Everything above this module — the commands, the contract, the view, the upload preview, the
+//! question key, the merge rule — is what it would be with a server behind it. Only this file
+//! changes when there is one. See [16-backend.md](../../.agents/docs/16-backend.md).
 
 use std::path::{Path, PathBuf};
 
@@ -22,8 +21,8 @@ use crate::dto::{
 use crate::error::{AppError, AppResult};
 
 const SCHEMA: &str = r#"
--- Who this machine is. One row, made on first open. It stands in for `auth.users`: a real backend
--- issues the id, this one draws it, and everything keyed on a user is keyed on this.
+-- Who this machine is. One row, made on first open. It stands in for an account: a server would
+-- issue the id, this draws it, and everything keyed on a user is keyed on this.
 CREATE TABLE IF NOT EXISTS identity (
     id   TEXT PRIMARY KEY,
     name TEXT NOT NULL
@@ -279,7 +278,7 @@ fn entry_from_row(row: &rusqlite::Row<'_>, viewer: &str) -> rusqlite::Result<Cat
 }
 
 /// The catalog listing, filtered and sorted in SQL rather than in the view — the same division a
-/// Postgres-backed catalog needs, so the table above it does not change when one arrives.
+/// server-backed catalog needs, so the table above it does not change when one arrives.
 pub fn list(connection: &Connection, filter: &Filter) -> AppResult<Vec<CatalogEntry>> {
     let viewer = identity(connection)?.id;
     let order = match filter.sort.as_deref() {
@@ -318,7 +317,7 @@ pub fn entry(connection: &Connection, entry_id: &str) -> AppResult<CatalogEntry>
         .ok_or_else(|| AppError::Message(format!("no catalog entry {entry_id}")))
 }
 
-/// Removes an entry and the deck behind it. Only the owner may: the check Postgres would do in a
+/// Removes an entry and the deck behind it. Only the owner may: the check a server would do in a
 /// `USING` clause happens here, because there is no policy engine under this connection.
 pub fn withdraw(connection: &Connection, data_dir: &Path, entry_id: &str) -> AppResult<()> {
     let entry = entry(connection, entry_id)?;

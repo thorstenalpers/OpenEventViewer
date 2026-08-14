@@ -816,6 +816,19 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			return [...artefacts];
 		}
 
+		case 'notes_pdf': {
+			const { name } = args as CommandArgs['notes_pdf'];
+			if (!name.endsWith('.md')) {
+				throw new Error(`${name} is not a summary — only Markdown is set as a PDF`);
+			}
+			const paper = name.replace(/\.md$/, '.pdf');
+			artefacts = [
+				...artefacts.filter((entry) => entry.name !== paper),
+				{ name: paper, kind: 'pdf', bytes: 24_000, path: `C:\\mock\\${paper}` }
+			];
+			return [...artefacts];
+		}
+
 		case 'delete_artefact': {
 			const { name } = args as CommandArgs['delete_artefact'];
 			artefacts = artefacts.filter((entry) => entry.name !== name);

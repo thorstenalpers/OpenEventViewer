@@ -34,7 +34,7 @@ src-tauri/src/
   binder/            binder model, .examdeck read/write, asset store
   media/             video entries, podcast script builder, TTS drivers
   assistant/         cli.rs, providers.rs, secrets.rs     — lifted from CleanMyPosts
-  sync/              Supabase client, publish, catalog, challenge results (opt-in)
+  catalog.rs         the second database: publish, browse, ratings, boards, progress sync
   commands/          one module per view's command surface
 
 src/
@@ -97,21 +97,19 @@ Zod schemas in `src/lib/schemas/` are the source of truth for the bridge payload
 mirrors them with `serde` structs, and a `cargo test` walks the schema list to assert the two
 sides agree on field names and required-ness. Drift is a test failure, not a runtime surprise.
 
-## The server, when there is one
+## The catalog
 
-Supabase: Postgres with row-level security, Auth, Storage for the `.examdeck` blobs. The desktop
-app is the only client at first.
+`catalog.rs` and a second SQLite file: publish, browse, ratings, leaderboards and progress sync,
+all against `catalog.sqlite3` and a folder of decks in the app's own data directory. It is a real
+implementation rather than a placeholder, and on one machine it is a catalog of one person.
 
-- **Publish** — upload the zip to Storage, insert the manifest row. Owner-writable, world-readable
-  once `published`.
-- **Catalog** — query manifest rows; filtering and sorting happen in Postgres, paged into
-  TanStack Table.
-- **Ratings** — one row per user per binder, RLS-enforced.
-- **Challenges** — a rule set row plus result rows; the leaderboard is a view.
-- **Progress sync** — `attempts` and `scheduling` mirrored per user, last-write-wins per question.
+The boundary is where a server would go: the commands, the contract, the views, the upload preview,
+the question key and the merge rule sit above it and do not know what is underneath. See
+[16-backend.md](16-backend.md) for the schema and for what a networked one would have to add —
+authentication, and everything that follows from two machines writing at once.
 
-Nothing in the desktop app blocks on any of it. `sync/` is a module that can be entirely absent
-from a run and the app is still complete.
+Nothing in the desktop app blocks on any of it. Import, review, drill, statistics, export, browse
+and podcast are complete with the catalog untouched.
 
 ## Third-party notices
 

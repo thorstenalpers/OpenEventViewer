@@ -3,6 +3,7 @@
 	import HeadphonesIcon from '@lucide/svelte/icons/headphones';
 	import TrashIcon from '@lucide/svelte/icons/trash-2';
 	import FileTextIcon from '@lucide/svelte/icons/file-text';
+	import PrinterIcon from '@lucide/svelte/icons/printer';
 	import { Button } from '$lib/components/ui/button';
 	import { Badge } from '$lib/components/ui/badge';
 	import {
@@ -28,7 +29,7 @@
 	let notes = $state<Note[]>([]);
 	let artefacts = $state<Artefact[]>([]);
 	let draft = $state('');
-	let busy = $state<'' | 'summary' | 'podcast'>('');
+	let busy = $state<'' | 'summary' | 'podcast' | 'pdf'>('');
 	let error = $state<string | null>(null);
 
 	$effect(() => {
@@ -102,6 +103,20 @@
 					voice: voice.chosen
 				}
 			});
+		} catch (caught) {
+			error = caught instanceof Error ? caught.message : String(caught);
+		} finally {
+			busy = '';
+		}
+	}
+
+	async function typeset(artefact: Artefact) {
+		const id = binder?.id;
+		if (id === undefined) return;
+		error = null;
+		busy = 'pdf';
+		try {
+			artefacts = await call('notes_pdf', { binderId: id, name: artefact.name });
 		} catch (caught) {
 			error = caught instanceof Error ? caught.message : String(caught);
 		} finally {
@@ -187,6 +202,8 @@
 							<li class="flex flex-wrap items-center gap-3 rounded-md border px-3 py-2 text-sm">
 								{#if artefact.kind === 'md'}
 									<FileTextIcon class="size-4 text-muted-foreground" />
+								{:else if artefact.kind === 'pdf'}
+									<PrinterIcon class="size-4 text-muted-foreground" />
 								{:else}
 									<HeadphonesIcon class="size-4 text-muted-foreground" />
 								{/if}
@@ -201,6 +218,15 @@
 									>
 										<HeadphonesIcon class="size-4" />
 										{busy === 'podcast' ? t.notes.recording : t.notes.asPodcast}
+									</Button>
+									<Button
+										size="sm"
+										variant="outline"
+										disabled={busy !== ''}
+										onclick={() => typeset(artefact)}
+									>
+										<PrinterIcon class="size-4" />
+										{busy === 'pdf' ? t.notes.typesetting : t.notes.asPdf}
 									</Button>
 								{/if}
 								<Button

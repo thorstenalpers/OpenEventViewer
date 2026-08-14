@@ -241,8 +241,8 @@ pub struct AttemptResult {
     pub answer_letters: Vec<char>,
 }
 
-/// Who this machine publishes as. Stands in for a Supabase account: the id is drawn once and never
-/// shown, the name is display text and can be changed.
+/// Who this machine publishes as. Stands in for an account: the id is drawn once and never shown,
+/// the name is display text and can be changed.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Identity {
@@ -256,7 +256,7 @@ pub struct CatalogEntry {
     pub id: String,
     pub owner_id: String,
     pub owner_name: String,
-    /// Whether this machine published it — what an RLS policy would decide server-side.
+    /// Whether this machine published it — what a server would decide, and here only asserted.
     pub mine: bool,
     pub title: String,
     pub certification: String,
