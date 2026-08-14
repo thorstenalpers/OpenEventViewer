@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<title>OpenExamTrainer</title>
+		<!--
+			The first thing on the page, and deliberately not a module.
+
+			A failure while the app's own modules load or hydrate leaves a page that looks finished and
+			answers no click — and the handler that would report it is inside the modules that never
+			ran. This one is parsed before them, has nothing to import, and talks to the host through
+			the channel Tauri injects ahead of any page script. It is the only reason such a start
+			leaves a trace at all.
+		-->
+		<script>
+			(function () {
+				var pending = [];
+
+				function send(message) {
+					var ipc = window.__TAURI_INTERNALS__;
+					pending.push(message);
+					if (!ipc || typeof ipc.invoke !== 'function') return;
+					var queued = pending;
+					pending = [];
+					queued.forEach(function (text) {
+						try {
+							ipc.invoke('log_write', { level: 'error', source: 'boot', message: text });
+						} catch (ignored) {
+							pending.push(text);
+						}
+					});
+				}
+
+				window.addEventListener(
+					'error',
+					function (event) {
+						// A failed <script> or module import fires this with no message of its own; the
+						// element it happened on is then the only thing that names the missing file.
+						var target = event.target;
+						if (target && target !== window && (target.src || target.href)) {
+							send('could not load ' + (target.src || target.href));
+							return;
+						}
+						send(event.message + ' (' + (event.filename || '?') + ':' + (event.lineno || 0) + ')');
+					},
+					true
+				);
+
+				window.addEventListener('unhandledrejection', function (event) {
+					var reason = event.reason;
+					send(reason && reason.stack ? reason.stack : String(reason));
+				});
+
+				// Anything that arrived before the host was listening.
+				window.addEventListener('DOMContentLoaded', function () {
+					if (pending.length) send(pending.pop());
+				});
+			})();
+		</script>
+		%sveltekit.head%
+	</head>
+	<!--
+		Hovering a sidebar entry fetches that route's code and data before the click lands. In a
+		desktop window the pointer is always on its way somewhere, so this turns most navigations
+		into a swap of already-loaded modules.
+	-->
+	<body data-sveltekit-preload-data="hover">
+		<div id="app">%sveltekit.body%</div>
+	</body>
+</html>

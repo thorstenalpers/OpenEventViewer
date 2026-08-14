@@ -1,0 +1,54 @@
+[package]
+name = "openexamtrainer"
+version = "0.1.0"
+description = "Import certification exam material, drill it, and turn every wrong answer into the next session"
+authors = ["thorstenalpers"]
+repository = "https://github.com/thorstenalpers/OpenExamTrainer"
+license = "MIT"
+edition = "2021"
+
+[lib]
+name = "openexamtrainer_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# `unstable` gates the multi-webview API (`Window::add_child`), which this app needs: the app UI
+# and the learning portal are two webviews inside one window, not two windows. `protocol-asset` is
+# what lets a video off the user's own disk reach a `<video>` element — the webview refuses `file:`.
+tauri = { version = "2", features = ["unstable", "protocol-asset"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-window-state = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.37", features = ["bundled"] }
+openexamtrainer-ingest = { path = "../crates/ingest" }
+thiserror = "2"
+base64 = "0.22"
+# Only for the sync key: a question is identified across two machines by the hash of its stem and
+# its answer key, because row ids are per-machine.
+sha2 = "0.10"
+zip = { version = "8", default-features = false, features = ["deflate"] }
+# `windows-native` puts the key in the Windows Credential Manager rather than in a file this app
+# would then own the protection of.
+keyring = { version = "3", features = ["windows-native"] }
+reqwest = { version = "0.13", default-features = false, features = [
+	"blocking",
+	"json",
+	"rustls",
+] }
+# The reference FSRS scheduler rather than the formulas copied out of it: the DSR model is a page
+# of arithmetic whose exponents are easy to transcribe wrongly and impossible to notice wrongly.
+rs-fsrs = "1.2.1"
+# Only as the type FSRS speaks. Timestamps still come from SQLite's `datetime('now')`.
+chrono = "0.4"
+rusty_mp3 = "0.7.0"
+# The neural voices. `shared` links against the prebuilt sherpa libraries rather than building
+# ONNX Runtime from source, which is an hour of compilation for the same binary.
+sherpa-onnx = { version = "1.13.4", default-features = false, features = ["shared"] }
+tar = "0.4"
+bzip2 = "0.6"
+rodio = { version = "0.21", features = ["wav"] }

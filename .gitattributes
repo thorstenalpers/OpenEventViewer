@@ -1,0 +1,17 @@
+###############################################################################
+# Normalize line endings: store text as LF in the repo and check it out as LF
+# on every platform, regardless of each contributor's core.autocrlf setting.
+###############################################################################
+* text=auto eol=lf
+
+# Third-party skill bundles: kept byte-for-byte as installed, and vendored, or
+# their scripts outweigh the app and GitHub calls this a JavaScript project.
+.claude/skills/** -text linguist-vendored
+.agents/skills/** -text linguist-vendored
+
+# Windows-only scripts must keep CRLF or batch labels/goto can misbehave.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+*.sh text eol=lf
+src-tauri/resources/THIRD_PARTY_LICENSES.txt binary

@@ -1,0 +1,4786 @@
+[
+	{
+		"kind": "crate",
+		"name": "adler2",
+		"version": "2.0.1",
+		"license": "0BSD OR Apache-2.0 OR MIT",
+		"url": "https://github.com/oyvindln/adler2",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "aho-corasick",
+		"version": "1.1.5",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/aho-corasick",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "alloc-no-stdlib",
+		"version": "2.0.4",
+		"license": "BSD-3-Clause",
+		"url": "https://github.com/dropbox/rust-alloc-no-stdlib",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "alloc-stdlib",
+		"version": "0.2.4",
+		"license": "BSD-3-Clause",
+		"url": "https://github.com/dropbox/rust-alloc-no-stdlib",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "anyhow",
+		"version": "1.0.104",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/anyhow",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "atomic-waker",
+		"version": "1.1.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/smol-rs/atomic-waker",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "aws-lc-rs",
+		"version": "1.18.0",
+		"license": "(Apache-2.0 OR ISC) AND ISC",
+		"url": "https://github.com/aws/aws-lc-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "aws-lc-sys",
+		"version": "0.44.0",
+		"license": "(Apache-2.0 OR ISC OR MIT) AND (Apache-2.0 OR ISC OR MIT-0) AND (Apache-2.0 OR ISC) AND Apache-2.0 AND BSD-3-Clause AND ISC AND MIT",
+		"url": "https://github.com/aws/aws-lc-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "base64",
+		"version": "0.22.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/marshallpierce/rust-base64",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bit-set",
+		"version": "0.8.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/contain-rs/bit-set",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bit-vec",
+		"version": "0.8.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/contain-rs/bit-vec",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bitflags",
+		"version": "1.3.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/bitflags/bitflags",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bitflags",
+		"version": "2.13.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/bitflags/bitflags",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "block-buffer",
+		"version": "0.10.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/utils",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "brotli",
+		"version": "8.0.4",
+		"license": "BSD-3-Clause AND MIT",
+		"url": "https://github.com/dropbox/rust-brotli",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "brotli-decompressor",
+		"version": "5.0.3",
+		"license": "BSD-3-Clause OR MIT",
+		"url": "https://github.com/dropbox/rust-brotli-decompressor",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bs58",
+		"version": "0.5.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/Nullus157/bs58-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bumpalo",
+		"version": "3.20.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/fitzgen/bumpalo",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bytemuck",
+		"version": "1.25.2",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/Lokathor/bytemuck",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "byteorder",
+		"version": "1.5.0",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/byteorder",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "byteorder-lite",
+		"version": "0.1.0",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/image-rs/byteorder-lite",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "bytes",
+		"version": "1.12.1",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/bytes",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "camino",
+		"version": "1.2.5",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/camino-rs/camino",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cargo_metadata",
+		"version": "0.19.2",
+		"license": "MIT",
+		"url": "https://github.com/oli-obk/cargo_metadata",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cargo-platform",
+		"version": "0.1.9",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/cargo",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cfb",
+		"version": "0.7.3",
+		"license": "MIT",
+		"url": "https://github.com/mdsteele/rust-cfb",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cfg-if",
+		"version": "1.0.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/cfg-if",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "chacha20",
+		"version": "0.10.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/stream-ciphers",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "chrono",
+		"version": "0.4.45",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/chronotope/chrono",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cookie",
+		"version": "0.18.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/SergioBenitez/cookie-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cpufeatures",
+		"version": "0.2.17",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/utils",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cpufeatures",
+		"version": "0.3.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/utils",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "crc32fast",
+		"version": "1.5.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/srijs/rust-crc32fast",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "crossbeam-channel",
+		"version": "0.5.16",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/crossbeam-rs/crossbeam",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "crossbeam-utils",
+		"version": "0.8.22",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/crossbeam-rs/crossbeam",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "crypto-common",
+		"version": "0.1.7",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/traits",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cssparser",
+		"version": "0.36.0",
+		"license": "MPL-2.0",
+		"url": "https://github.com/servo/rust-cssparser",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "cssparser-macros",
+		"version": "0.6.1",
+		"license": "MPL-2.0",
+		"url": "https://github.com/servo/rust-cssparser",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ctor",
+		"version": "0.8.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/mmastrac/rust-ctor",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ctor-proc-macro",
+		"version": "0.0.7",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/mmastrac/rust-ctor",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "darling",
+		"version": "0.23.0",
+		"license": "MIT",
+		"url": "https://github.com/TedDriggs/darling",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "darling_core",
+		"version": "0.23.0",
+		"license": "MIT",
+		"url": "https://github.com/TedDriggs/darling",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "darling_macro",
+		"version": "0.23.0",
+		"license": "MIT",
+		"url": "https://github.com/TedDriggs/darling",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "defmt",
+		"version": "1.1.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/knurling-rs/defmt",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "defmt-macros",
+		"version": "1.1.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/knurling-rs/defmt",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "defmt-parser",
+		"version": "1.0.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/knurling-rs/defmt",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "deranged",
+		"version": "0.5.8",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/jhpratt/deranged",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "derive_more",
+		"version": "2.1.1",
+		"license": "MIT",
+		"url": "https://github.com/JelteF/derive_more",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "derive_more-impl",
+		"version": "2.1.1",
+		"license": "MIT",
+		"url": "https://github.com/JelteF/derive_more",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "digest",
+		"version": "0.10.7",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/traits",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dirs",
+		"version": "6.0.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/soc/dirs-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dirs-sys",
+		"version": "0.5.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dirs-dev/dirs-sys-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "displaydoc",
+		"version": "0.2.7",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/yaahc/displaydoc",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dom_query",
+		"version": "0.27.0",
+		"license": "MIT",
+		"url": "https://github.com/niklak/dom_query",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dpi",
+		"version": "0.1.2",
+		"license": "Apache-2.0 AND MIT",
+		"url": "https://github.com/rust-windowing/winit",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dtoa",
+		"version": "1.0.11",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/dtoa",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dtoa-short",
+		"version": "0.3.5",
+		"license": "MPL-2.0",
+		"url": "https://github.com/upsuper/dtoa-short",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dtor",
+		"version": "0.3.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/mmastrac/rust-ctor",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dtor-proc-macro",
+		"version": "0.0.6",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/mmastrac/rust-ctor",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dunce",
+		"version": "1.0.5",
+		"license": "Apache-2.0 OR CC0-1.0 OR MIT-0",
+		"url": "https://gitlab.com/kornelski/dunce",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "dyn-clone",
+		"version": "1.0.20",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/dyn-clone",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "either",
+		"version": "1.17.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rayon-rs/either",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "equivalent",
+		"version": "1.0.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/indexmap-rs/equivalent",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "erased-serde",
+		"version": "0.4.10",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/erased-serde",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "fallible-iterator",
+		"version": "0.3.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/sfackler/rust-fallible-iterator",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "fallible-streaming-iterator",
+		"version": "0.1.9",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/sfackler/fallible-streaming-iterator",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "fastrand",
+		"version": "2.5.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/smol-rs/fastrand",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "fdeflate",
+		"version": "0.3.7",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/image-rs/fdeflate",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "flate2",
+		"version": "1.1.9",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/flate2-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "fnv",
+		"version": "1.0.7",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/rust-fnv",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "foldhash",
+		"version": "0.1.5",
+		"license": "Zlib",
+		"url": "https://github.com/orlp/foldhash",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "foldhash",
+		"version": "0.2.0",
+		"license": "Zlib",
+		"url": "https://github.com/orlp/foldhash",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "form_urlencoded",
+		"version": "1.2.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/rust-url",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "futures-channel",
+		"version": "0.3.34",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/futures-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "futures-core",
+		"version": "0.3.34",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/futures-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "futures-io",
+		"version": "0.3.34",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/futures-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "futures-macro",
+		"version": "0.3.34",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/futures-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "futures-sink",
+		"version": "0.3.34",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/futures-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "futures-task",
+		"version": "0.3.34",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/futures-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "futures-util",
+		"version": "0.3.34",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/futures-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "generic-array",
+		"version": "0.14.7",
+		"license": "MIT",
+		"url": "https://github.com/fizyk20/generic-array.git",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "getrandom",
+		"version": "0.2.17",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-random/getrandom",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "getrandom",
+		"version": "0.3.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-random/getrandom",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "getrandom",
+		"version": "0.4.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-random/getrandom",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "glob",
+		"version": "0.3.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/glob",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hashbrown",
+		"version": "0.12.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/hashbrown",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hashbrown",
+		"version": "0.15.5",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/hashbrown",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hashbrown",
+		"version": "0.17.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/hashbrown",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hashlink",
+		"version": "0.10.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/kyren/hashlink",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "heck",
+		"version": "0.5.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/withoutboats/heck",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hex",
+		"version": "0.4.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/KokaKiwi/rust-hex",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "html5ever",
+		"version": "0.38.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/html5ever",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "http",
+		"version": "1.5.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/hyperium/http",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "http-body",
+		"version": "1.1.0",
+		"license": "MIT",
+		"url": "https://github.com/hyperium/http-body",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "http-body-util",
+		"version": "0.1.4",
+		"license": "MIT",
+		"url": "https://github.com/hyperium/http-body",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "httparse",
+		"version": "1.10.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/seanmonstar/httparse",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hyper",
+		"version": "1.11.0",
+		"license": "MIT",
+		"url": "https://github.com/hyperium/hyper",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hyper-rustls",
+		"version": "0.27.9",
+		"license": "Apache-2.0 OR ISC OR MIT",
+		"url": "https://github.com/rustls/hyper-rustls",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "hyper-util",
+		"version": "0.1.20",
+		"license": "MIT",
+		"url": "https://github.com/hyperium/hyper-util",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ico",
+		"version": "0.5.0",
+		"license": "MIT",
+		"url": "https://github.com/mdsteele/rust-ico",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "icu_collections",
+		"version": "2.2.0",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "icu_locale_core",
+		"version": "2.2.0",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "icu_normalizer",
+		"version": "2.2.0",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "icu_normalizer_data",
+		"version": "2.2.0",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "icu_properties",
+		"version": "2.2.0",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "icu_properties_data",
+		"version": "2.2.0",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "icu_provider",
+		"version": "2.2.0",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ident_case",
+		"version": "1.0.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/TedDriggs/ident_case",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "idna",
+		"version": "1.1.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/rust-url/",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "idna_adapter",
+		"version": "1.2.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/hsivonen/idna_adapter",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "image",
+		"version": "0.25.10",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/image-rs/image",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "indexmap",
+		"version": "1.9.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/bluss/indexmap",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "indexmap",
+		"version": "2.14.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/indexmap-rs/indexmap",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "infer",
+		"version": "0.19.0",
+		"license": "MIT",
+		"url": "https://github.com/bojand/infer",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ipnet",
+		"version": "2.12.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/krisprice/ipnet",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "itertools",
+		"version": "0.15.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-itertools/itertools",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "itoa",
+		"version": "1.0.18",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/itoa",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "jiff",
+		"version": "0.2.35",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/jiff",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "jiff-core",
+		"version": "0.1.0",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/jiff",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "jiff-tzdb",
+		"version": "0.1.8",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/jiff",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "jiff-tzdb-platform",
+		"version": "0.1.3",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/jiff",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "json-patch",
+		"version": "3.0.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/idubrov/json-patch",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "jsonptr",
+		"version": "0.6.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/chanced/jsonptr",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "keyboard-types",
+		"version": "0.7.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/pyfisch/keyboard-types",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "keyring",
+		"version": "3.6.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/hwchen/keyring-rs.git",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "libc",
+		"version": "0.2.189",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/libc",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "libloading",
+		"version": "0.9.0",
+		"license": "ISC",
+		"url": "https://github.com/nagisa/rust_libloading/",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "libsqlite3-sys",
+		"version": "0.35.0",
+		"license": "MIT",
+		"url": "https://github.com/rusqlite/rusqlite",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "litemap",
+		"version": "0.8.2",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "lock_api",
+		"version": "0.4.14",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/Amanieu/parking_lot",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "log",
+		"version": "0.4.33",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/log",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "lru-slab",
+		"version": "0.1.2",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/Ralith/lru-slab",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "markup5ever",
+		"version": "0.38.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/html5ever",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "maybe-owned",
+		"version": "0.3.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rustonaut/maybe-owned",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "memchr",
+		"version": "2.8.3",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/memchr",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "mime",
+		"version": "0.3.17",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/hyperium/mime",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "miniz_oxide",
+		"version": "0.8.9",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "mio",
+		"version": "1.2.2",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/mio",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "moxcms",
+		"version": "0.8.1",
+		"license": "Apache-2.0 OR BSD-3-Clause",
+		"url": "https://github.com/awxkee/moxcms.git",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "muda",
+		"version": "0.19.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/muda",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "new_debug_unreachable",
+		"version": "1.0.6",
+		"license": "MIT",
+		"url": "https://github.com/mbrubeck/rust-debug-unreachable",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "num-conv",
+		"version": "0.2.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/jhpratt/num-conv",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "num-traits",
+		"version": "0.2.19",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-num/num-traits",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "once_cell",
+		"version": "1.21.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/matklad/once_cell",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "open",
+		"version": "5.4.1",
+		"license": "MIT",
+		"url": "https://github.com/Byron/open-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "option-ext",
+		"version": "0.2.0",
+		"license": "MPL-2.0",
+		"url": "https://github.com/soc/option-ext.git",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "parking_lot",
+		"version": "0.12.5",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/Amanieu/parking_lot",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "parking_lot_core",
+		"version": "0.9.12",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/Amanieu/parking_lot",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "pdfium-render",
+		"version": "0.9.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/ajrcarey/pdfium-render",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "percent-encoding",
+		"version": "2.3.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/rust-url/",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "phf",
+		"version": "0.13.1",
+		"license": "MIT",
+		"url": "https://github.com/rust-phf/rust-phf",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "phf_generator",
+		"version": "0.13.1",
+		"license": "MIT",
+		"url": "https://github.com/rust-phf/rust-phf",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "phf_macros",
+		"version": "0.13.1",
+		"license": "MIT",
+		"url": "https://github.com/rust-phf/rust-phf",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "phf_shared",
+		"version": "0.13.1",
+		"license": "MIT",
+		"url": "https://github.com/rust-phf/rust-phf",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "pin-project-lite",
+		"version": "0.2.17",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/taiki-e/pin-project-lite",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "piston-float",
+		"version": "1.0.1",
+		"license": "MIT",
+		"url": "https://github.com/pistondevelopers/float.git",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "plist",
+		"version": "1.10.0",
+		"license": "MIT",
+		"url": "https://github.com/ebarnard/rust-plist/",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "png",
+		"version": "0.17.16",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/image-rs/image-png",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "png",
+		"version": "0.18.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/image-rs/image-png",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "potential_utf",
+		"version": "0.1.5",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "powerfmt",
+		"version": "0.2.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/jhpratt/powerfmt",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "precomputed-hash",
+		"version": "0.1.1",
+		"license": "MIT",
+		"url": "https://github.com/emilio/precomputed-hash",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "proc-macro2",
+		"version": "1.0.107",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/proc-macro2",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "pxfm",
+		"version": "0.1.30",
+		"license": "Apache-2.0 OR BSD-3-Clause",
+		"url": "https://github.com/awxkee/pxfm",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "quick-xml",
+		"version": "0.41.0",
+		"license": "MIT",
+		"url": "https://github.com/tafia/quick-xml",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "quinn",
+		"version": "0.11.11",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/quinn-rs/quinn",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "quinn-proto",
+		"version": "0.11.16",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/quinn-rs/quinn",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "quinn-udp",
+		"version": "0.5.15",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/quinn-rs/quinn",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "quote",
+		"version": "1.0.47",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/quote",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rand",
+		"version": "0.10.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-random/rand",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rand_core",
+		"version": "0.10.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-random/rand_core",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rand_pcg",
+		"version": "0.10.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-random/rngs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "raw-window-handle",
+		"version": "0.6.2",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/rust-windowing/raw-window-handle",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ref-cast",
+		"version": "1.0.26",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/ref-cast",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ref-cast-impl",
+		"version": "1.0.26",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/ref-cast",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "regex",
+		"version": "1.13.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/regex",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "regex-automata",
+		"version": "0.4.18",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/regex",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "regex-syntax",
+		"version": "0.8.11",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/regex",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "reqwest",
+		"version": "0.13.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/seanmonstar/reqwest",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rfd",
+		"version": "0.16.0",
+		"license": "MIT",
+		"url": "https://github.com/PolyMeilex/rfd",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "ring",
+		"version": "0.17.14",
+		"license": "Apache-2.0 AND ISC",
+		"url": "https://github.com/briansmith/ring",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rs-fsrs",
+		"version": "1.2.1",
+		"license": "UNKNOWN",
+		"url": "",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rusqlite",
+		"version": "0.37.0",
+		"license": "MIT",
+		"url": "https://github.com/rusqlite/rusqlite",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rustc-hash",
+		"version": "2.1.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/rustc-hash",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rustls",
+		"version": "0.23.43",
+		"license": "Apache-2.0 OR ISC OR MIT",
+		"url": "https://github.com/rustls/rustls",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rustls-pki-types",
+		"version": "1.15.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rustls/pki-types",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rustls-platform-verifier",
+		"version": "0.7.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rustls/rustls-platform-verifier",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rustls-webpki",
+		"version": "0.103.14",
+		"license": "ISC",
+		"url": "https://github.com/rustls/webpki",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "rusty_mp3",
+		"version": "0.7.0",
+		"license": "Apache-2.0",
+		"url": "https://github.com/Remade-With-Rust/remade_ffmpeg_rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "same-file",
+		"version": "1.0.6",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/same-file",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "schemars",
+		"version": "0.8.22",
+		"license": "MIT",
+		"url": "https://github.com/GREsau/schemars",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "schemars",
+		"version": "0.9.0",
+		"license": "MIT",
+		"url": "https://github.com/GREsau/schemars",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "schemars",
+		"version": "1.2.2",
+		"license": "MIT",
+		"url": "https://github.com/GREsau/schemars",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "schemars_derive",
+		"version": "0.8.22",
+		"license": "MIT",
+		"url": "https://github.com/GREsau/schemars",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "scopeguard",
+		"version": "1.2.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/bluss/scopeguard",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "selectors",
+		"version": "0.36.1",
+		"license": "MPL-2.0",
+		"url": "https://github.com/servo/stylo",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "semver",
+		"version": "1.0.28",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/semver",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde",
+		"version": "1.0.229",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/serde-rs/serde",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_core",
+		"version": "1.0.229",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/serde-rs/serde",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_derive",
+		"version": "1.0.229",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/serde-rs/serde",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_derive_internals",
+		"version": "0.29.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/serde-rs/serde",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_json",
+		"version": "1.0.151",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/serde-rs/json",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_repr",
+		"version": "0.1.21",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/serde-repr",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_spanned",
+		"version": "1.1.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/toml-rs/toml",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_with",
+		"version": "3.22.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/jonasbb/serde_with/",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde_with_macros",
+		"version": "3.22.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/jonasbb/serde_with/",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serde-untagged",
+		"version": "0.1.9",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/serde-untagged",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serialize-to-javascript",
+		"version": "0.1.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/chippers/serialize-to-javascript",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "serialize-to-javascript-impl",
+		"version": "0.1.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/chippers/serialize-to-javascript",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "servo_arc",
+		"version": "0.4.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/stylo",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "sha2",
+		"version": "0.10.9",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/hashes",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "simd-adler32",
+		"version": "0.3.10",
+		"license": "MIT",
+		"url": "https://github.com/mcountryman/simd-adler32",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "siphasher",
+		"version": "1.0.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/jedisct1/rust-siphash",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "slab",
+		"version": "0.4.12",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/slab",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "smallvec",
+		"version": "1.15.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/rust-smallvec",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "socket2",
+		"version": "0.6.5",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-lang/socket2",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "softbuffer",
+		"version": "0.4.8",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rust-windowing/softbuffer",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "stable_deref_trait",
+		"version": "1.2.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/storyyeller/stable_deref_trait",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "string_cache",
+		"version": "0.9.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/string-cache",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "strsim",
+		"version": "0.11.1",
+		"license": "MIT",
+		"url": "https://github.com/rapidfuzz/strsim-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "subtle",
+		"version": "2.6.1",
+		"license": "BSD-3-Clause",
+		"url": "https://github.com/dalek-cryptography/subtle",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "syn",
+		"version": "2.0.119",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/syn",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "syn",
+		"version": "3.0.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/syn",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "sync_wrapper",
+		"version": "1.0.2",
+		"license": "Apache-2.0",
+		"url": "https://github.com/Actyx/sync_wrapper",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "synstructure",
+		"version": "0.13.2",
+		"license": "MIT",
+		"url": "https://github.com/mystor/synstructure",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tao",
+		"version": "0.35.3",
+		"license": "Apache-2.0",
+		"url": "https://github.com/tauri-apps/tao",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri",
+		"version": "2.11.5",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-codegen",
+		"version": "2.6.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-macros",
+		"version": "2.6.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-plugin-dialog",
+		"version": "2.7.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-plugin-fs",
+		"version": "2.5.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-plugin-opener",
+		"version": "2.5.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-plugin-window-state",
+		"version": "2.4.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-runtime",
+		"version": "2.11.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-runtime-wry",
+		"version": "2.11.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-utils",
+		"version": "2.9.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tendril",
+		"version": "0.5.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/html5ever",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "thiserror",
+		"version": "1.0.69",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/thiserror",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "thiserror",
+		"version": "2.0.20",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/thiserror",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "thiserror-impl",
+		"version": "1.0.69",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/thiserror",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "thiserror-impl",
+		"version": "2.0.20",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/thiserror",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "time",
+		"version": "0.3.55",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/time-rs/time",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "time-core",
+		"version": "0.1.9",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/time-rs/time",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "time-macros",
+		"version": "0.2.32",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/time-rs/time",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tinystr",
+		"version": "0.8.3",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tinyvec",
+		"version": "1.12.0",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/Lokathor/tinyvec",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tinyvec_macros",
+		"version": "0.1.1",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/Soveu/tinyvec_macros",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tokio",
+		"version": "1.53.1",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/tokio",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tokio-rustls",
+		"version": "0.26.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/rustls/tokio-rustls",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tokio-util",
+		"version": "0.7.19",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/tokio",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "toml",
+		"version": "1.1.4+spec-1.1.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/toml-rs/toml",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "toml_datetime",
+		"version": "1.1.1+spec-1.1.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/toml-rs/toml",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "toml_parser",
+		"version": "1.1.3+spec-1.1.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/toml-rs/toml",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "toml_writer",
+		"version": "1.1.2+spec-1.1.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/toml-rs/toml",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tower",
+		"version": "0.5.3",
+		"license": "MIT",
+		"url": "https://github.com/tower-rs/tower",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tower-http",
+		"version": "0.6.11",
+		"license": "MIT",
+		"url": "https://github.com/tower-rs/tower-http",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tower-layer",
+		"version": "0.3.3",
+		"license": "MIT",
+		"url": "https://github.com/tower-rs/tower",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tower-service",
+		"version": "0.3.3",
+		"license": "MIT",
+		"url": "https://github.com/tower-rs/tower",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tracing",
+		"version": "0.1.44",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/tracing",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tracing-attributes",
+		"version": "0.1.31",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/tracing",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tracing-core",
+		"version": "0.1.36",
+		"license": "MIT",
+		"url": "https://github.com/tokio-rs/tracing",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tray-icon",
+		"version": "0.24.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tray-icon",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "try-lock",
+		"version": "0.2.5",
+		"license": "MIT",
+		"url": "https://github.com/seanmonstar/try-lock",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "typed-path",
+		"version": "0.12.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/chipsenkbeil/typed-path",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "typeid",
+		"version": "1.0.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/dtolnay/typeid",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "typenum",
+		"version": "1.20.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/paholg/typenum",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "unic-char-property",
+		"version": "0.9.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/open-i18n/rust-unic/",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "unic-char-range",
+		"version": "0.9.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/open-i18n/rust-unic/",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "unic-common",
+		"version": "0.9.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/open-i18n/rust-unic/",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "unic-ucd-ident",
+		"version": "0.9.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/open-i18n/rust-unic/",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "unic-ucd-version",
+		"version": "0.9.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/open-i18n/rust-unic/",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "unicode-ident",
+		"version": "1.0.24",
+		"license": "(Apache-2.0 OR MIT) AND Unicode-3.0",
+		"url": "https://github.com/dtolnay/unicode-ident",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "unicode-segmentation",
+		"version": "1.13.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/unicode-rs/unicode-segmentation",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "untrusted",
+		"version": "0.9.0",
+		"license": "ISC",
+		"url": "https://github.com/briansmith/untrusted",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "url",
+		"version": "2.5.8",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/rust-url",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "urlpattern",
+		"version": "0.3.0",
+		"license": "MIT",
+		"url": "https://github.com/denoland/rust-urlpattern",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "utf16string",
+		"version": "0.2.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/getsentry/utf16string",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "utf8_iter",
+		"version": "1.0.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/hsivonen/utf8_iter",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "uuid",
+		"version": "1.24.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/uuid-rs/uuid",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "vecmath",
+		"version": "1.0.0",
+		"license": "MIT",
+		"url": "https://github.com/pistondevelopers/vecmath.git",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "walkdir",
+		"version": "2.5.0",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/walkdir",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "want",
+		"version": "0.3.1",
+		"license": "MIT",
+		"url": "https://github.com/seanmonstar/want",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "web_atoms",
+		"version": "0.2.6",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/servo/html5ever",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "webview2-com",
+		"version": "0.38.2",
+		"license": "MIT",
+		"url": "https://github.com/wravery/webview2-rs",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "webview2-com-macros",
+		"version": "0.8.1",
+		"license": "MIT",
+		"url": "https://github.com/wravery/webview2-rs",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "webview2-com-sys",
+		"version": "0.38.2",
+		"license": "MIT",
+		"url": "https://github.com/wravery/webview2-rs",
+		"hasText": false
+	},
+	{
+		"kind": "crate",
+		"name": "winapi-util",
+		"version": "0.1.11",
+		"license": "MIT OR Unlicense",
+		"url": "https://github.com/BurntSushi/winapi-util",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "window-vibrancy",
+		"version": "0.6.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri-plugin-vibrancy",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows",
+		"version": "0.61.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows_x86_64_msvc",
+		"version": "0.52.6",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows_x86_64_msvc",
+		"version": "0.53.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-collections",
+		"version": "0.2.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-core",
+		"version": "0.61.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-future",
+		"version": "0.2.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-implement",
+		"version": "0.60.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-interface",
+		"version": "0.59.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-link",
+		"version": "0.1.3",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-link",
+		"version": "0.2.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-numerics",
+		"version": "0.2.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-result",
+		"version": "0.3.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-strings",
+		"version": "0.4.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-sys",
+		"version": "0.59.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-sys",
+		"version": "0.60.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-sys",
+		"version": "0.61.2",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-targets",
+		"version": "0.52.6",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-targets",
+		"version": "0.53.5",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-threading",
+		"version": "0.1.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "windows-version",
+		"version": "0.1.7",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/microsoft/windows-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "winnow",
+		"version": "1.0.4",
+		"license": "MIT",
+		"url": "https://github.com/winnow-rs/winnow",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "writeable",
+		"version": "0.6.3",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "wry",
+		"version": "0.55.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/wry",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "yoke",
+		"version": "0.8.3",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "yoke-derive",
+		"version": "0.8.2",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zerofrom",
+		"version": "0.1.8",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zerofrom-derive",
+		"version": "0.1.7",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zeroize",
+		"version": "1.9.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RustCrypto/utils",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zerotrie",
+		"version": "0.2.4",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zerovec",
+		"version": "0.11.6",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zerovec-derive",
+		"version": "0.11.3",
+		"license": "Unicode-3.0",
+		"url": "https://github.com/unicode-org/icu4x",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zip",
+		"version": "8.6.0",
+		"license": "MIT",
+		"url": "https://github.com/zip-rs/zip2",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zlib-rs",
+		"version": "0.6.7",
+		"license": "Zlib",
+		"url": "https://github.com/trifectatechfoundation/zlib-rs",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zmij",
+		"version": "1.0.23",
+		"license": "MIT",
+		"url": "https://github.com/dtolnay/zmij",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zopfli",
+		"version": "0.8.3",
+		"license": "Apache-2.0",
+		"url": "https://github.com/zopfli-rs/zopfli",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zune-core",
+		"version": "0.5.3",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/etemesi254/zune-image",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "zune-jpeg",
+		"version": "0.5.15",
+		"license": "Apache-2.0 OR MIT OR Zlib",
+		"url": "https://github.com/etemesi254/zune-image/tree/dev/crates/zune-jpeg",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@adobe/css-tools",
+		"version": "4.5.0",
+		"license": "MIT",
+		"url": "https://github.com/adobe/css-tools",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@babel/code-frame",
+		"version": "7.29.7",
+		"license": "MIT",
+		"url": "https://github.com/babel/babel",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@babel/helper-validator-identifier",
+		"version": "7.29.7",
+		"license": "MIT",
+		"url": "https://github.com/babel/babel",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@babel/runtime",
+		"version": "7.29.7",
+		"license": "MIT",
+		"url": "https://github.com/babel/babel",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint-community/eslint-utils",
+		"version": "4.10.1",
+		"license": "MIT",
+		"url": "https://github.com/eslint-community/eslint-utils",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint-community/regexpp",
+		"version": "4.12.2",
+		"license": "MIT",
+		"url": "https://github.com/eslint-community/regexpp",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint/config-array",
+		"version": "0.23.5",
+		"license": "Apache-2.0",
+		"url": "https://github.com/eslint/rewrite",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint/config-helpers",
+		"version": "0.7.0",
+		"license": "Apache-2.0",
+		"url": "https://github.com/eslint/rewrite",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint/core",
+		"version": "1.2.1",
+		"license": "Apache-2.0",
+		"url": "https://github.com/eslint/rewrite",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint/js",
+		"version": "10.0.1",
+		"license": "MIT",
+		"url": "https://github.com/eslint/eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint/object-schema",
+		"version": "3.0.5",
+		"license": "Apache-2.0",
+		"url": "https://github.com/eslint/rewrite",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@eslint/plugin-kit",
+		"version": "0.7.2",
+		"license": "Apache-2.0",
+		"url": "https://github.com/eslint/rewrite",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@floating-ui/core",
+		"version": "1.8.0",
+		"license": "MIT",
+		"url": "https://github.com/floating-ui/floating-ui",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@floating-ui/dom",
+		"version": "1.8.0",
+		"license": "MIT",
+		"url": "https://github.com/floating-ui/floating-ui",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@floating-ui/utils",
+		"version": "0.2.12",
+		"license": "MIT",
+		"url": "https://github.com/floating-ui/floating-ui",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@humanfs/core",
+		"version": "0.19.2",
+		"license": "Apache-2.0",
+		"url": "https://github.com/humanwhocodes/humanfs",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@humanfs/node",
+		"version": "0.16.8",
+		"license": "Apache-2.0",
+		"url": "https://github.com/humanwhocodes/humanfs",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@humanfs/types",
+		"version": "0.15.0",
+		"license": "Apache-2.0",
+		"url": "https://github.com/humanwhocodes/humanfs",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "@humanwhocodes/module-importer",
+		"version": "1.0.1",
+		"license": "Apache-2.0",
+		"url": "https://github.com/humanwhocodes/module-importer",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@humanwhocodes/retry",
+		"version": "0.4.3",
+		"license": "Apache-2.0",
+		"url": "https://github.com/humanwhocodes/retry",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@internationalized/date",
+		"version": "3.12.3",
+		"license": "Apache-2.0",
+		"url": "https://github.com/adobe/react-spectrum/tree/main/packages/@internationalized/date",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@jridgewell/gen-mapping",
+		"version": "0.3.13",
+		"license": "MIT",
+		"url": "https://github.com/jridgewell/sourcemaps",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@jridgewell/remapping",
+		"version": "2.3.5",
+		"license": "MIT",
+		"url": "https://github.com/jridgewell/sourcemaps",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@jridgewell/resolve-uri",
+		"version": "3.1.2",
+		"license": "MIT",
+		"url": "https://github.com/jridgewell/resolve-uri",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@jridgewell/sourcemap-codec",
+		"version": "1.5.5",
+		"license": "MIT",
+		"url": "https://github.com/jridgewell/sourcemaps",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@jridgewell/trace-mapping",
+		"version": "0.3.31",
+		"license": "MIT",
+		"url": "https://github.com/jridgewell/sourcemaps",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@lucide/svelte",
+		"version": "1.31.0",
+		"license": "ISC",
+		"url": "https://github.com/lucide-icons/lucide",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@oxc-project/types",
+		"version": "0.143.0",
+		"license": "MIT",
+		"url": "https://github.com/oxc-project/oxc",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@polka/url",
+		"version": "1.0.0-next.29",
+		"license": "MIT",
+		"url": "lukeed/polka",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "@rolldown/binding-win32-x64-msvc",
+		"version": "1.2.3",
+		"license": "MIT",
+		"url": "https://github.com/rolldown/rolldown",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "@rolldown/pluginutils",
+		"version": "1.0.1",
+		"license": "MIT",
+		"url": "https://github.com/rolldown/plugins",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@standard-schema/spec",
+		"version": "1.1.0",
+		"license": "MIT",
+		"url": "https://github.com/standard-schema/standard-schema",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@sveltejs/acorn-typescript",
+		"version": "1.0.12",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/acorn-typescript",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@sveltejs/adapter-static",
+		"version": "3.0.10",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/kit",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@sveltejs/kit",
+		"version": "2.70.2",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/kit",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@sveltejs/load-config",
+		"version": "0.2.3",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/language-tools",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@sveltejs/vite-plugin-svelte",
+		"version": "7.3.0",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/vite-plugin-svelte",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@swc/helpers",
+		"version": "0.5.23",
+		"license": "Apache-2.0",
+		"url": "https://github.com/swc-project/swc",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tailwindcss/node",
+		"version": "4.3.3",
+		"license": "MIT",
+		"url": "https://github.com/tailwindlabs/tailwindcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tailwindcss/oxide",
+		"version": "4.3.3",
+		"license": "MIT",
+		"url": "https://github.com/tailwindlabs/tailwindcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tailwindcss/oxide-win32-x64-msvc",
+		"version": "4.3.3",
+		"license": "MIT",
+		"url": "https://github.com/tailwindlabs/tailwindcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tailwindcss/vite",
+		"version": "4.3.3",
+		"license": "MIT",
+		"url": "https://github.com/tailwindlabs/tailwindcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tanstack/table-core",
+		"version": "8.21.3",
+		"license": "MIT",
+		"url": "https://github.com/TanStack/table",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tauri-apps/api",
+		"version": "2.11.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tauri-apps/cli",
+		"version": "2.11.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tauri-apps/cli-win32-x64-msvc",
+		"version": "2.11.4",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "@tauri-apps/plugin-dialog",
+		"version": "2.7.2",
+		"license": "MIT OR Apache-2.0",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@testing-library/dom",
+		"version": "10.4.1",
+		"license": "MIT",
+		"url": "https://github.com/testing-library/dom-testing-library",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@testing-library/jest-dom",
+		"version": "7.0.1",
+		"license": "MIT",
+		"url": "https://github.com/testing-library/jest-dom",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@testing-library/svelte",
+		"version": "5.4.2",
+		"license": "MIT",
+		"url": "https://github.com/testing-library/svelte-testing-library",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@testing-library/svelte-core",
+		"version": "1.1.3",
+		"license": "MIT",
+		"url": "https://github.com/testing-library/svelte-testing-library",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/aria-query",
+		"version": "5.0.4",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/chai",
+		"version": "5.2.3",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/cookie",
+		"version": "0.6.0",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/deep-eql",
+		"version": "4.0.2",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/esrecurse",
+		"version": "4.3.1",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/estree",
+		"version": "1.0.9",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/json-schema",
+		"version": "7.0.15",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/node",
+		"version": "26.2.0",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/trusted-types",
+		"version": "2.0.7",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/whatwg-mimetype",
+		"version": "3.0.2",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@types/ws",
+		"version": "8.18.1",
+		"license": "MIT",
+		"url": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/eslint-plugin",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/parser",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/project-service",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/scope-manager",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/tsconfig-utils",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/type-utils",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/types",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/typescript-estree",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/utils",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@typescript-eslint/visitor-keys",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@vitest/expect",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@vitest/mocker",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@vitest/pretty-format",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@vitest/runner",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@vitest/snapshot",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@vitest/spy",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@vitest/utils",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "acorn",
+		"version": "8.18.0",
+		"license": "MIT",
+		"url": "https://github.com/acornjs/acorn",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "acorn-jsx",
+		"version": "5.3.2",
+		"license": "MIT",
+		"url": "https://github.com/acornjs/acorn-jsx",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ajv",
+		"version": "6.15.0",
+		"license": "MIT",
+		"url": "https://github.com/ajv-validator/ajv",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ansi-regex",
+		"version": "5.0.1",
+		"license": "MIT",
+		"url": "chalk/ansi-regex",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ansi-styles",
+		"version": "5.2.0",
+		"license": "MIT",
+		"url": "chalk/ansi-styles",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "aria-query",
+		"version": "5.3.0",
+		"license": "Apache-2.0",
+		"url": "https://github.com/A11yance/aria-query",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "aria-query",
+		"version": "5.3.1",
+		"license": "Apache-2.0",
+		"url": "https://github.com/A11yance/aria-query",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "assertion-error",
+		"version": "2.0.1",
+		"license": "MIT",
+		"url": "git@github.com:chaijs/assertion-error",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "axobject-query",
+		"version": "4.1.0",
+		"license": "Apache-2.0",
+		"url": "https://github.com/A11yance/axobject-query",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "balanced-match",
+		"version": "4.0.4",
+		"license": "MIT",
+		"url": "git://github.com/juliangruber/balanced-match",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "bits-ui",
+		"version": "2.18.1",
+		"license": "MIT",
+		"url": "github:huntabyte/bits-ui",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "brace-expansion",
+		"version": "5.0.9",
+		"license": "MIT",
+		"url": "https://github.com/juliangruber/brace-expansion",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "buffer-image-size",
+		"version": "0.6.4",
+		"license": "MIT",
+		"url": "evidentpoint/buffer-image-size",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "chai",
+		"version": "6.2.2",
+		"license": "MIT",
+		"url": "https://github.com/chaijs/chai",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "chokidar",
+		"version": "4.0.3",
+		"license": "MIT",
+		"url": "https://github.com/paulmillr/chokidar",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "class-variance-authority",
+		"version": "0.7.1",
+		"license": "Apache-2.0",
+		"url": "https://github.com/joe-bell/cva",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "clsx",
+		"version": "2.1.1",
+		"license": "MIT",
+		"url": "lukeed/clsx",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "convert-source-map",
+		"version": "2.0.0",
+		"license": "MIT",
+		"url": "git://github.com/thlorenz/convert-source-map",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "cookie",
+		"version": "0.6.0",
+		"license": "MIT",
+		"url": "jshttp/cookie",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "cross-spawn",
+		"version": "7.0.6",
+		"license": "MIT",
+		"url": "git@github.com:moxystudio/node-cross-spawn",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "css.escape",
+		"version": "1.5.1",
+		"license": "MIT",
+		"url": "https://github.com/mathiasbynens/CSS.escape",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "cssesc",
+		"version": "3.0.0",
+		"license": "MIT",
+		"url": "https://github.com/mathiasbynens/cssesc",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "debug",
+		"version": "4.4.3",
+		"license": "MIT",
+		"url": "git://github.com/debug-js/debug",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "deep-is",
+		"version": "0.1.4",
+		"license": "MIT",
+		"url": "http://github.com/thlorenz/deep-is",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "deepmerge",
+		"version": "4.3.1",
+		"license": "MIT",
+		"url": "git://github.com/TehShrike/deepmerge",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "dequal",
+		"version": "2.0.3",
+		"license": "MIT",
+		"url": "lukeed/dequal",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "detect-libc",
+		"version": "2.1.2",
+		"license": "Apache-2.0",
+		"url": "git://github.com/lovell/detect-libc",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "devalue",
+		"version": "5.9.0",
+		"license": "MIT",
+		"url": "sveltejs/devalue",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "dom-accessibility-api",
+		"version": "0.5.16",
+		"license": "MIT",
+		"url": "https://github.com/eps1lon/dom-accessibility-api",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "dom-accessibility-api",
+		"version": "0.6.3",
+		"license": "MIT",
+		"url": "https://github.com/eps1lon/dom-accessibility-api",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "enhanced-resolve",
+		"version": "5.24.5",
+		"license": "MIT",
+		"url": "https://github.com/webpack/enhanced-resolve",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "entities",
+		"version": "7.0.1",
+		"license": "BSD-2-Clause",
+		"url": "https://github.com/fb55/entities",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "es-module-lexer",
+		"version": "2.3.1",
+		"license": "MIT",
+		"url": "https://github.com/guybedford/es-module-lexer",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "escape-string-regexp",
+		"version": "4.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/escape-string-regexp",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint",
+		"version": "10.8.1",
+		"license": "MIT",
+		"url": "eslint/eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint-config-prettier",
+		"version": "10.1.8",
+		"license": "MIT",
+		"url": "prettier/eslint-config-prettier",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint-plugin-svelte",
+		"version": "3.22.0",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/eslint-plugin-svelte",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint-scope",
+		"version": "8.4.0",
+		"license": "BSD-2-Clause",
+		"url": "https://github.com/eslint/js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint-scope",
+		"version": "9.1.2",
+		"license": "BSD-2-Clause",
+		"url": "https://github.com/eslint/js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint-visitor-keys",
+		"version": "3.4.3",
+		"license": "Apache-2.0",
+		"url": "eslint/eslint-visitor-keys",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint-visitor-keys",
+		"version": "4.2.1",
+		"license": "Apache-2.0",
+		"url": "https://github.com/eslint/js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "eslint-visitor-keys",
+		"version": "5.0.1",
+		"license": "Apache-2.0",
+		"url": "https://github.com/eslint/js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "esm-env",
+		"version": "1.2.2",
+		"license": "MIT",
+		"url": "https://github.com/benmccann/esm-env",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "espree",
+		"version": "10.4.0",
+		"license": "BSD-2-Clause",
+		"url": "https://github.com/eslint/js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "espree",
+		"version": "11.2.0",
+		"license": "BSD-2-Clause",
+		"url": "https://github.com/eslint/js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "esquery",
+		"version": "1.7.0",
+		"license": "BSD-3-Clause",
+		"url": "https://github.com/estools/esquery",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "esrap",
+		"version": "2.3.2",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/esrap",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "esrecurse",
+		"version": "4.3.0",
+		"license": "BSD-2-Clause",
+		"url": "https://github.com/estools/esrecurse",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "estraverse",
+		"version": "5.3.0",
+		"license": "BSD-2-Clause",
+		"url": "http://github.com/estools/estraverse",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "estree-walker",
+		"version": "3.0.3",
+		"license": "MIT",
+		"url": "https://github.com/Rich-Harris/estree-walker",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "esutils",
+		"version": "2.0.3",
+		"license": "BSD-2-Clause",
+		"url": "http://github.com/estools/esutils",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "expect-type",
+		"version": "1.4.0",
+		"license": "Apache-2.0",
+		"url": "https://github.com/mmkal/expect-type",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "fast-deep-equal",
+		"version": "3.1.3",
+		"license": "MIT",
+		"url": "https://github.com/epoberezkin/fast-deep-equal",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "fast-json-stable-stringify",
+		"version": "2.1.0",
+		"license": "MIT",
+		"url": "git://github.com/epoberezkin/fast-json-stable-stringify",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "fast-levenshtein",
+		"version": "2.0.6",
+		"license": "MIT",
+		"url": "https://github.com/hiddentao/fast-levenshtein",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "fdir",
+		"version": "6.5.0",
+		"license": "MIT",
+		"url": "https://github.com/thecodrr/fdir",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "file-entry-cache",
+		"version": "8.0.0",
+		"license": "MIT",
+		"url": "jaredwray/file-entry-cache",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "find-up",
+		"version": "5.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/find-up",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "flat-cache",
+		"version": "4.0.1",
+		"license": "MIT",
+		"url": "jaredwray/flat-cache",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "flatted",
+		"version": "3.4.4",
+		"license": "ISC",
+		"url": "https://github.com/WebReflection/flatted",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "glob-parent",
+		"version": "6.0.2",
+		"license": "ISC",
+		"url": "gulpjs/glob-parent",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "globals",
+		"version": "16.5.0",
+		"license": "MIT",
+		"url": "sindresorhus/globals",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "globals",
+		"version": "17.10.0",
+		"license": "MIT",
+		"url": "sindresorhus/globals",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "graceful-fs",
+		"version": "4.2.11",
+		"license": "ISC",
+		"url": "https://github.com/isaacs/node-graceful-fs",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "happy-dom",
+		"version": "20.11.2",
+		"license": "MIT",
+		"url": "https://github.com/capricorn86/happy-dom",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ignore",
+		"version": "5.3.2",
+		"license": "MIT",
+		"url": "git@github.com:kaelzhang/node-ignore",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ignore",
+		"version": "7.0.6",
+		"license": "MIT",
+		"url": "git@github.com:kaelzhang/node-ignore",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "imurmurhash",
+		"version": "0.1.4",
+		"license": "MIT",
+		"url": "https://github.com/jensyt/imurmurhash-js",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "indent-string",
+		"version": "4.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/indent-string",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "inline-style-parser",
+		"version": "0.2.7",
+		"license": "MIT",
+		"url": "https://github.com/remarkablemark/inline-style-parser",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "is-extglob",
+		"version": "2.1.1",
+		"license": "MIT",
+		"url": "jonschlinkert/is-extglob",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "is-glob",
+		"version": "4.0.3",
+		"license": "MIT",
+		"url": "micromatch/is-glob",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "is-reference",
+		"version": "3.0.3",
+		"license": "MIT",
+		"url": "https://github.com/Rich-Harris/is-reference",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "isexe",
+		"version": "2.0.0",
+		"license": "ISC",
+		"url": "https://github.com/isaacs/isexe",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "jiti",
+		"version": "2.7.0",
+		"license": "MIT",
+		"url": "unjs/jiti",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "js-tokens",
+		"version": "4.0.0",
+		"license": "MIT",
+		"url": "lydell/js-tokens",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "json-buffer",
+		"version": "3.0.1",
+		"license": "MIT",
+		"url": "git://github.com/dominictarr/json-buffer",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "json-schema-traverse",
+		"version": "0.4.1",
+		"license": "MIT",
+		"url": "https://github.com/epoberezkin/json-schema-traverse",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "json-stable-stringify-without-jsonify",
+		"version": "1.0.1",
+		"license": "MIT",
+		"url": "git://github.com/samn/json-stable-stringify",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "keyv",
+		"version": "4.5.4",
+		"license": "MIT",
+		"url": "https://github.com/jaredwray/keyv",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "kleur",
+		"version": "4.1.5",
+		"license": "MIT",
+		"url": "lukeed/kleur",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "known-css-properties",
+		"version": "0.37.0",
+		"license": "MIT",
+		"url": "known-css/known-css-properties",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "levn",
+		"version": "0.4.1",
+		"license": "MIT",
+		"url": "git://github.com/gkz/levn",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "lightningcss",
+		"version": "1.32.0",
+		"license": "MPL-2.0",
+		"url": "https://github.com/parcel-bundler/lightningcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "lightningcss",
+		"version": "1.33.0",
+		"license": "MPL-2.0",
+		"url": "https://github.com/parcel-bundler/lightningcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "lightningcss-win32-x64-msvc",
+		"version": "1.32.0",
+		"license": "MPL-2.0",
+		"url": "https://github.com/parcel-bundler/lightningcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "lightningcss-win32-x64-msvc",
+		"version": "1.33.0",
+		"license": "MPL-2.0",
+		"url": "https://github.com/parcel-bundler/lightningcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "lilconfig",
+		"version": "2.1.0",
+		"license": "MIT",
+		"url": "https://github.com/antonk52/lilconfig",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "locate-character",
+		"version": "3.0.0",
+		"license": "MIT",
+		"url": "https://gitlab.com/Rich-Harris/locate-character",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "locate-path",
+		"version": "6.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/locate-path",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "lz-string",
+		"version": "1.5.0",
+		"license": "MIT",
+		"url": "https://github.com/pieroxy/lz-string",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "magic-string",
+		"version": "0.30.21",
+		"license": "MIT",
+		"url": "https://github.com/Rich-Harris/magic-string",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "magic-string",
+		"version": "1.1.1",
+		"license": "MIT",
+		"url": "https://github.com/Rich-Harris/magic-string",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "min-indent",
+		"version": "1.0.1",
+		"license": "MIT",
+		"url": "https://github.com/thejameskyle/min-indent",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "minimatch",
+		"version": "10.2.6",
+		"license": "BlueOak-1.0.0",
+		"url": "git@github.com:isaacs/minimatch",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "mode-watcher",
+		"version": "1.1.0",
+		"license": "MIT",
+		"url": "https://github.com/svecosystem/mode-watcher",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "mri",
+		"version": "1.2.0",
+		"license": "MIT",
+		"url": "lukeed/mri",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "mrmime",
+		"version": "2.0.1",
+		"license": "MIT",
+		"url": "lukeed/mrmime",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ms",
+		"version": "2.1.3",
+		"license": "MIT",
+		"url": "vercel/ms",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "nanoid",
+		"version": "3.3.18",
+		"license": "MIT",
+		"url": "ai/nanoid",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "natural-compare",
+		"version": "1.4.0",
+		"license": "MIT",
+		"url": "git://github.com/litejs/natural-compare-lite",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "obug",
+		"version": "2.1.4",
+		"license": "MIT",
+		"url": "https://github.com/sxzz/obug",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "optionator",
+		"version": "0.9.4",
+		"license": "MIT",
+		"url": "git://github.com/gkz/optionator",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "p-limit",
+		"version": "3.1.0",
+		"license": "MIT",
+		"url": "sindresorhus/p-limit",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "p-locate",
+		"version": "5.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/p-locate",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "path-exists",
+		"version": "4.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/path-exists",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "path-key",
+		"version": "3.1.1",
+		"license": "MIT",
+		"url": "sindresorhus/path-key",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "pathe",
+		"version": "2.0.3",
+		"license": "MIT",
+		"url": "unjs/pathe",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "picocolors",
+		"version": "1.1.1",
+		"license": "ISC",
+		"url": "alexeyraspopov/picocolors",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "picomatch",
+		"version": "4.0.5",
+		"license": "MIT",
+		"url": "micromatch/picomatch",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "postcss",
+		"version": "8.5.26",
+		"license": "MIT",
+		"url": "postcss/postcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "postcss-load-config",
+		"version": "3.1.4",
+		"license": "MIT",
+		"url": "postcss/postcss-load-config",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "postcss-safe-parser",
+		"version": "7.0.1",
+		"license": "MIT",
+		"url": "postcss/postcss-safe-parser",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "postcss-scss",
+		"version": "4.0.9",
+		"license": "MIT",
+		"url": "postcss/postcss-scss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "postcss-selector-parser",
+		"version": "7.1.5",
+		"license": "MIT",
+		"url": "https://github.com/postcss/postcss-selector-parser",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "prelude-ls",
+		"version": "1.2.1",
+		"license": "MIT",
+		"url": "git://github.com/gkz/prelude-ls",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "prettier",
+		"version": "3.9.6",
+		"license": "MIT",
+		"url": "prettier/prettier",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "prettier-plugin-svelte",
+		"version": "4.1.1",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/prettier-plugin-svelte",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "prettier-plugin-tailwindcss",
+		"version": "0.8.1",
+		"license": "MIT",
+		"url": "https://github.com/tailwindlabs/prettier-plugin-tailwindcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "pretty-format",
+		"version": "27.5.1",
+		"license": "MIT",
+		"url": "https://github.com/facebook/jest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "punycode",
+		"version": "2.3.1",
+		"license": "MIT",
+		"url": "https://github.com/mathiasbynens/punycode.js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "react-is",
+		"version": "17.0.2",
+		"license": "MIT",
+		"url": "https://github.com/facebook/react",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "readdirp",
+		"version": "4.1.2",
+		"license": "MIT",
+		"url": "git://github.com/paulmillr/readdirp",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "redent",
+		"version": "3.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/redent",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "rolldown",
+		"version": "1.2.3",
+		"license": "MIT",
+		"url": "https://github.com/rolldown/rolldown",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "runed",
+		"version": "0.35.1",
+		"license": "MIT",
+		"url": "https://github.com/svecosystem/runed",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "runed",
+		"version": "0.25.0",
+		"license": "UNKNOWN",
+		"url": "https://github.com/svecosystem/runed",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "runed",
+		"version": "0.23.4",
+		"license": "UNKNOWN",
+		"url": "https://github.com/svecosystem/runed",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "runed",
+		"version": "0.28.0",
+		"license": "MIT",
+		"url": "https://github.com/svecosystem/runed",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "sade",
+		"version": "1.8.1",
+		"license": "MIT",
+		"url": "lukeed/sade",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "semver",
+		"version": "7.8.5",
+		"license": "ISC",
+		"url": "https://github.com/npm/node-semver",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "set-cookie-parser",
+		"version": "3.1.2",
+		"license": "MIT",
+		"url": "nfriedly/set-cookie-parser",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "shebang-command",
+		"version": "2.0.0",
+		"license": "MIT",
+		"url": "kevva/shebang-command",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "shebang-regex",
+		"version": "3.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/shebang-regex",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "siginfo",
+		"version": "2.0.0",
+		"license": "ISC",
+		"url": "https://github.com/emilbayes/siginfo",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "sirv",
+		"version": "3.0.2",
+		"license": "MIT",
+		"url": "lukeed/sirv",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "source-map-js",
+		"version": "1.2.1",
+		"license": "BSD-3-Clause",
+		"url": "7rulnik/source-map-js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "stackback",
+		"version": "0.0.2",
+		"license": "MIT",
+		"url": "git://github.com/shtylman/node-stackback",
+		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "std-env",
+		"version": "4.2.0",
+		"license": "MIT",
+		"url": "unjs/std-env",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "strip-indent",
+		"version": "3.0.0",
+		"license": "MIT",
+		"url": "sindresorhus/strip-indent",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "style-to-object",
+		"version": "1.0.14",
+		"license": "MIT",
+		"url": "https://github.com/remarkablemark/style-to-object",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "svelte",
+		"version": "5.56.8",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/svelte",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "svelte-check",
+		"version": "4.7.5",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/language-tools",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "svelte-eslint-parser",
+		"version": "1.8.0",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/svelte-eslint-parser",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "svelte-sonner",
+		"version": "1.1.1",
+		"license": "MIT",
+		"url": "https://github.com/wobsoriano/svelte-sonner",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "svelte-toolbelt",
+		"version": "0.10.6",
+		"license": "UNKNOWN",
+		"url": "",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "svelte-toolbelt",
+		"version": "0.7.1",
+		"license": "UNKNOWN",
+		"url": "",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tabbable",
+		"version": "6.5.0",
+		"license": "MIT",
+		"url": "https://github.com/focus-trap/tabbable",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tailwind-merge",
+		"version": "3.6.0",
+		"license": "MIT",
+		"url": "https://github.com/dcastil/tailwind-merge",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tailwind-variants",
+		"version": "3.3.1",
+		"license": "MIT",
+		"url": "https://github.com/heroui-inc/tailwind-variants",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tailwindcss",
+		"version": "4.3.3",
+		"license": "MIT",
+		"url": "https://github.com/tailwindlabs/tailwindcss",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tapable",
+		"version": "2.3.3",
+		"license": "MIT",
+		"url": "http://github.com/webpack/tapable",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tinybench",
+		"version": "2.9.0",
+		"license": "MIT",
+		"url": "tinylibs/tinybench",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tinyexec",
+		"version": "1.3.0",
+		"license": "MIT",
+		"url": "https://github.com/tinylibs/tinyexec",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tinyglobby",
+		"version": "0.2.17",
+		"license": "MIT",
+		"url": "https://github.com/SuperchupuDev/tinyglobby",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tinyrainbow",
+		"version": "3.1.1",
+		"license": "MIT",
+		"url": "https://github.com/tinylibs/tinyrainbow",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "totalist",
+		"version": "3.0.1",
+		"license": "MIT",
+		"url": "lukeed/totalist",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ts-api-utils",
+		"version": "2.5.0",
+		"license": "MIT",
+		"url": "https://github.com/JoshuaKGoldberg/ts-api-utils",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "tslib",
+		"version": "2.8.1",
+		"license": "0BSD",
+		"url": "https://github.com/Microsoft/tslib",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "type-check",
+		"version": "0.4.0",
+		"license": "MIT",
+		"url": "git://github.com/gkz/type-check",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "typescript",
+		"version": "6.0.3",
+		"license": "Apache-2.0",
+		"url": "https://github.com/microsoft/TypeScript",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "typescript-eslint",
+		"version": "8.67.0",
+		"license": "MIT",
+		"url": "https://github.com/typescript-eslint/typescript-eslint",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "undici-types",
+		"version": "8.3.0",
+		"license": "MIT",
+		"url": "https://github.com/nodejs/undici",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "uri-js",
+		"version": "4.4.1",
+		"license": "BSD-2-Clause",
+		"url": "http://github.com/garycourt/uri-js",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "util-deprecate",
+		"version": "1.0.2",
+		"license": "MIT",
+		"url": "git://github.com/TooTallNate/util-deprecate",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "vite",
+		"version": "8.2.1",
+		"license": "MIT",
+		"url": "https://github.com/vitejs/vite",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "vitefu",
+		"version": "1.1.3",
+		"license": "MIT",
+		"url": "https://github.com/svitejs/vitefu",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "vitest",
+		"version": "4.1.10",
+		"license": "MIT",
+		"url": "https://github.com/vitest-dev/vitest",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "whatwg-mimetype",
+		"version": "3.0.0",
+		"license": "MIT",
+		"url": "jsdom/whatwg-mimetype",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "which",
+		"version": "2.0.2",
+		"license": "ISC",
+		"url": "git://github.com/isaacs/node-which",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "why-is-node-running",
+		"version": "2.3.0",
+		"license": "MIT",
+		"url": "https://github.com/mafintosh/why-is-node-running",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "word-wrap",
+		"version": "1.2.5",
+		"license": "MIT",
+		"url": "jonschlinkert/word-wrap",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "ws",
+		"version": "8.21.3",
+		"license": "MIT",
+		"url": "https://github.com/websockets/ws",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "yaml",
+		"version": "1.10.3",
+		"license": "ISC",
+		"url": "github:eemeli/yaml",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "yaml",
+		"version": "2.9.0",
+		"license": "ISC",
+		"url": "github:eemeli/yaml",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "yocto-queue",
+		"version": "0.1.0",
+		"license": "MIT",
+		"url": "sindresorhus/yocto-queue",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "zimmerframe",
+		"version": "1.1.4",
+		"license": "MIT",
+		"url": "https://github.com/sveltejs/zimmerframe",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "zod",
+		"version": "4.4.3",
+		"license": "MIT",
+		"url": "https://github.com/colinhacks/zod",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium",
+		"version": "prebuilt binary",
+		"license": "BSD-3-Clause AND Apache-2.0",
+		"url": "https://pdfium.googlesource.com/pdfium/",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "pdfium-binaries (build scripts)",
+		"version": "packaging",
+		"license": "MIT",
+		"url": "https://github.com/bblanchon/pdfium-binaries",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: abseil",
+		"version": "bundled in pdfium.dll",
+		"license": "Apache-2.0",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: agg23",
+		"version": "bundled in pdfium.dll",
+		"license": "see text",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: fast_float",
+		"version": "bundled in pdfium.dll",
+		"license": "MIT",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: freetype",
+		"version": "bundled in pdfium.dll",
+		"license": "FTL",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: icu",
+		"version": "bundled in pdfium.dll",
+		"license": "BSD-3-Clause AND Unicode-3.0 AND MIT",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: lcms",
+		"version": "bundled in pdfium.dll",
+		"license": "MIT",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: libjpeg_turbo.ijg",
+		"version": "bundled in pdfium.dll",
+		"license": "IJG",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: libjpeg_turbo.md",
+		"version": "bundled in pdfium.dll",
+		"license": "BSD-3-Clause AND IJG",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: libopenjpeg",
+		"version": "bundled in pdfium.dll",
+		"license": "BSD-2-Clause",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: libpng",
+		"version": "bundled in pdfium.dll",
+		"license": "Zlib",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: libtiff",
+		"version": "bundled in pdfium.dll",
+		"license": "see text",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: llvm-libc",
+		"version": "bundled in pdfium.dll",
+		"license": "Apache-2.0 AND MIT",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: simdutf",
+		"version": "bundled in pdfium.dll",
+		"license": "MIT",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	},
+	{
+		"kind": "vendored",
+		"name": "PDFium: zlib",
+		"version": "bundled in pdfium.dll",
+		"license": "Zlib",
+		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
+		"hasText": true
+	}
+]

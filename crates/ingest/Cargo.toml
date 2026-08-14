@@ -1,0 +1,28 @@
+[package]
+name = "openexamtrainer-ingest"
+description = "Extracts certification exam questions from PDF and VCE sources"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[features]
+default = ["pdfium"]
+pdfium = ["dep:pdfium-render", "dep:image", "dep:sha2"]
+
+[dependencies]
+regex.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+pdfium-render = { version = "0.9", optional = true }
+image = { version = "0.25", default-features = false, features = [
+	"png",
+], optional = true }
+sha2 = { version = "0.10", optional = true }
+
+[dev-dependencies]
+
+[[bin]]
+name = "examingest"
+required-features = ["pdfium"]

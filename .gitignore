@@ -1,0 +1,17 @@
+target/
+node_modules/
+build/
+dist/
+.svelte-kit/
+.vite/
+coverage/
+*.local
+
+# Prebuilt Pdfium (BSD-3), fetched by scripts/fetch-pdfium.ps1
+vendor/pdfium/
+
+# Prebuilt sherpa-onnx (Apache-2.0), fetched by scripts/fetch-sherpa.ps1
+vendor/sherpa-onnx/
+
+# Vendor exam material used as extraction fixtures. Never redistributed with the source.
+crates/ingest/tests/fixtures/

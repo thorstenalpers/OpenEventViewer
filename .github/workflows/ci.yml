@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A superseded run answers a question nobody is still asking, and the Windows runners are the slow
+# ones.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    # Windows only, on purpose. WebView2, the Windows Credential Manager, Windows speech synthesis
+    # and the win-x64 Pdfium build are the product, not an incidental host — there is no second
+    # platform whose green tick would mean anything.
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: cargo-${{ runner.os }}-
+
+      # Pdfium is BSD-3 and deliberately absent from the source tree. Cached because the fetch reads
+      # the GitHub API unauthenticated, and a rate limit there would fail a run with nothing wrong
+      # with it.
+      - name: Cache pdfium
+        uses: actions/cache@v4
+        with:
+          path: vendor/pdfium
+          key: pdfium-${{ hashFiles('scripts/fetch-pdfium.ps1') }}
+
+      - name: Fetch pdfium
+        run: ./scripts/fetch-pdfium.ps1
+
+      - run: npm ci
+
+      # Formatting first: it needs nothing built and it is the failure you fix in one command.
+      - run: cargo fmt --all -- --check
+      - run: npm run lint
+      - run: npm run check
+      - run: npm test
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+
+      # Two things this step does *not* prove, both by design rather than oversight:
+      #
+      # The ingest fixture tests skip themselves when the vendor exam PDFs are missing, and they are
+      # missing here — that material is gitignored and never redistributed. Those tests reporting ok
+      # in CI means they did not run. The extraction guarantee lives on a machine that has the files.
+      #
+      # `the_local_binary_answers` is `#[ignore]`d and stays that way: it spends a real request.
+      - run: cargo test --workspace
+
+  bundle:
+    # The installer, built the way a user would receive it. Skipped on pull requests: it is the slow
+    # job, and a broken bundle is not something a review comment fixes.
+    if: github.event_name != 'pull_request'
+    needs: check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: bundle-cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: bundle-cargo-${{ runner.os }}-
+
+      - name: Cache pdfium
+        uses: actions/cache@v4
+        with:
+          path: vendor/pdfium
+          key: pdfium-${{ hashFiles('scripts/fetch-pdfium.ps1') }}
+
+      - name: Fetch pdfium
+        run: ./scripts/fetch-pdfium.ps1
+
+      - run: npm ci
+
+      # Regenerated rather than trusted: the notices ship inside the installer because MIT, BSD and
+      # ISC all require the notice to accompany the distribution, and a stale file quietly stops
+      # naming a dependency that was added after it was last written.
+      - run: npm run licenses
+
+      - run: npm run app:build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OpenExamTrainer-installer
+          path: target/release/bundle/nsis/*-setup.exe
+          if-no-files-found: error

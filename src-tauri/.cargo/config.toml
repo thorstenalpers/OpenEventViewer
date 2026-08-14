@@ -1,0 +1,16 @@
+# Checks build into a directory of their own.
+#
+# Cargo takes an exclusive lock on its target directory, and the sherpa build script copies its
+# DLLs beside the binary on every build — a running `npm run start` holds both. A check started
+# next to it then either waits for the lock or dies on a locked DLL, which is what
+# "os error 32: used by another process" means here. A separate directory shares neither. It costs
+# one extra compile and a few gigabytes; it buys the ability to check while the app is open.
+#
+# One catch for the tests that actually load sherpa: nothing copies the DLLs into this directory,
+# and Windows then finds `C:\WINDOWS\system32\onnxruntime.dll` — an older build that dies at the
+# first call with "API version 27 is not available". Before running those, copy them across:
+#
+#   Copy-Item vendor\sherpa-onnx\bin\*.dll target\lint\debug\deps -Force
+[alias]
+lint = "clippy --target-dir target/lint --all-targets -- -D warnings"
+verify = "test --target-dir target/lint --lib"
