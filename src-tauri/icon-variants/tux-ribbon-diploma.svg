@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024">
+  <title>OpenExamTrainer — the certificate with its ribbon hanging past the edge</title>
+  <!--
+    Apply with:
+      scripts/set-icon.ps1 tux-ribbon-diploma
+    Black on an opaque white square rather than black on transparency: a transparent monochrome
+    mark disappears into a dark taskbar. Cap, penguin and certificate are one group, so the tilt
+    and the size are set once and nothing drifts out of register.
+  -->
+  <rect width="100" height="100" rx="22" fill="#fff"/>
+
+  <g transform="translate(50,53) rotate(-8) scale(0.7) translate(-50,-50)">
+    <ellipse cx="32" cy="88" rx="15" ry="7"/>
+    <ellipse cx="68" cy="88" rx="15" ry="7"/>
+    <path d="M50 8c15 0 24 12 24 26 0 6-2 9 2 16 4 8 9 17 9 26 0 9-15 16-35 16s-35-7-35-16c0-9 5-18 9-26 4-7 2-10 2-16 0-14 9-26 24-26Z"/>
+    <ellipse cx="50" cy="70" rx="21" ry="22" fill="#fff"/>
+    <circle cx="42" cy="29" r="7" fill="#fff"/>
+    <circle cx="58" cy="29" r="7" fill="#fff"/>
+    <circle cx="44" cy="30" r="3"/>
+    <circle cx="56" cy="30" r="3"/>
+    <path d="M50 37c6 0 10 2 10 5s-4 5-10 5-10-2-10-5 4-5 10-5Z" fill="#fff"/>
+    <path d="M50 -7 81 5 50 17 19 5Z"/>
+    <path d="M22 7v12" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="22" cy="22" r="4.5"/>
+    <g transform="rotate(-12 74 66)">
+      <rect x="55" y="50" width="38" height="28" rx="2.5" fill="#fff" stroke="#000" stroke-width="4"/>
+      <path d="M62 60h24M62 69h15" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <circle cx="66" cy="82" r="9" fill="#fff" stroke="#000" stroke-width="4"/>
+    <path d="M61 89 58 99l8-4 8 4-3-10" fill="#fff" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+</svg>
