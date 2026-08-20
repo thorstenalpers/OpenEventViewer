@@ -2,6 +2,7 @@
 	import { setMode, userPrefersMode } from 'mode-watcher';
 	import DownloadIcon from '@lucide/svelte/icons/download';
 	import PlayIcon from '@lucide/svelte/icons/play';
+	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 	import {
 		Card,
 		CardContent,
@@ -209,20 +210,32 @@
 							{t.settings.voiceStopPreview}
 						</Button>
 					{:else}
-						<Select
-							bind:value={sampleKind}
-							options={sampleOptions}
-							aria-label={t.settings.voiceSampleLabel}
-							class="w-52"
-						/>
-						<Button
-							size="sm"
-							variant="outline"
-							onclick={() => voice.preview(samples, settings.locale)}
-						>
-							<PlayIcon class="size-4" />
-							{t.settings.voicePreview}
-						</Button>
+						<!-- A split button: the play half acts, the other half chooses what it plays. The
+						     right half is a bare <select> rather than a menu built from divs, so it keeps
+						     the platform's own popup, its keyboard handling and its screen reader role. -->
+						<div class="inline-flex items-stretch">
+							<Button
+								size="sm"
+								variant="outline"
+								class="rounded-e-none"
+								onclick={() => voice.preview(samples, settings.locale)}
+							>
+								<PlayIcon class="size-4" />
+								{t.settings.voicePreview}
+							</Button>
+							<div class="relative inline-flex items-center">
+								<select
+									bind:value={sampleKind}
+									aria-label={t.settings.voiceSampleLabel}
+									class="h-8 max-w-48 cursor-pointer appearance-none truncate rounded-md rounded-s-none border border-s-0 border-input bg-background ps-2 pe-7 text-xs shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+								>
+									{#each sampleOptions as option (option.value)}
+										<option value={option.value}>{option.label}</option>
+									{/each}
+								</select>
+								<ChevronDownIcon class="pointer-events-none absolute end-2 size-3.5 opacity-60" />
+							</div>
+						</div>
 					{/if}
 				</div>
 			</div>
