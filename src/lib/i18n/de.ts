@@ -412,14 +412,14 @@ export const de: Translations = {
 		voiceWindows: 'Windows-Stimme',
 		voicePreview: 'Probehören',
 		voiceStopPreview: 'Stopp',
-		voiceSampleLabel: 'Textprobe',
+		voiceSampleLabel: 'Text',
 		voiceSamples: {
 			all: 'Alle nacheinander',
 			pangram: 'Pangramm',
 			balanced: 'Pangramm mit Umlauten',
-			passage: 'Lautprobe',
-			named: 'Die Stimme, benannt',
-			question: 'Eine Frage aus deinem Material'
+			passage: 'Nordwind und Sonne',
+			named: 'Name der Stimme',
+			question: 'Aus deinem Material'
 		},
 		voiceSpoken: {
 			pangram: 'Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.',

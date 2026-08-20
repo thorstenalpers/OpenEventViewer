@@ -56,7 +56,7 @@
 	}
 </script>
 
-<div class="flex max-w-4xl flex-col gap-3 p-4 sm:p-6">
+<div class="flex flex-col gap-3 p-4 sm:p-6">
 	<header>
 		<h1 class="text-xl font-semibold">{t.info.title}</h1>
 		<p class="text-sm text-muted-foreground">{t.info.subtitle}</p>

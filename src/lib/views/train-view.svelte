@@ -99,7 +99,7 @@
 	}
 </script>
 
-<div class="mx-auto flex max-w-3xl flex-col gap-3 p-4 sm:p-6">
+<div class="flex flex-col gap-3 p-4 sm:p-6">
 	{#if !binder}
 		<Card>
 			<CardHeader>

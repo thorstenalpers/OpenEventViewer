@@ -406,14 +406,14 @@ export const en = {
 		voiceWindows: 'Windows voice',
 		voicePreview: 'Preview',
 		voiceStopPreview: 'Stop',
-		voiceSampleLabel: 'Sample',
+		voiceSampleLabel: 'Text',
 		voiceSamples: {
-			all: 'All of them, one after another',
+			all: 'All, one after another',
 			pangram: 'Pangram',
-			balanced: 'Phonetically balanced sentence',
-			passage: 'Phonetic passage',
-			named: 'The voice, named',
-			question: 'A question from your material'
+			balanced: 'Balanced sentence',
+			passage: 'The North Wind and the Sun',
+			named: "The voice's own name",
+			question: 'From your material'
 		},
 		voiceSpoken: {
 			pangram: 'The quick brown fox jumps over the lazy dog.',

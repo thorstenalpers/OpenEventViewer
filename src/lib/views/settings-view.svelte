@@ -3,6 +3,7 @@
 	import DownloadIcon from '@lucide/svelte/icons/download';
 	import PlayIcon from '@lucide/svelte/icons/play';
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
+	import SquareIcon from '@lucide/svelte/icons/square';
 	import {
 		Card,
 		CardContent,
@@ -24,7 +25,7 @@
 
 	const t = $derived(i18n.t);
 
-	let sampleKind = $state('all');
+	let sampleKind = $state('pangram');
 	let ownQuestion = $state<string | null>(null);
 
 	// The one sample that is not written here: what the voice will actually be asked to read. Only
@@ -52,18 +53,20 @@
 		...(ownQuestion ? { question: ownQuestion } : {})
 	});
 
+	// Every sample first, then the one that plays the lot: it is the long option, and an option that
+	// takes half a minute does not belong where the eye lands first.
 	const sampleOptions = $derived([
-		{ value: 'all', label: t.settings.voiceSamples.all },
 		...Object.keys(spokenTexts).map((key) => ({
 			value: key,
 			label: t.settings.voiceSamples[key as keyof typeof t.settings.voiceSamples]
-		}))
+		})),
+		{ value: 'all', label: t.settings.voiceSamples.all }
 	]);
 
 	// The question sample disappears with the project it came from; a stale choice would leave the
 	// dropdown showing nothing.
 	$effect(() => {
-		if (!sampleOptions.some((option) => option.value === sampleKind)) sampleKind = 'all';
+		if (!sampleOptions.some((option) => option.value === sampleKind)) sampleKind = 'pangram';
 	});
 
 	const samples = $derived<VoiceSample[]>(
@@ -156,13 +159,15 @@
 </script>
 
 {#snippet describe(title: string, detail: string)}
-	<span class="flex min-w-0 flex-1 flex-col">
+	<!-- A floor rather than `min-w-0`: with none, the row never wraps and the description is squeezed
+	     into a column four lines deep instead of the control dropping to the next line. -->
+	<span class="flex min-w-64 flex-1 flex-col">
 		<span class="text-sm font-medium">{title}</span>
 		<span class="text-xs text-muted-foreground">{detail}</span>
 	</span>
 {/snippet}
 
-<div class="flex max-w-2xl flex-col gap-3 p-4 sm:p-6">
+<div class="flex flex-col gap-3 p-4 sm:p-6">
 	<h1 class="text-xl font-semibold">{t.settings.title}</h1>
 
 	<!-- One row per setting rather than one card per setting: five bordered boxes around five
@@ -196,7 +201,7 @@
 
 			<div class={ROW}>
 				{@render describe(t.settings.voice, t.settings.voiceBody)}
-				<div class="flex flex-wrap items-center gap-2">
+				<div class="flex min-w-0 flex-wrap items-center justify-end gap-2">
 					<Select
 						value={voice.choice}
 						options={voiceOptions}
@@ -205,38 +210,54 @@
 						aria-label={t.settings.voice}
 						class="w-56"
 					/>
-					{#if voice.speaking}
-						<Button size="sm" variant="outline" onclick={() => voice.stop()}>
-							{t.settings.voiceStopPreview}
-						</Button>
-					{:else}
-						<!-- A split button: the play half acts, the other half chooses what it plays. The
-						     right half is a bare <select> rather than a menu built from divs, so it keeps
-						     the platform's own popup, its keyboard handling and its screen reader role. -->
-						<div class="inline-flex items-stretch">
+					<!-- A split control: the chooser names the text, the button plays it, and one shared
+					     border makes them read as one thing. The button sits on the outside because it is
+					     the action, and the row puts the last child against the right edge.
+
+					     The chooser is a bare <select> rather than a menu built from divs, so it keeps the
+					     platform's own popup, its keyboard handling and its screen reader role. Its width
+					     is set rather than left to its content: a native select sizes to what it shows, and
+					     the seam would slide every time the choice changed. It may shrink below that when
+					     the window is narrow, because the button must not be pushed off the card.
+
+					     Only the button half swaps between play and stop. Replacing the whole control
+					     while a sample runs would take the chooser off screen for as long as it plays. -->
+					<span class="text-xs text-muted-foreground">{t.settings.voiceSampleLabel}</span>
+					<div class="inline-flex max-w-full items-stretch">
+						<div class="relative inline-flex w-44 min-w-0 shrink items-center">
+							<select
+								bind:value={sampleKind}
+								aria-label={t.settings.voiceSampleLabel}
+								class="h-8 w-full min-w-0 cursor-pointer appearance-none truncate rounded-md rounded-e-none border border-e-0 border-input bg-background ps-2.5 pe-7 text-xs shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+							>
+								{#each sampleOptions as option (option.value)}
+									<option value={option.value}>{option.label}</option>
+								{/each}
+							</select>
+							<ChevronDownIcon class="pointer-events-none absolute end-2 size-3.5 opacity-60" />
+						</div>
+						{#if voice.speaking}
 							<Button
 								size="sm"
 								variant="outline"
-								class="rounded-e-none"
+								class="min-w-28 shrink-0 rounded-s-none"
+								onclick={() => voice.stop()}
+							>
+								<SquareIcon class="size-3.5 fill-current" />
+								{t.settings.voiceStopPreview}
+							</Button>
+						{:else}
+							<Button
+								size="sm"
+								variant="outline"
+								class="min-w-28 shrink-0 rounded-s-none"
 								onclick={() => voice.preview(samples, settings.locale)}
 							>
 								<PlayIcon class="size-4" />
 								{t.settings.voicePreview}
 							</Button>
-							<div class="relative inline-flex items-center">
-								<select
-									bind:value={sampleKind}
-									aria-label={t.settings.voiceSampleLabel}
-									class="h-8 max-w-48 cursor-pointer appearance-none truncate rounded-md rounded-s-none border border-s-0 border-input bg-background ps-2 pe-7 text-xs shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-								>
-									{#each sampleOptions as option (option.value)}
-										<option value={option.value}>{option.label}</option>
-									{/each}
-								</select>
-								<ChevronDownIcon class="pointer-events-none absolute end-2 size-3.5 opacity-60" />
-							</div>
-						</div>
-					{/if}
+						{/if}
+					</div>
 				</div>
 			</div>
 
