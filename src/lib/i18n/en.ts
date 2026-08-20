@@ -412,7 +412,7 @@ export const en = {
 			pangram: 'Pangram',
 			balanced: 'Balanced sentence',
 			passage: 'The North Wind and the Sun',
-			named: "The voice's own name",
+			named: 'The voice introduces itself',
 			question: 'From your material'
 		},
 		voiceSpoken: {
@@ -422,7 +422,7 @@ export const en = {
 				'The North Wind and the Sun were disputing which was the stronger, when a traveller came along wrapped in a warm cloak.',
 			named: (name: string) => `You are listening to ${name}.`
 		},
-		voiceSystem: 'the system voice',
+		voiceSystem: 'the Windows voice for this language',
 		voicePacks: 'Voice packs',
 		voicePacksBody:
 			'Downloaded once and then read offline, unlike the Windows voices, which are installed per language and rarely include German.',

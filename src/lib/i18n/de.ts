@@ -418,7 +418,7 @@ export const de: Translations = {
 			pangram: 'Pangramm',
 			balanced: 'Pangramm mit Umlauten',
 			passage: 'Nordwind und Sonne',
-			named: 'Name der Stimme',
+			named: 'Die Stimme stellt sich vor',
 			question: 'Aus deinem Material'
 		},
 		voiceSpoken: {
@@ -428,7 +428,7 @@ export const de: Translations = {
 				'Einst stritten sich Nordwind und Sonne, wer von ihnen beiden wohl der Stärkere wäre, als ein Wanderer daherkam, der in einen warmen Mantel gehüllt war.',
 			named: (name: string) => `Du hörst ${name}.`
 		},
-		voiceSystem: 'die Systemstimme',
+		voiceSystem: 'die Windows-Stimme für diese Sprache',
 		voicePacks: 'Stimmpakete',
 		voicePacksBody:
 			'Einmal geladen, danach offline — anders als die Windows-Stimmen, die pro Sprache installiert werden und selten eine deutsche dabeihaben.',
