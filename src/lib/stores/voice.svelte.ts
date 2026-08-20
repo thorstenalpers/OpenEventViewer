@@ -108,6 +108,9 @@ class VoiceStore {
 	/**
 	 * Reads one sentence out loud with the chosen voice, so it can be heard before it is used.
 	 *
+	 * The sentence is the pangram every platform reaches for, one per language. A friendlier line
+	 * would leave whole groups of sounds unheard, and a voice is judged on the ones it gets wrong.
+	 *
 	 * The language reaches the host for the Windows voice, which is picked by language rather than
 	 * by name; a pack ignores it and reads in whatever it speaks.
 	 */

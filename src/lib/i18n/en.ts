@@ -406,8 +406,7 @@ export const en = {
 		voiceWindows: 'Windows voice',
 		voicePreview: 'Preview',
 		voiceStopPreview: 'Stop',
-		voiceSample:
-			'Hi, I am the new voice of your AI assistant! I will be the voice of your podcasts.',
+		voiceSample: 'The quick brown fox jumps over the lazy dog.',
 		voicePacks: 'Voice packs',
 		voicePacksBody:
 			'Downloaded once and then read offline, unlike the Windows voices, which are installed per language and rarely include German.',

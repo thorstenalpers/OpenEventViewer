@@ -412,8 +412,7 @@ export const de: Translations = {
 		voiceWindows: 'Windows-Stimme',
 		voicePreview: 'Probehören',
 		voiceStopPreview: 'Stopp',
-		voiceSample:
-			'Hi, ich bin die neue Stimme Ihrer KI Assistenz! Ich werde die Stimme für ihre Podcasts sein.',
+		voiceSample: 'Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.',
 		voicePacks: 'Stimmpakete',
 		voicePacksBody:
 			'Einmal geladen, danach offline — anders als die Windows-Stimmen, die pro Sprache installiert werden und selten eine deutsche dabeihaben.',
