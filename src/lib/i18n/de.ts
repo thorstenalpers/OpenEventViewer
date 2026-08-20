@@ -412,7 +412,23 @@ export const de: Translations = {
 		voiceWindows: 'Windows-Stimme',
 		voicePreview: 'Probehören',
 		voiceStopPreview: 'Stopp',
-		voiceSample: 'Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.',
+		voiceSampleLabel: 'Textprobe',
+		voiceSamples: {
+			all: 'Alle nacheinander',
+			pangram: 'Pangramm',
+			balanced: 'Pangramm mit Umlauten',
+			passage: 'Lautprobe',
+			named: 'Die Stimme, benannt',
+			question: 'Eine Frage aus deinem Material'
+		},
+		voiceSpoken: {
+			pangram: 'Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.',
+			balanced: 'Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.',
+			passage:
+				'Einst stritten sich Nordwind und Sonne, wer von ihnen beiden wohl der Stärkere wäre, als ein Wanderer daherkam, der in einen warmen Mantel gehüllt war.',
+			named: (name: string) => `Du hörst ${name}.`
+		},
+		voiceSystem: 'die Systemstimme',
 		voicePacks: 'Stimmpakete',
 		voicePacksBody:
 			'Einmal geladen, danach offline — anders als die Windows-Stimmen, die pro Sprache installiert werden und selten eine deutsche dabeihaben.',

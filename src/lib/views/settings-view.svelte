@@ -18,9 +18,61 @@
 	import { i18n, LOCALES, isLocale } from '$lib/i18n/index.svelte';
 	import { THEME_PRESETS, isThemePreset } from '$lib/theme/preset';
 	import { settings } from '$lib/stores/settings.svelte';
-	import { voice } from '$lib/stores/voice.svelte';
+	import { library } from '$lib/stores/library.svelte';
+	import { voice, type VoiceSample } from '$lib/stores/voice.svelte';
 
 	const t = $derived(i18n.t);
+
+	let sampleKind = $state('all');
+	let ownQuestion = $state<string | null>(null);
+
+	// The one sample that is not written here: what the voice will actually be asked to read. Only
+	// the first line of it, because a stem can run to a paragraph and this is a preview.
+	$effect(() => {
+		const binder = library.selected;
+		if (!binder || binder.questionCount === 0) {
+			ownQuestion = null;
+			return;
+		}
+		void call('list_questions', { binderId: binder.id })
+			.then((questions) => {
+				const first = questions[0];
+				const stem = (first?.stem.split('\n')[0] ?? '').trim();
+				ownQuestion = stem ? stem.slice(0, 200) : null;
+			})
+			.catch(() => (ownQuestion = null));
+	});
+
+	const spokenTexts = $derived<Record<string, string>>({
+		pangram: t.settings.voiceSpoken.pangram,
+		balanced: t.settings.voiceSpoken.balanced,
+		passage: t.settings.voiceSpoken.passage,
+		named: t.settings.voiceSpoken.named(voice.chosenLabel ?? t.settings.voiceSystem),
+		...(ownQuestion ? { question: ownQuestion } : {})
+	});
+
+	const sampleOptions = $derived([
+		{ value: 'all', label: t.settings.voiceSamples.all },
+		...Object.keys(spokenTexts).map((key) => ({
+			value: key,
+			label: t.settings.voiceSamples[key as keyof typeof t.settings.voiceSamples]
+		}))
+	]);
+
+	// The question sample disappears with the project it came from; a stale choice would leave the
+	// dropdown showing nothing.
+	$effect(() => {
+		if (!sampleOptions.some((option) => option.value === sampleKind)) sampleKind = 'all';
+	});
+
+	const samples = $derived<VoiceSample[]>(
+		sampleKind === 'all'
+			? Object.entries(spokenTexts).map(([key, text]) => ({
+					label: `${t.settings.voiceSamples[key as keyof typeof t.settings.voiceSamples]}.`,
+					text
+				}))
+			: [{ text: spokenTexts[sampleKind] ?? t.settings.voiceSpoken.pangram }]
+	);
 
 	const ROW = 'flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-3 py-2.5';
 
@@ -157,10 +209,16 @@
 							{t.settings.voiceStopPreview}
 						</Button>
 					{:else}
+						<Select
+							bind:value={sampleKind}
+							options={sampleOptions}
+							aria-label={t.settings.voiceSampleLabel}
+							class="w-52"
+						/>
 						<Button
 							size="sm"
 							variant="outline"
-							onclick={() => voice.preview(t.settings.voiceSample, settings.locale)}
+							onclick={() => voice.preview(samples, settings.locale)}
 						>
 							<PlayIcon class="size-4" />
 							{t.settings.voicePreview}

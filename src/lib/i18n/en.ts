@@ -406,7 +406,23 @@ export const en = {
 		voiceWindows: 'Windows voice',
 		voicePreview: 'Preview',
 		voiceStopPreview: 'Stop',
-		voiceSample: 'The quick brown fox jumps over the lazy dog.',
+		voiceSampleLabel: 'Sample',
+		voiceSamples: {
+			all: 'All of them, one after another',
+			pangram: 'Pangram',
+			balanced: 'Phonetically balanced sentence',
+			passage: 'Phonetic passage',
+			named: 'The voice, named',
+			question: 'A question from your material'
+		},
+		voiceSpoken: {
+			pangram: 'The quick brown fox jumps over the lazy dog.',
+			balanced: 'The birch canoe slid on the smooth planks.',
+			passage:
+				'The North Wind and the Sun were disputing which was the stronger, when a traveller came along wrapped in a warm cloak.',
+			named: (name: string) => `You are listening to ${name}.`
+		},
+		voiceSystem: 'the system voice',
 		voicePacks: 'Voice packs',
 		voicePacksBody:
 			'Downloaded once and then read offline, unlike the Windows voices, which are installed per language and rarely include German.',

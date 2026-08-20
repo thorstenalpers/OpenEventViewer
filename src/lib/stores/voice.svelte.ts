@@ -2,6 +2,17 @@ import { call } from '$lib/bridge/client';
 import type { PodcastVoice, VoicePack } from '$lib/bridge/contract';
 import { subscribe } from '$lib/bridge/events';
 
+/**
+ * One thing to read out.
+ *
+ * `label` is spoken before the text and is only set when several samples run in turn — a sample the
+ * reader picked by name does not need to announce itself.
+ */
+export interface VoiceSample {
+	label?: string;
+	text: string;
+}
+
 const VOICE_KEY = 'oet.voice';
 
 /** A pack speaker as one string, so it can be a `<select>` value and a stored preference at once. */
@@ -39,6 +50,7 @@ class VoiceStore {
 	);
 	speaking = $state(false);
 	error = $state<string | null>(null);
+	#stopped = false;
 
 	/** Called once from the layout, before the settings page paints. */
 	restore(): void {
@@ -106,25 +118,30 @@ class VoiceStore {
 	}
 
 	/**
-	 * Reads one sentence out loud with the chosen voice, so it can be heard before it is used.
+	 * Reads the samples out loud in turn, each announced by what kind of sample it is.
 	 *
-	 * The sentence is the pangram every platform reaches for, one per language. A friendlier line
-	 * would leave whole groups of sounds unheard, and a voice is judged on the ones it gets wrong.
+	 * One `voice_preview` per sample rather than one long string: the host returns when the sound
+	 * has finished, so awaiting them in turn is what puts a breath between them — and it is what
+	 * lets Stop take effect after the current sentence instead of at the end of all of them.
 	 *
 	 * The language reaches the host for the Windows voice, which is picked by language rather than
 	 * by name; a pack ignores it and reads in whatever it speaks.
 	 */
-	async preview(text: string, language: 'en' | 'de'): Promise<void> {
+	async preview(samples: VoiceSample[], language: 'en' | 'de'): Promise<void> {
 		const voice = this.chosen;
 		this.error = null;
 		this.speaking = true;
+		this.#stopped = false;
 		try {
-			await call('voice_preview', {
-				id: voice?.packId ?? '',
-				speaker: voice?.speaker ?? 0,
-				text,
-				language
-			});
+			for (const sample of samples) {
+				if (this.#stopped) break;
+				await call('voice_preview', {
+					id: voice?.packId ?? '',
+					speaker: voice?.speaker ?? 0,
+					text: sample.label ? `${sample.label} ${sample.text}` : sample.text,
+					language
+				});
+			}
 		} catch (caught) {
 			this.error = message(caught);
 		} finally {
@@ -133,6 +150,9 @@ class VoiceStore {
 	}
 
 	stop(): void {
+		// Set before the call goes out: the host cuts the sentence that is playing, and this is what
+		// stops the loop above from starting the next one.
+		this.#stopped = true;
 		void call('voice_stop', {}).catch(() => {});
 	}
 
@@ -146,6 +166,11 @@ class VoiceStore {
 		if (typeof localStorage === 'undefined') return;
 		if (value === '') localStorage.removeItem(VOICE_KEY);
 		else localStorage.setItem(VOICE_KEY, value);
+	}
+
+	/** What the chosen voice is called, for the sample that names it. Null for the Windows voice. */
+	get chosenLabel(): string | null {
+		return this.speakers.find((speaker) => speaker.value === this.choice)?.label ?? null;
 	}
 
 	/** The chosen voice as the podcast takes it, or null for the Windows voice. */
