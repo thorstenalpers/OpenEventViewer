@@ -1,8 +1,11 @@
 import type {
+	Bundle,
 	CommandArgs,
 	CommandName,
 	EventFilter,
 	EventRecord,
+	Incident,
+	IncidentKind,
 	LogEntry,
 	Settings
 } from './contract';
@@ -359,6 +362,102 @@ function renderForPrompt(events: EventRecord[]): string {
 		.join('\n');
 }
 
+/** The same signatures the host carries, so the fixture finds what a real machine would. */
+const SIGNATURES: { provider: string; ids: number[]; kind: IncidentKind }[] = [
+	{ provider: 'Microsoft-Windows-Kernel-Power', ids: [41, 137], kind: 'unexpectedShutdown' },
+	{ provider: 'EventLog', ids: [6008], kind: 'unexpectedShutdown' },
+	{ provider: 'BugCheck', ids: [1001], kind: 'bugCheck' },
+	{ provider: 'Microsoft-Windows-WHEA-Logger', ids: [17, 18, 19, 47], kind: 'hardwareError' },
+	{ provider: 'Application Hang', ids: [1002], kind: 'appHang' },
+	{ provider: 'Application Error', ids: [1000], kind: 'appCrash' },
+	{
+		provider: 'Service Control Manager',
+		ids: [7000, 7001, 7011, 7031, 7034],
+		kind: 'serviceFailure'
+	},
+	{ provider: 'disk', ids: [7, 11, 51, 153], kind: 'diskError' },
+	{ provider: 'Ntfs', ids: [55, 98, 140], kind: 'ntfs' },
+	{ provider: 'Display', ids: [4101], kind: 'displayTdr' },
+	{ provider: 'nvlddmkm', ids: [13, 14], kind: 'displayTdr' },
+	{ provider: 'Microsoft-Windows-Kernel-Processor-Power', ids: [37], kind: 'processorPower' }
+];
+
+const NOISE = ['DCOM', 'Microsoft-Windows-DistributedCOM'];
+const BUNDLE_BEFORE_MS = 15 * 60 * 1000;
+const BUNDLE_AFTER_MS = 2 * 60 * 1000;
+const COLLAPSE_MS = 60 * 1000;
+
+function classify(event: EventRecord): IncidentKind | null {
+	return (
+		SIGNATURES.find(
+			(signature) =>
+				signature.provider.toLowerCase() === event.provider.toLowerCase() &&
+				signature.ids.includes(event.eventId)
+		)?.kind ?? null
+	);
+}
+
+function headlineOf(event: EventRecord): string {
+	const first = event.message.split('\n').find((line) => line.trim().length > 0) ?? '';
+	return first.trim().length <= 160 ? first.trim() : `${first.trim().slice(0, 159)}…`;
+}
+
+function findIncidents(since: string): Incident[] {
+	const found: Incident[] = [];
+	for (const event of events().filter((candidate) => candidate.timeCreated >= since)) {
+		const kind = classify(event);
+		if (!kind) continue;
+		const collapsed = found.some(
+			(held) =>
+				held.kind === kind &&
+				Math.abs(Date.parse(held.time) - Date.parse(event.timeCreated)) <= COLLAPSE_MS
+		);
+		if (collapsed) continue;
+		found.push({
+			id: `${event.channel}:${event.recordId}`,
+			time: event.timeCreated,
+			kind,
+			headline: headlineOf(event),
+			event
+		});
+	}
+	return found;
+}
+
+function bundleFor(channel: string, recordId: number): Bundle {
+	const found = events().find((event) => event.channel === channel && event.recordId === recordId);
+	if (!found) throw new Error(`${channel} no longer holds event ${recordId}`);
+	const kind = classify(found);
+	if (!kind) {
+		throw new Error(
+			`${found.provider} event ${found.eventId} is not one of the incidents this page knows about`
+		);
+	}
+
+	const at = Date.parse(found.timeCreated);
+	const from = new Date(at - BUNDLE_BEFORE_MS).toISOString();
+	const to = new Date(at + BUNDLE_AFTER_MS).toISOString();
+	const inWindow = events()
+		.filter((event) => event.timeCreated >= from && event.timeCreated <= to)
+		.filter((event) => event.level <= 3 && event.level >= 1)
+		.filter((event) => !NOISE.some((name) => name.toLowerCase() === event.provider.toLowerCase()))
+		.slice(0, 500);
+
+	return {
+		incident: {
+			id: `${channel}:${recordId}`,
+			time: found.timeCreated,
+			kind,
+			headline: headlineOf(found),
+			event: found
+		},
+		from,
+		to,
+		events: inWindow,
+		prompt: renderForPrompt(inWindow)
+	};
+}
+
 export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): unknown {
 	switch (name) {
 		case 'events_channels':
@@ -398,6 +497,17 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 				`${last.length} characters long and mentioned ` +
 				`${(last.match(/EventID \d+/g) ?? []).length} events.`
 			);
+		}
+
+		case 'diagnose_incidents': {
+			const { days } = args as CommandArgs['diagnose_incidents'];
+			const newest = Date.parse(events()[0]?.timeCreated ?? new Date().toISOString());
+			return findIncidents(new Date(newest - days * 24 * 60 * 60 * 1000).toISOString());
+		}
+
+		case 'diagnose_bundle': {
+			const { channel, recordId } = args as CommandArgs['diagnose_bundle'];
+			return bundleFor(channel, recordId);
 		}
 
 		case 'get_settings':

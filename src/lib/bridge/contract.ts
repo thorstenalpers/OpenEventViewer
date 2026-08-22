@@ -64,6 +64,40 @@ export const queryResult = z.object({
 });
 export type QueryResult = z.infer<typeof queryResult>;
 
+export const incidentKind = z.enum([
+	'unexpectedShutdown',
+	'bugCheck',
+	'hardwareError',
+	'appHang',
+	'appCrash',
+	'serviceFailure',
+	'diskError',
+	'ntfs',
+	'displayTdr',
+	'processorPower'
+]);
+export type IncidentKind = z.infer<typeof incidentKind>;
+
+export const incident = z.object({
+	/** `{channel}:{recordId}` — a record id is unique within its channel, not across the machine. */
+	id: z.string(),
+	time: z.string(),
+	kind: incidentKind,
+	headline: z.string(),
+	event: eventRecord
+});
+export type Incident = z.infer<typeof incident>;
+
+export const bundle = z.object({
+	incident,
+	from: z.string(),
+	to: z.string(),
+	events: z.array(eventRecord),
+	/** Exactly what the assistant would be given. */
+	prompt: z.string()
+});
+export type Bundle = z.infer<typeof bundle>;
+
 export const settings = z.object({
 	theme: z.enum(['system', 'light', 'dark']),
 	showLogs: z.boolean().default(false),
@@ -93,6 +127,8 @@ export const commands = {
 	events_xml: { response: z.string() },
 	events_render: { response: z.string() },
 	assistant_chat: { response: z.string() },
+	diagnose_incidents: { response: z.array(incident) },
+	diagnose_bundle: { response: bundle },
 	get_settings: { response: settings },
 	set_settings: { response: settings },
 	log_entries: { response: z.array(logEntry) },
@@ -113,6 +149,8 @@ export interface CommandArgs {
 	events_xml: { channel: string; recordId: number };
 	events_render: { events: EventRecord[] };
 	assistant_chat: { source: AssistantSource; messages: ChatMessage[] };
+	diagnose_incidents: { days: number };
+	diagnose_bundle: { channel: string; recordId: number };
 	get_settings: Record<string, never>;
 	set_settings: { settings: Settings };
 	log_entries: Record<string, never>;

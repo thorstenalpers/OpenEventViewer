@@ -3,6 +3,7 @@ export const en = {
 		tagline: 'Windows event logs',
 		events: 'Events',
 		assistant: 'Assistant',
+		diagnose: 'Diagnose',
 		log: 'Log',
 		settings: 'Settings',
 		info: 'Info',
@@ -62,6 +63,32 @@ export const en = {
 			channel: 'Channel',
 			computer: 'Computer',
 			message: 'Message'
+		}
+	},
+	diagnose: {
+		title: 'Diagnose',
+		subtitle:
+			'Scans the log for the events a machine writes when something went wrong, then pulls the quarter of an hour around one of them.',
+		days: (count: number) => (count === 1 ? 'Last day' : `Last ${count} days`),
+		scan: 'Scan',
+		scanning: 'Scanning…',
+		nothing: 'Nothing found. Scan a longer stretch, or take it as good news.',
+		window: (from: string, to: string) => `${from} — ${to}`,
+		inWindow: (count: number) => `${count} event${count === 1 ? '' : 's'} in the window`,
+		previewBundle: 'What the assistant would be given',
+		send: 'Send to the assistant',
+		question: 'What happened here, and what should I check next?',
+		kinds: {
+			unexpectedShutdown: 'Unexpected shutdown',
+			bugCheck: 'Bug check',
+			hardwareError: 'Hardware error',
+			appHang: 'Application hang',
+			appCrash: 'Application crash',
+			serviceFailure: 'Service failure',
+			diskError: 'Disk error',
+			ntfs: 'File system',
+			displayTdr: 'Display driver reset',
+			processorPower: 'Processor throttled'
 		}
 	},
 	log: {

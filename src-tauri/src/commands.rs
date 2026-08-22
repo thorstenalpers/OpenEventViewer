@@ -3,6 +3,7 @@ use std::path::PathBuf;
 use tauri::{AppHandle, Manager, State};
 
 use crate::assistant;
+use crate::diagnose::{self, Bundle, Incident};
 use crate::dto::Settings;
 use crate::error::{AppError, AppResult};
 use crate::eventlog::{self, EventRecord, Filter, QueryResult};
@@ -81,6 +82,22 @@ pub async fn assistant_chat(
     messages: Vec<assistant::Message>,
 ) -> AppResult<String> {
     blocking(move || assistant::chat(source, &messages)).await
+}
+
+#[tauri::command]
+pub async fn diagnose_incidents(state: State<'_, AppState>, days: u32) -> AppResult<Vec<Incident>> {
+    let found = blocking(move || diagnose::incidents(days)).await?;
+    state.log.record(
+        crate::log::Level::Info,
+        "diagnose",
+        format!("{} incidents in the last {days} days", found.len()),
+    );
+    Ok(found)
+}
+
+#[tauri::command]
+pub async fn diagnose_bundle(channel: String, record_id: u64) -> AppResult<Bundle> {
+    blocking(move || diagnose::bundle(&channel, record_id)).await
 }
 
 #[tauri::command(async)]

@@ -1,5 +1,6 @@
 mod assistant;
 mod commands;
+mod diagnose;
 mod dto;
 mod error;
 mod eventlog;
@@ -53,6 +54,8 @@ pub fn run() {
             commands::events_xml,
             commands::events_render,
             commands::assistant_chat,
+            commands::diagnose_incidents,
+            commands::diagnose_bundle,
             commands::get_settings,
             commands::set_settings,
             commands::log_entries,

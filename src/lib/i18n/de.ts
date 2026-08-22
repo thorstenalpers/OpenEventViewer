@@ -5,6 +5,7 @@ export const de: Translations = {
 		tagline: 'Windows-Ereignisprotokolle',
 		events: 'Ereignisse',
 		assistant: 'Assistent',
+		diagnose: 'Diagnose',
 		log: 'Protokoll',
 		settings: 'Einstellungen',
 		info: 'Info',
@@ -65,6 +66,33 @@ export const de: Translations = {
 			channel: 'Kanal',
 			computer: 'Computer',
 			message: 'Meldung'
+		}
+	},
+	diagnose: {
+		title: 'Diagnose',
+		subtitle:
+			'Durchsucht das Protokoll nach den Ereignissen, die ein Rechner schreibt, wenn etwas schiefging, und holt dann die Viertelstunde rund um eines davon.',
+		days: (count: number) => (count === 1 ? 'Letzter Tag' : `Letzte ${count} Tage`),
+		scan: 'Suchen',
+		scanning: 'Sucht…',
+		nothing:
+			'Nichts gefunden. Such über einen längeren Zeitraum — oder nimm es als gute Nachricht.',
+		window: (from: string, to: string) => `${from} — ${to}`,
+		inWindow: (count: number) => `${count} Ereignis${count === 1 ? '' : 'se'} im Zeitfenster`,
+		previewBundle: 'Was der Assistent bekommen würde',
+		send: 'An den Assistenten schicken',
+		question: 'Was ist hier passiert, und was sollte ich als Nächstes prüfen?',
+		kinds: {
+			unexpectedShutdown: 'Unerwartetes Herunterfahren',
+			bugCheck: 'Bluescreen',
+			hardwareError: 'Hardwarefehler',
+			appHang: 'Programm hängt',
+			appCrash: 'Programmabsturz',
+			serviceFailure: 'Dienstfehler',
+			diskError: 'Datenträgerfehler',
+			ntfs: 'Dateisystem',
+			displayTdr: 'Grafiktreiber zurückgesetzt',
+			processorPower: 'Prozessor gedrosselt'
 		}
 	},
 	log: {
