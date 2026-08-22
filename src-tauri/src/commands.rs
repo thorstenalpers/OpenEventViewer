@@ -5,6 +5,7 @@ use tauri::{AppHandle, Manager, State};
 use crate::assistant;
 use crate::dto::Settings;
 use crate::error::{AppError, AppResult};
+use crate::eventlog::{self, Filter, QueryResult};
 
 pub struct AppState {
     pub config_dir: PathBuf,
@@ -15,6 +16,52 @@ impl AppState {
     fn settings_path(&self) -> PathBuf {
         self.config_dir.join("settings.json")
     }
+}
+
+/// Runs work that blocks for longer than a frame off the runtime's own threads.
+///
+/// Tauri answers a synchronous command on the main thread and an `async` one on a runtime worker.
+/// Neither suits a query over fifty thousand events: the first freezes the window, the second
+/// starves every other command behind it.
+async fn blocking<T, F>(work: F) -> AppResult<T>
+where
+    F: FnOnce() -> AppResult<T> + Send + 'static,
+    T: Send + 'static,
+{
+    tauri::async_runtime::spawn_blocking(work)
+        .await
+        .map_err(|error| AppError::Message(error.to_string()))?
+}
+
+#[tauri::command]
+pub async fn events_channels() -> AppResult<Vec<String>> {
+    blocking(eventlog::list_channels).await
+}
+
+#[tauri::command]
+pub async fn events_query(state: State<'_, AppState>, filter: Filter) -> AppResult<QueryResult> {
+    let where_from = if filter.channels.is_empty() {
+        "System, Application".to_string()
+    } else {
+        filter.channels.join(", ")
+    };
+    let result = blocking(move || eventlog::query(&filter)).await?;
+    state.log.record(
+        crate::log::Level::Info,
+        "events",
+        format!(
+            "{where_from}: {} events in {} ms{}",
+            result.events.len(),
+            result.elapsed_ms,
+            if result.truncated { " (truncated)" } else { "" }
+        ),
+    );
+    Ok(result)
+}
+
+#[tauri::command]
+pub async fn events_xml(channel: String, record_id: u64) -> AppResult<String> {
+    blocking(move || eventlog::event_xml(&channel, record_id)).await
 }
 
 #[tauri::command(async)]

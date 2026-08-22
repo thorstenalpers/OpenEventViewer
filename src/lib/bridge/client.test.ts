@@ -21,6 +21,68 @@ describe('bridge client', () => {
 		expect(entries.at(-1)?.message).toBe('written by the test');
 	});
 
+	it('narrows the fixture log by channel, level and time', async () => {
+		const all = await call('events_query', {
+			filter: {
+				channels: ['System'],
+				levels: [],
+				from: null,
+				to: null,
+				eventIds: [],
+				providers: [],
+				max: 50000
+			}
+		});
+		const critical = await call('events_query', {
+			filter: {
+				channels: ['System'],
+				levels: [1],
+				from: null,
+				to: null,
+				eventIds: [],
+				providers: [],
+				max: 50000
+			}
+		});
+
+		expect(all.events.length).toBeGreaterThan(critical.events.length);
+		expect(critical.events.every((event) => event.level === 1)).toBe(true);
+		expect(all.events.every((event) => event.channel === 'System')).toBe(true);
+	});
+
+	it('says plainly that Security needs an elevated process', async () => {
+		await expect(
+			call('events_query', {
+				filter: {
+					channels: ['Security'],
+					levels: [],
+					from: null,
+					to: null,
+					eventIds: [],
+					providers: [],
+					max: 100
+				}
+			})
+		).rejects.toThrow(/administrator rights/);
+	});
+
+	it('reports truncation rather than quietly cutting the list short', async () => {
+		const result = await call('events_query', {
+			filter: {
+				channels: ['System'],
+				levels: [],
+				from: null,
+				to: null,
+				eventIds: [],
+				providers: [],
+				max: 10
+			}
+		});
+
+		expect(result.events).toHaveLength(10);
+		expect(result.truncated).toBe(true);
+	});
+
 	it('rejects a reply that does not match the contract', () => {
 		expect(() => commands.assistant_status.response.parse({ source: 'cli' })).toThrow();
 	});

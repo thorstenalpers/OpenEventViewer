@@ -2,6 +2,7 @@ mod assistant;
 mod commands;
 mod dto;
 mod error;
+mod eventlog;
 mod log;
 
 use tauri::Manager;
@@ -47,6 +48,9 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            commands::events_channels,
+            commands::events_query,
+            commands::events_xml,
             commands::get_settings,
             commands::set_settings,
             commands::log_entries,

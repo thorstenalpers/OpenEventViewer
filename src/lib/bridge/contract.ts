@@ -10,6 +10,49 @@ export const assistantStatus = z.object({
 });
 export type AssistantStatus = z.infer<typeof assistantStatus>;
 
+export const dataItem = z.object({
+	name: z.string(),
+	value: z.string()
+});
+export type DataItem = z.infer<typeof dataItem>;
+
+export const eventRecord = z.object({
+	recordId: z.number(),
+	channel: z.string(),
+	provider: z.string(),
+	eventId: z.number(),
+	level: z.number(),
+	levelName: z.string(),
+	task: z.string(),
+	keywords: z.array(z.string()),
+	/** RFC 3339, UTC, milliseconds. */
+	timeCreated: z.string(),
+	computer: z.string(),
+	message: z.string(),
+	eventData: z.array(dataItem)
+});
+export type EventRecord = z.infer<typeof eventRecord>;
+
+export const eventFilter = z.object({
+	/** Empty means System and Application, which is what the host reads when asked for nothing. */
+	channels: z.array(z.string()),
+	levels: z.array(z.number()),
+	from: z.string().nullable(),
+	to: z.string().nullable(),
+	eventIds: z.array(z.number()),
+	providers: z.array(z.string()),
+	max: z.number()
+});
+export type EventFilter = z.infer<typeof eventFilter>;
+
+export const queryResult = z.object({
+	events: z.array(eventRecord),
+	/** The log held more than the cap allowed. */
+	truncated: z.boolean(),
+	elapsedMs: z.number()
+});
+export type QueryResult = z.infer<typeof queryResult>;
+
 export const settings = z.object({
 	theme: z.enum(['system', 'light', 'dark']),
 	showLogs: z.boolean().default(false),
@@ -34,6 +77,9 @@ export type LogEntry = z.infer<typeof logEntry>;
  * trusting the host.
  */
 export const commands = {
+	events_channels: { response: z.array(z.string()) },
+	events_query: { response: queryResult },
+	events_xml: { response: z.string() },
 	get_settings: { response: settings },
 	set_settings: { response: settings },
 	log_entries: { response: z.array(logEntry) },
@@ -49,6 +95,9 @@ export type CommandName = keyof typeof commands;
 export type CommandResponse<T extends CommandName> = z.infer<(typeof commands)[T]['response']>;
 
 export interface CommandArgs {
+	events_channels: Record<string, never>;
+	events_query: { filter: EventFilter };
+	events_xml: { channel: string; recordId: number };
 	get_settings: Record<string, never>;
 	set_settings: { settings: Settings };
 	log_entries: Record<string, never>;

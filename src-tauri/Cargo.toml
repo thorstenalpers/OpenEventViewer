@@ -30,3 +30,10 @@ reqwest = { version = "0.13", default-features = false, features = [
 	"rustls",
 ] }
 chrono = "0.4"
+roxmltree = "0.20"
+windows = { version = "0.61", features = [
+	"Win32_Foundation",
+	# EvtFormatMessage takes EVT_VARIANT, which lives behind the security feature.
+	"Win32_Security",
+	"Win32_System_EventLog",
+] }

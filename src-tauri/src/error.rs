@@ -7,6 +7,8 @@ pub enum AppError {
     #[error("io: {0}")]
     Io(#[from] std::io::Error),
     #[error("{0}")]
+    Windows(#[from] windows::core::Error),
+    #[error("{0}")]
     Message(String),
 }
 
