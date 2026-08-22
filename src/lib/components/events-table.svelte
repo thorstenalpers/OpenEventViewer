@@ -7,8 +7,12 @@
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
-	import { keyOf } from '$lib/events';
+	import { keyOf, type TimeRange } from '$lib/events';
 	import { WIDTHS, type EventsTableData } from '$lib/stores/events-table.svelte';
+	import ChoiceFilter from '$lib/components/filters/choice-filter.svelte';
+	import TimeFilter from '$lib/components/filters/time-filter.svelte';
+	import NumberFilter from '$lib/components/filters/number-filter.svelte';
+	import type { Column } from '@tanstack/table-core';
 
 	interface Props {
 		data: EventsTableData;
@@ -49,6 +53,15 @@
 		const parsed = Date.parse(value);
 		return Number.isNaN(parsed) ? value : new Date(parsed).toLocaleString();
 	}
+
+	/** Every value the column holds before any filter narrowed it — see `choice-filter`. */
+	function unfiltered(column: Column<EventRecord, unknown>): string[] {
+		return data.table
+			.getPreFilteredRowModel()
+			.rows.map((row) => String(row.getValue<unknown>(column.id)));
+	}
+
+	const EMPTY_RANGE: TimeRange = { from: '', to: '' };
 </script>
 
 <div
@@ -93,15 +106,39 @@
 				</tr>
 				<tr class="border-b">
 					{#each headerGroup.headers as header (header.id)}
-						<th class="h-8 px-1 pb-1">
-							<input
-								type="text"
-								value={(header.column.getFilterValue() as string) ?? ''}
-								oninput={(event) => header.column.setFilterValue(event.currentTarget.value)}
-								placeholder={label(header.column.id)}
-								aria-label={`${label(header.column.id)} — ${t.events.columnFilter}`}
-								class="h-6 w-full rounded border border-input bg-background px-1.5 text-xs font-normal focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-							/>
+						{@const column = header.column}
+						{@const kind = column.columnDef.meta?.filter ?? 'text'}
+						<th class="h-8 px-1 pb-1 font-normal">
+							{#if kind === 'choice'}
+								<ChoiceFilter
+									title={label(column.id)}
+									values={unfiltered(column)}
+									selected={(column.getFilterValue() as string[]) ?? []}
+									onChange={(selected: string[]) =>
+										column.setFilterValue(selected.length ? selected : undefined)}
+								/>
+							{:else if kind === 'time'}
+								<TimeFilter
+									title={label(column.id)}
+									range={(column.getFilterValue() as TimeRange) ?? EMPTY_RANGE}
+									onChange={(range: TimeRange | undefined) => column.setFilterValue(range)}
+								/>
+							{:else if kind === 'number'}
+								<NumberFilter
+									title={label(column.id)}
+									text={(column.getFilterValue() as string) ?? ''}
+									onChange={(text: string | undefined) => column.setFilterValue(text)}
+								/>
+							{:else}
+								<input
+									type="text"
+									value={(column.getFilterValue() as string) ?? ''}
+									oninput={(event) => column.setFilterValue(event.currentTarget.value || undefined)}
+									placeholder={label(column.id)}
+									aria-label={`${label(column.id)} — ${t.events.columnFilter}`}
+									class="h-6 w-full rounded border border-input bg-background px-1.5 text-xs font-normal focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+								/>
+							{/if}
 						</th>
 					{/each}
 					<th class="h-8 px-1 pb-1"></th>

@@ -54,6 +54,30 @@ export const en = {
 			'Close OpenEventViewer and start it again as administrator, or pick a channel that does not need it.',
 		empty: 'Nothing matches.',
 		ask: 'Ask the assistant about this event',
+		filters: {
+			search: 'Search…',
+			noMatch: 'Nothing matches.',
+			clear: 'Clear this filter',
+			chosen: (count: number) => `${count} chosen`,
+			after: (time: string) => `after ${time}`,
+			before: (time: string) => `before ${time}`,
+			timeHint: 'Local time, the same clock the table shows.',
+			numberHint: 'Nothing in there was a number.',
+			notUnderstood: (parts: string) => `Not understood: ${parts}`,
+			helpAny: 'any of them',
+			helpCompare: 'above, below',
+			helpRange: 'a range, ends included',
+			helpNot: 'everything but'
+		},
+		overTime: 'Over time',
+		bucketSize: (minutes: number) =>
+			minutes >= 1440
+				? `one bar per ${minutes / 1440} day${minutes === 1440 ? '' : 's'}`
+				: minutes >= 60
+					? `one bar per ${minutes / 60} hour${minutes === 60 ? '' : 's'}`
+					: `one bar per ${minutes} minute${minutes === 1 ? '' : 's'}`,
+		bucketCount: (total: number, errors: number) =>
+			errors === 0 ? `${total} events` : `${total} events, ${errors} of them errors`,
 		columns: {
 			level: 'Level',
 			time: 'Time',

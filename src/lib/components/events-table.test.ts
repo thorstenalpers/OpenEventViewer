@@ -50,17 +50,58 @@ describe('events table', () => {
 		expect(held + painted * 32).toBe(8000 * 32);
 	});
 
-	it('narrows to what a column filter asks for', () => {
+	it('narrows to the values a choice filter has ticked', () => {
 		const data = createEventsTable(() => rows(200));
 		render(EventsTable, { props: { data } });
 
-		data.table.getColumn('channel')?.setFilterValue('Application');
+		data.table.getColumn('channel')?.setFilterValue(['Application']);
 		flushSync();
 
 		expect(data.table.getRowModel().rows.length).toBe(100);
 		expect(
 			data.table.getRowModel().rows.every((row) => row.original.channel === 'Application')
 		).toBe(true);
+	});
+
+	/// An empty selection is not "match nothing" — it is the filter being off, and TanStack has to
+	/// drop it from the state or the "clear all" button never goes away.
+	it('drops a choice filter again when the last tick comes off', () => {
+		const data = createEventsTable(() => rows(200));
+		render(EventsTable, { props: { data } });
+
+		data.table.getColumn('channel')?.setFilterValue(['Application']);
+		flushSync();
+		data.table.getColumn('channel')?.setFilterValue(undefined);
+		flushSync();
+
+		expect(data.columnFilters).toHaveLength(0);
+		expect(data.table.getRowModel().rows.length).toBe(200);
+	});
+
+	it('reads a range expression on the id column', () => {
+		const data = createEventsTable(() => rows(200));
+		render(EventsTable, { props: { data } });
+
+		data.table.getColumn('eventId')?.setFilterValue('1000-1002');
+		flushSync();
+
+		expect(data.table.getRowModel().rows.every((row) => row.original.eventId <= 1002)).toBe(true);
+		expect(data.table.getRowModel().rows.length).toBeGreaterThan(0);
+	});
+
+	it('narrows the time column to a window', () => {
+		const data = createEventsTable(() => rows(200));
+		const first = rows(200)[0]!;
+		render(EventsTable, { props: { data } });
+
+		const at = new Date(first.timeCreated);
+		const stamp = (offset: number) =>
+			new Date(at.getTime() + offset).toLocaleString('sv').slice(0, 16).replace(' ', 'T');
+		data.table.getColumn('time')?.setFilterValue({ from: stamp(-60_000), to: stamp(60_000) });
+		flushSync();
+
+		expect(data.table.getRowModel().rows.length).toBeLessThan(200);
+		expect(data.table.getRowModel().rows.length).toBeGreaterThan(0);
 	});
 
 	it('narrows on a keyword from any column at all', () => {

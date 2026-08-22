@@ -57,6 +57,30 @@ export const de: Translations = {
 			'Schließ OpenEventViewer und starte es als Administrator neu, oder wähl einen Kanal, der das nicht braucht.',
 		empty: 'Nichts passt.',
 		ask: 'Den Assistenten zu diesem Ereignis fragen',
+		filters: {
+			search: 'Suchen…',
+			noMatch: 'Nichts passt.',
+			clear: 'Diesen Filter zurücksetzen',
+			chosen: (count: number) => `${count} ausgewählt`,
+			after: (time: string) => `nach ${time}`,
+			before: (time: string) => `vor ${time}`,
+			timeHint: 'Ortszeit — dieselbe Uhr, die die Tabelle zeigt.',
+			numberHint: 'Da stand keine Zahl drin.',
+			notUnderstood: (parts: string) => `Nicht verstanden: ${parts}`,
+			helpAny: 'eines davon',
+			helpCompare: 'größer, kleiner',
+			helpRange: 'ein Bereich, Grenzen inklusive',
+			helpNot: 'alles außer'
+		},
+		overTime: 'Zeitlicher Verlauf',
+		bucketSize: (minutes: number) =>
+			minutes >= 1440
+				? `ein Balken je ${minutes / 1440} Tag${minutes === 1440 ? '' : 'e'}`
+				: minutes >= 60
+					? `ein Balken je ${minutes / 60} Stunde${minutes === 60 ? '' : 'n'}`
+					: `ein Balken je ${minutes} Minute${minutes === 1 ? '' : 'n'}`,
+		bucketCount: (total: number, errors: number) =>
+			errors === 0 ? `${total} Ereignisse` : `${total} Ereignisse, davon ${errors} Fehler`,
 		columns: {
 			level: 'Stufe',
 			time: 'Zeit',
