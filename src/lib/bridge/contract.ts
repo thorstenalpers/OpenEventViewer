@@ -6,9 +6,20 @@ export type AssistantSource = z.infer<typeof assistantSource>;
 export const assistantStatus = z.object({
 	source: assistantSource,
 	cliAvailable: z.boolean(),
-	hasKey: z.boolean()
+	hasKey: z.boolean(),
+	/** Shown in the preview, because it is part of what leaves the machine. */
+	systemPrompt: z.string()
 });
 export type AssistantStatus = z.infer<typeof assistantStatus>;
+
+export const chatRole = z.enum(['user', 'assistant']);
+export type ChatRole = z.infer<typeof chatRole>;
+
+export const chatMessage = z.object({
+	role: chatRole,
+	content: z.string()
+});
+export type ChatMessage = z.infer<typeof chatMessage>;
 
 export const dataItem = z.object({
 	name: z.string(),
@@ -80,6 +91,8 @@ export const commands = {
 	events_channels: { response: z.array(z.string()) },
 	events_query: { response: queryResult },
 	events_xml: { response: z.string() },
+	events_render: { response: z.string() },
+	assistant_chat: { response: z.string() },
 	get_settings: { response: settings },
 	set_settings: { response: settings },
 	log_entries: { response: z.array(logEntry) },
@@ -98,6 +111,8 @@ export interface CommandArgs {
 	events_channels: Record<string, never>;
 	events_query: { filter: EventFilter };
 	events_xml: { channel: string; recordId: number };
+	events_render: { events: EventRecord[] };
+	assistant_chat: { source: AssistantSource; messages: ChatMessage[] };
 	get_settings: Record<string, never>;
 	set_settings: { settings: Settings };
 	log_entries: Record<string, never>;

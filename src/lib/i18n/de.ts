@@ -4,6 +4,7 @@ export const de: Translations = {
 	sidebar: {
 		tagline: 'Windows-Ereignisprotokolle',
 		events: 'Ereignisse',
+		assistant: 'Assistent',
 		log: 'Protokoll',
 		settings: 'Einstellungen',
 		info: 'Info',
@@ -119,7 +120,32 @@ export const de: Translations = {
 		sourceAnthropic: 'anthropic',
 		noCli:
 			'Die lokale claude-Binary liegt nicht im PATH. Installiere Claude Code oder wähle in den Einstellungen einen gehosteten Anbieter.',
-		noKey: 'Kein API-Key hinterlegt. Trag in den Einstellungen einen ein.'
+		noKey: 'Kein API-Key hinterlegt. Trag in den Einstellungen einen ein.',
+		empty: 'Häng ein Ereignis aus der Ereignisliste an oder frag einfach etwas.',
+		placeholder: 'Frag nach den angehängten Ereignissen…',
+		send: 'Senden',
+		newConversation: 'Neues Gespräch',
+		preview: 'Was gesendet wird',
+		previewBody:
+			'Genau dieser Text verlässt den Rechner, wenn du auf Senden drückst — danach kommt nichts mehr dazu.',
+		systemPrompt: 'Feste Anweisungen',
+		nextMessage: 'Deine nächste Nachricht',
+		nothingYet: 'Noch nichts zu senden.',
+		characters: (count: number) => `${count.toLocaleString('de')} Zeichen`,
+		attachedCount: (count: number) => `${count} Ereignis${count === 1 ? '' : 'se'}`,
+		removeAttachment: (title: string) => `${title} entfernen`
+	},
+	detail: {
+		general: 'Allgemein',
+		data: 'Ereignisdaten',
+		xml: 'XML',
+		ask: 'Fragen',
+		copy: 'Kopieren',
+		copied: 'Kopiert',
+		close: 'Detailbereich schließen',
+		recordId: 'Datensatz',
+		keywords: 'Schlüsselwörter',
+		noData: 'Dieses Ereignis führt keine eigenen Daten.'
 	},
 	settings: {
 		title: 'Einstellungen',

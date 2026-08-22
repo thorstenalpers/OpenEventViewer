@@ -4,12 +4,16 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Select } from '$lib/components/ui/select';
 	import EventsTable from '$lib/components/events-table.svelte';
+	import EventDetail from '$lib/components/event-detail.svelte';
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
 	import { ALL_CHANNELS, LEVELS, PINNED_CHANNELS, RANGES, keyOf, levelKey } from '$lib/events';
 	import { events } from '$lib/stores/events.svelte';
 	import { createEventsTable } from '$lib/stores/events-table.svelte';
+	import { assistant } from '$lib/stores/assistant.svelte';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	const t = $derived(i18n.t);
 
@@ -27,6 +31,11 @@
 	const rangeOptions = $derived(
 		RANGES.map((range) => ({ value: range, label: t.events.ranges[range] }))
 	);
+
+	async function ask(event: EventRecord) {
+		await assistant.attachEvent(event);
+		await goto(resolve('/assistant'));
+	}
 
 	let channel = $state(events.channel);
 	let range = $state(events.range);
@@ -145,5 +154,10 @@
 		selectedId={events.selectedId}
 		onSelect={(event: EventRecord) =>
 			events.select(keyOf(event) === events.selectedId ? null : event)}
+		onAsk={ask}
 	/>
+
+	{#if events.selected}
+		<EventDetail event={events.selected} onAsk={ask} onClose={() => events.select(null)} />
+	{/if}
 </div>

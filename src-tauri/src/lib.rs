@@ -51,6 +51,8 @@ pub fn run() {
             commands::events_channels,
             commands::events_query,
             commands::events_xml,
+            commands::events_render,
+            commands::assistant_chat,
             commands::get_settings,
             commands::set_settings,
             commands::log_entries,

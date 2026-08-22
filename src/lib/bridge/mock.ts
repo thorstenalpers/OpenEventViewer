@@ -37,6 +37,15 @@ const CHANNELS = [
 	'Windows PowerShell'
 ];
 
+/** Word for word what the host would answer, so the preview shows the same text in both. */
+const SYSTEM_PROMPT =
+	'You are reading Windows event log records with someone who is trying to work out why their ' +
+	'machine misbehaved. Lead with the most likely root cause and say how confident you are in it. ' +
+	'Then say what to check or try next, concretely. Refer only to events you were given: never ' +
+	'invent an event, an ID or a provider, and never assume an event exists because the story would ' +
+	'be tidier with it. If the records do not support a conclusion, say that plainly and say which ' +
+	'event would settle it. Be brief — this is a diagnosis, not an essay.';
+
 /** What a normal account is told when it asks for the Security channel. */
 const ACCESS_DENIED =
 	'reading Security needs administrator rights — the Security channel is readable only by an ' +
@@ -334,6 +343,22 @@ ${data}
 </Event>`;
 }
 
+/** The host's `render_events_for_prompt`, re-implemented so `npm run dev` previews the same text. */
+function renderForPrompt(events: EventRecord[]): string {
+	return [...events]
+		.sort((left, right) => left.timeCreated.localeCompare(right.timeCreated))
+		.map((event) => {
+			const header =
+				`[${event.timeCreated}] ${event.channel} | ${event.levelName} | ${event.provider} | ` +
+				`EventID ${event.eventId} | ${event.computer}`;
+			const data = event.eventData.length
+				? `\ndata: ${event.eventData.map((item) => `${item.name}=${item.value}`).join(', ')}`
+				: '';
+			return `${header}\n${event.message.trim()}${data}\n`;
+		})
+		.join('\n');
+}
+
 export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): unknown {
 	switch (name) {
 		case 'events_channels':
@@ -360,6 +385,19 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 			);
 			if (!event) throw new Error(`${channel} no longer holds event ${recordId}`);
 			return xmlOf(event);
+		}
+
+		case 'events_render':
+			return renderForPrompt((args as CommandArgs['events_render']).events);
+
+		case 'assistant_chat': {
+			const { messages } = args as CommandArgs['assistant_chat'];
+			const last = messages.at(-1)?.content ?? '';
+			return (
+				'Mock host — nothing was sent anywhere. The last message was ' +
+				`${last.length} characters long and mentioned ` +
+				`${(last.match(/EventID \d+/g) ?? []).length} events.`
+			);
 		}
 
 		case 'get_settings':
@@ -390,7 +428,7 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 
 		case 'assistant_status': {
 			const { source } = args as CommandArgs['assistant_status'];
-			return { source, cliAvailable: true, hasKey: storedKey };
+			return { source, cliAvailable: true, hasKey: storedKey, systemPrompt: SYSTEM_PROMPT };
 		}
 
 		case 'assistant_set_key':

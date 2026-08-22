@@ -2,6 +2,7 @@ export const en = {
 	sidebar: {
 		tagline: 'Windows event logs',
 		events: 'Events',
+		assistant: 'Assistant',
 		log: 'Log',
 		settings: 'Settings',
 		info: 'Info',
@@ -114,7 +115,32 @@ export const en = {
 		sourceAnthropic: 'anthropic',
 		noCli:
 			'The local claude binary is not on PATH. Install Claude Code, or pick a hosted provider in Settings.',
-		noKey: 'No API key stored. Add one in Settings.'
+		noKey: 'No API key stored. Add one in Settings.',
+		empty: 'Attach an event from the Events page, or just ask something.',
+		placeholder: 'Ask about the attached events…',
+		send: 'Send',
+		newConversation: 'New conversation',
+		preview: 'What will be sent',
+		previewBody:
+			'Exactly this text leaves the machine when you press Send — nothing is added to it afterwards.',
+		systemPrompt: 'Standing instructions',
+		nextMessage: 'Your next message',
+		nothingYet: 'Nothing to send yet.',
+		characters: (count: number) => `${count.toLocaleString('en')} characters`,
+		attachedCount: (count: number) => `${count} event${count === 1 ? '' : 's'}`,
+		removeAttachment: (title: string) => `Remove ${title}`
+	},
+	detail: {
+		general: 'General',
+		data: 'Event data',
+		xml: 'XML',
+		ask: 'Ask',
+		copy: 'Copy',
+		copied: 'Copied',
+		close: 'Close the detail pane',
+		recordId: 'Record',
+		keywords: 'Keywords',
+		noData: 'This event carries no data of its own.'
 	},
 	settings: {
 		title: 'Settings',
