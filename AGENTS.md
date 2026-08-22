@@ -1,14 +1,13 @@
-# OpenExamTrainer
+# OpenEventViewer
 
-A Windows desktop app that imports certification exam material (PDF dumps, VCE files),
-extracts the questions, drills them, and feeds every wrong answer back into a targeted
-follow-up session. Around that core sit a study binder ("Lernmappe") with links, docs and
-videos, an embedded browser for learning portals, an AI assistant, a podcast generator, and
-a catalog for publishing, rating and challenging binders.
+A Windows desktop app that reads the Windows event logs, filters them down to what matters, and
+optionally asks an AI assistant what a run of events means. Three pages carry the product: Events
+(a virtualised table over up to fifty thousand records, with a keyword box, per-column filters and
+multi-column sort), Assistant (a chat with events attached to it), and Diagnose (a guided scan for
+the events a machine writes when something went wrong, plus the quarter of an hour around them).
 
-Desktop is the primary product and there is no server: everything, catalog included, is a file
-in the app's own data directory. Nothing needs an account and nothing reaches the network
-except a voice pack somebody asked for.
+Desktop is the whole product and there is no server. The app reads the logs Windows already keeps
+and writes nothing to them.
 
 ## Language
 
@@ -17,51 +16,71 @@ All documentation, code, comments, commit messages, and diagram labels are writt
 
 ## Stack
 
-| Layer     | Technology                                                                       |
-| --------- | -------------------------------------------------------------------------------- |
-| Host      | Tauri 2 (Rust) in `src-tauri/`, WebView2                                         |
-| UI        | SvelteKit (prerendered, `adapter-static`), Svelte 5 runes, TypeScript            |
-| UI kit    | shadcn-svelte (`new-york`, `neutral`), Tailwind v4, runtime colour presets       |
-| Language  | English and German, `src/lib/i18n/`; question text is never translated           |
-| Tables    | TanStack Table v8 (Svelte adapter) — catalog, question lists, statistics         |
-| Contracts | Zod — one source for types and runtime validation                                |
-| Storage   | SQLite (`rusqlite`, bundled) in `app_local_data_dir`; assets on disk beside it   |
-| Ingest    | `pdfium-render` (text with coordinates, embedded images, page rendering)         |
-| Speech    | Windows `System.Speech`, or a downloaded Kokoro pack through `sherpa-onnx`       |
-| Catalog   | a second SQLite beside the library, `catalog.rs` — local, no server              |
-| Tests     | `cargo test` (host), Vitest + happy-dom + Testing Library (UI), Playwright (e2e) |
+| Layer     | Technology                                                                   |
+| --------- | ---------------------------------------------------------------------------- |
+| Host      | Tauri 2 (Rust) in `src-tauri/`, one WebView2 window                          |
+| Event log | the `windows` crate — `EvtQuery`, `EvtNext`, `EvtRender`, `EvtFormatMessage` |
+| Event XML | `roxmltree`, in a pure function with fixtures                                |
+| UI        | SvelteKit (prerendered, `adapter-static`), Svelte 5 runes, TypeScript        |
+| UI kit    | shadcn-svelte (`new-york`, `neutral`), Tailwind v4, runtime colour presets   |
+| Language  | English and German, `src/lib/i18n/`; event text is never translated          |
+| Tables    | TanStack Table v8 core, with hand-rolled fixed-height windowing              |
+| Contracts | Zod — one source for types and runtime validation                            |
+| Assistant | the local `claude` binary over stdin, or api.anthropic.com with a stored key |
+| Updates   | `tauri-plugin-updater`, minisign-signed, no code-signing certificate         |
+| Tests     | `cargo test` (host), Vitest + happy-dom + Testing Library (UI)               |
 
 The chrome page is prerendered, so the sidebar is in the HTML the webview receives — there is no
 skeleton because there is no gap for one to fill.
 
-The **site webview** — a second WebView2 child for Microsoft Learn, vendor docs and YouTube, built
-the way CleanMyPosts builds it — arrives with M5. That is when `tauri` gains its `unstable` feature
-for `Window::add_child`; until then the window hosts one webview.
-
 ## Hard rules
 
-1. **Offline first.** Everything works with no network and no account, the catalog included. If a
-   server is ever added it unlocks sharing across machines and nothing else — never a precondition
-   for studying.
-2. **The user's material stays the user's.** Imported files, extracted questions and progress
-   live in the local SQLite database. Nothing is uploaded until the user publishes a binder
-   explicitly, per binder, with a preview of what leaves the machine.
-3. **Extraction is auditable.** Every question carries its source (file, page, byte range) and
-   a confidence score. A low-confidence question is flagged for review, never silently
-   presented as fact.
-4. **No silent quality claims.** If a page was OCR'd, if an image-based question was
-   reconstructed from its explanation text, or if a vision model filled a gap, the question is
-   labelled with that provenance in the UI.
-5. **One credential kind.** The optional assistant/TTS API key lives in the Windows Credential
+1. **Offline first.** Everything works with no network and no account. The only two things that
+   reach it are the assistant, when Send is pressed, and the update check at start.
+2. **Nothing leaves the machine without a preview.** `assistant.composeNext()` builds the outgoing
+   message once; the preview panel renders what it returns and `send` posts what it returns. The
+   host forwards the messages verbatim and adds only the standing instructions the preview also
+   shows. Anything appended between the preview and the wire breaks the app's one promise.
+3. **Read-only with respect to the logs.** This app queries the event log and never writes,
+   clears or exports a channel.
+4. **One credential kind.** The optional Anthropic API key lives in the Windows Credential
    Manager, never in a file this app owns, and cannot be read back into the UI.
-6. **Nothing is written next to the executable.** Every runtime path comes from Tauri's
-   `app_config_dir` / `app_local_data_dir`.
-7. **All UI ↔ host communication goes through the bridge**, mirroring the CleanMyPosts
-   contract: typed RPC one way, push events the other, never mixed.
+5. **Nothing is written next to the executable.** Every runtime path comes from Tauri's
+   `app_config_dir`.
+6. **All UI ↔ host communication goes through the bridge**: `src/lib/bridge/contract.ts` declares
+   every command with its arguments and its reply schema, `client.ts` is the only caller, and
+   `mock.ts` must keep every command in the contract runnable in a plain browser.
+7. **Win32 lives in `eventlog.rs` only**, behind a safe wrapper. Everything that decides
+   anything — the filter to XPath, the XML to a record, the incident signatures, the window around
+   one — is a pure function with a test.
 8. **No telemetry.**
 9. **Interface strings live in `src/lib/i18n/`, never inline in a view.** `en.ts` is the shape and
-   `de.ts` must match it key for key — a test walks both and fails on a gap. Question text, options
-   and explanations are the user's imported material and stay in the language of their source.
+   `de.ts` must match it key for key — a test walks both and fails on a gap. Event messages come
+   from the publisher's own resources and stay in the language Windows recorded them in.
+10. **Every `Command` goes through `lib.rs::quiet()`**, or the console window it spawns steals the
+    webview's input focus and the next click is dropped. A `#[tauri::command]` that blocks runs
+    through `commands::blocking()`.
+
+## The Security channel
+
+Reading it needs an elevated process. There is no `requireAdministrator` manifest: the app is
+useful without it, and asking every user for elevation to read two channels they mostly do not
+want is the wrong trade. `ERROR_ACCESS_DENIED` is mapped to a message that says so, and the Events
+page adds a hint about restarting as administrator.
+
+## Releases
+
+The updater verifies a minisign signature, not an Authenticode one. The key pair is generated once
+by hand:
+
+```bash
+npx tauri signer generate -w ~/.tauri/openeventviewer.key
+```
+
+The public half goes into `plugins.updater.pubkey` in `src-tauri/tauri.conf.json`; the private half
+and its password are the GitHub secrets `TAURI_SIGNING_PRIVATE_KEY` and
+`TAURI_SIGNING_PRIVATE_KEY_PASSWORD` and never enter the repository. `release.yml` builds on a `v*`
+tag and uploads the installer, its `.sig` and a `latest.json` written from that signature.
 
 ## Commands
 
@@ -72,20 +91,8 @@ npm run build
 npm run lint
 npm run check
 npm run test
+npm run licenses     # regenerates src/lib/third-party.json and the shipped notices
 npm run app:build    # NSIS installer + updater artifacts
 cargo test --manifest-path src-tauri/Cargo.toml
+cargo test --manifest-path src-tauri/Cargo.toml -- --ignored   # reads the real log, runs `claude`
 ```
-
-## Documentation
-
-Read selectively, not all of it.
-
-| When you work on …                 | read                                                        |
-| ---------------------------------- | ----------------------------------------------------------- |
-| Product decisions, UX flow         | [00-product-vision.md](.agents/docs/00-product-vision.md)   |
-| Projects, layers, WebView2         | [01-architecture.md](.agents/docs/01-architecture.md)       |
-| PDF/VCE import, question detection | [03-ingest-pipeline.md](.agents/docs/03-ingest-pipeline.md) |
-| Drill sessions, SRS, challenges    | [05-feature-trainer.md](.agents/docs/05-feature-trainer.md) |
-| Publish, catalog, ratings, sync    | [16-backend.md](.agents/docs/16-backend.md)                 |
-| Order, acceptance criteria         | [14-roadmap.md](.agents/docs/14-roadmap.md)                 |
-| Why a decision was made            | [adr/](.agents/docs/adr/)                                   |

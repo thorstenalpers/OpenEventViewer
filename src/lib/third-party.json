@@ -977,6 +977,14 @@
 	},
 	{
 		"kind": "crate",
+		"name": "minisign-verify",
+		"version": "0.2.5",
+		"license": "MIT",
+		"url": "https://github.com/jedisct1/rust-minisign-verify",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
 		"name": "miniz_oxide",
 		"version": "0.8.9",
 		"license": "Apache-2.0 OR MIT OR Zlib",
@@ -1285,6 +1293,14 @@
 		"version": "0.17.14",
 		"license": "Apache-2.0 AND ISC",
 		"url": "https://github.com/briansmith/ring",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "roxmltree",
+		"version": "0.20.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/RazrFalcon/roxmltree",
 		"hasText": true
 	},
 	{
@@ -1657,6 +1673,22 @@
 	},
 	{
 		"kind": "crate",
+		"name": "tauri-plugin-process",
+		"version": "2.3.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tauri-plugin-updater",
+		"version": "2.10.1",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
 		"name": "tauri-plugin-window-state",
 		"version": "2.4.1",
 		"license": "Apache-2.0 OR MIT",
@@ -1685,6 +1717,14 @@
 		"version": "2.9.3",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/tauri-apps/tauri",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
+		"name": "tempfile",
+		"version": "3.27.0",
+		"license": "Apache-2.0 OR MIT",
+		"url": "https://github.com/Stebalien/tempfile",
 		"hasText": true
 	},
 	{
@@ -2329,6 +2369,14 @@
 	},
 	{
 		"kind": "crate",
+		"name": "zip",
+		"version": "4.6.1",
+		"license": "MIT",
+		"url": "https://github.com/zip-rs/zip2.git",
+		"hasText": true
+	},
+	{
+		"kind": "crate",
 		"name": "zmij",
 		"version": "1.0.23",
 		"license": "MIT",
@@ -2702,6 +2750,22 @@
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/tauri-apps/tauri",
 		"hasText": false
+	},
+	{
+		"kind": "npm",
+		"name": "@tauri-apps/plugin-process",
+		"version": "2.3.1",
+		"license": "MIT OR Apache-2.0",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
+	},
+	{
+		"kind": "npm",
+		"name": "@tauri-apps/plugin-updater",
+		"version": "2.10.1",
+		"license": "MIT OR Apache-2.0",
+		"url": "https://github.com/tauri-apps/plugins-workspace",
+		"hasText": true
 	},
 	{
 		"kind": "npm",
