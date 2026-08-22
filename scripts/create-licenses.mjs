@@ -85,7 +85,7 @@ function crates() {
 	);
 
 	return JSON.parse(json)
-		.filter((crate) => !crate.name.startsWith('openexamtrainer'))
+		.filter((crate) => !crate.name.startsWith('openeventviewer'))
 		.map((crate) => ({
 			kind: 'crate',
 			name: crate.name,
@@ -170,7 +170,7 @@ const entries = [...crates(), ...packages()]
 const missing = entries.filter((entry) => !entry.text);
 
 const header = [
-	'OpenExamTrainer — third-party notices',
+	'OpenEventViewer — third-party notices',
 	'',
 	`${entries.length} components ship with this application.`,
 	'',

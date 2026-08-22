@@ -3,9 +3,9 @@ import type { AssistantSource } from '$lib/bridge/contract';
 import { i18n, isLocale, type Locale } from '$lib/i18n/index.svelte';
 import { applyPreset, isThemePreset, type ThemePreset } from '$lib/theme/preset';
 
-const LOCALE_KEY = 'oet.locale';
-const PRESET_KEY = 'oet.preset';
-const SIDEBAR_KEY = 'oet.sidebar';
+const LOCALE_KEY = 'oev.locale';
+const PRESET_KEY = 'oev.preset';
+const SIDEBAR_KEY = 'oev.sidebar';
 
 /**
  * Preferences the UI owns. They live in `localStorage` rather than in the host's settings file:

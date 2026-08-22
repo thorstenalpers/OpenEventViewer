@@ -1,7 +1,7 @@
 import { call } from '$lib/bridge/client';
 import type { LogEntry, LogLevel } from '$lib/bridge/contract';
 
-const WEB_KEY = 'oet.log.web';
+const WEB_KEY = 'oev.log.web';
 
 /**
  * The host's log buffer, mirrored for display.

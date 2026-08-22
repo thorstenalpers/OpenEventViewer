@@ -1,8 +1,8 @@
 {
 	"$schema": "https://schema.tauri.app/config/2",
-	"productName": "OpenExamTrainer",
+	"productName": "OpenEventViewer",
 	"version": "0.1.0",
-	"identifier": "com.thorstenalpers.openexamtrainer",
+	"identifier": "com.thorstenalpers.openeventviewer",
 	"build": {
 		"beforeDevCommand": "npm run dev",
 		"devUrl": "http://localhost:5176",
@@ -13,7 +13,7 @@
 		"windows": [
 			{
 				"label": "main",
-				"title": "OpenExamTrainer",
+				"title": "OpenEventViewer",
 				"width": 1360,
 				"height": 900,
 				"minWidth": 1000,

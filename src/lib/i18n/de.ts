@@ -2,6 +2,7 @@ import type { Translations } from './en';
 
 export const de: Translations = {
 	sidebar: {
+		tagline: 'Windows-Ereignisprotokolle',
 		events: 'Ereignisse',
 		log: 'Protokoll',
 		settings: 'Einstellungen',
@@ -48,7 +49,7 @@ export const de: Translations = {
 			'Die Windows-Ereignisprotokolle lesen, auf das Wesentliche filtern und einen Assistenten fragen, was eine Folge davon bedeutet.',
 		offline:
 			'Alles läuft auf diesem Rechner. Nichts wird hochgeladen, und es werden keine Nutzungsdaten erhoben.',
-		appLicense: 'OpenExamTrainer steht unter der MIT-Lizenz.',
+		appLicense: 'OpenEventViewer steht unter der MIT-Lizenz.',
 		thirdParty: 'Komponenten Dritter',
 		thirdPartyBody: (total: number, vendored: number, crates: number, npm: number) =>
 			`${total} Komponenten werden mit dieser App ausgeliefert: ${vendored} mitgelieferte Binaries, ${crates} Rust-Crates, ${npm} npm-Pakete.`,

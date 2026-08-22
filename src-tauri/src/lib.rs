@@ -58,5 +58,5 @@ pub fn run() {
             commands::assistant_set_key,
         ])
         .run(tauri::generate_context!())
-        .expect("error while running OpenExamTrainer");
+        .expect("error while running OpenEventViewer");
 }

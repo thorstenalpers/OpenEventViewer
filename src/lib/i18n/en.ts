@@ -1,5 +1,6 @@
 export const en = {
 	sidebar: {
+		tagline: 'Windows event logs',
 		events: 'Events',
 		log: 'Log',
 		settings: 'Settings',
@@ -44,7 +45,7 @@ export const en = {
 		appBody:
 			'Read the Windows event logs, filter them down to what matters, and ask an assistant what a run of them means.',
 		offline: 'Everything runs on this machine. Nothing is uploaded, and no telemetry is collected.',
-		appLicense: 'OpenExamTrainer is MIT licensed.',
+		appLicense: 'OpenEventViewer is MIT licensed.',
 		thirdParty: 'Third-party components',
 		thirdPartyBody: (total: number, vendored: number, crates: number, npm: number) =>
 			`${total} components ship with this app: ${vendored} bundled binaries, ${crates} Rust crates, ${npm} npm packages.`,

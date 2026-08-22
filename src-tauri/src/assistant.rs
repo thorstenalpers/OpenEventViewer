@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::error::{AppError, AppResult};
 
-const KEYRING_SERVICE: &str = "com.thorstenalpers.openexamtrainer";
+const KEYRING_SERVICE: &str = "com.thorstenalpers.openeventviewer";
 const KEYRING_ACCOUNT: &str = "anthropic-api-key";
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]

@@ -104,7 +104,9 @@
 			<PanelLeftIcon class="size-4" />
 		</button>
 		<span class={cn('min-w-0 flex-col leading-none', expanded ? 'hidden md:flex' : 'hidden')}>
-			<span class="truncate text-[13px] font-semibold tracking-tight">OpenExamTrainer</span>
+			<span class="truncate text-[13px] font-semibold tracking-tight">OpenEventViewer</span>
+			<span class="truncate pt-0.5 text-[10px] text-sidebar-foreground/60">{t.sidebar.tagline}</span
+			>
 		</span>
 	</div>
 

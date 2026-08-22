@@ -63,18 +63,18 @@
 
 	<Card>
 		<CardHeader>
-			<CardTitle>OpenExamTrainer {APP_VERSION}</CardTitle>
+			<CardTitle>OpenEventViewer {APP_VERSION}</CardTitle>
 			<CardDescription>{t.info.appBody}</CardDescription>
 		</CardHeader>
 		<CardContent class="flex flex-col gap-2 text-sm">
 			<p>{t.info.offline}</p>
 			<a
-				href="https://github.com/thorstenalpers/OpenExamTrainer"
+				href="https://github.com/thorstenalpers/OpenEventViewer"
 				target="_blank"
 				rel="external noreferrer"
 				class="underline underline-offset-2"
 			>
-				github.com/thorstenalpers/OpenExamTrainer
+				github.com/thorstenalpers/OpenEventViewer
 			</a>
 			<p class="text-xs text-muted-foreground">{t.info.appLicense}</p>
 		</CardContent>

@@ -137,34 +137,10 @@
 	},
 	{
 		"kind": "crate",
-		"name": "bumpalo",
-		"version": "3.20.3",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/fitzgen/bumpalo",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "bytemuck",
-		"version": "1.25.2",
-		"license": "Apache-2.0 OR MIT OR Zlib",
-		"url": "https://github.com/Lokathor/bytemuck",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "byteorder",
 		"version": "1.5.0",
 		"license": "MIT OR Unlicense",
 		"url": "https://github.com/BurntSushi/byteorder",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "byteorder-lite",
-		"version": "0.1.0",
-		"license": "MIT OR Unlicense",
-		"url": "https://github.com/image-rs/byteorder-lite",
 		"hasText": true
 	},
 	{
@@ -489,14 +465,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "either",
-		"version": "1.17.0",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/rayon-rs/either",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "equivalent",
 		"version": "1.0.2",
 		"license": "Apache-2.0 OR MIT",
@@ -509,22 +477,6 @@
 		"version": "0.4.10",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/dtolnay/erased-serde",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "fallible-iterator",
-		"version": "0.3.0",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/sfackler/rust-fallible-iterator",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "fallible-streaming-iterator",
-		"version": "0.1.9",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/sfackler/fallible-streaming-iterator",
 		"hasText": true
 	},
 	{
@@ -557,14 +509,6 @@
 		"version": "1.0.7",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/servo/rust-fnv",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "foldhash",
-		"version": "0.1.5",
-		"license": "Zlib",
-		"url": "https://github.com/orlp/foldhash",
 		"hasText": true
 	},
 	{
@@ -690,25 +634,9 @@
 	{
 		"kind": "crate",
 		"name": "hashbrown",
-		"version": "0.15.5",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/rust-lang/hashbrown",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "hashbrown",
 		"version": "0.17.1",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/rust-lang/hashbrown",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "hashlink",
-		"version": "0.10.0",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/kyren/hashlink",
 		"hasText": true
 	},
 	{
@@ -881,14 +809,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "image",
-		"version": "0.25.10",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/image-rs/image",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "indexmap",
 		"version": "1.9.3",
 		"license": "Apache-2.0 OR MIT",
@@ -917,14 +837,6 @@
 		"version": "2.12.1",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/krisprice/ipnet",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "itertools",
-		"version": "0.15.0",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/rust-itertools/itertools",
 		"hasText": true
 	},
 	{
@@ -1009,22 +921,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "libloading",
-		"version": "0.9.0",
-		"license": "ISC",
-		"url": "https://github.com/nagisa/rust_libloading/",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "libsqlite3-sys",
-		"version": "0.35.0",
-		"license": "MIT",
-		"url": "https://github.com/rusqlite/rusqlite",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "litemap",
 		"version": "0.8.2",
 		"license": "Unicode-3.0",
@@ -1065,14 +961,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "maybe-owned",
-		"version": "0.3.4",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/rustonaut/maybe-owned",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "memchr",
 		"version": "2.8.3",
 		"license": "MIT OR Unlicense",
@@ -1101,14 +989,6 @@
 		"version": "1.2.2",
 		"license": "MIT",
 		"url": "https://github.com/tokio-rs/mio",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "moxcms",
-		"version": "0.8.1",
-		"license": "Apache-2.0 OR BSD-3-Clause",
-		"url": "https://github.com/awxkee/moxcms.git",
 		"hasText": true
 	},
 	{
@@ -1185,14 +1065,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "pdfium-render",
-		"version": "0.9.3",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/ajrcarey/pdfium-render",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "percent-encoding",
 		"version": "2.3.2",
 		"license": "Apache-2.0 OR MIT",
@@ -1241,14 +1113,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "piston-float",
-		"version": "1.0.1",
-		"license": "MIT",
-		"url": "https://github.com/pistondevelopers/float.git",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "plist",
 		"version": "1.10.0",
 		"license": "MIT",
@@ -1259,14 +1123,6 @@
 		"kind": "crate",
 		"name": "png",
 		"version": "0.17.16",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/image-rs/image-png",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "png",
-		"version": "0.18.1",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/image-rs/image-png",
 		"hasText": true
@@ -1301,14 +1157,6 @@
 		"version": "1.0.107",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/dtolnay/proc-macro2",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "pxfm",
-		"version": "0.1.30",
-		"license": "Apache-2.0 OR BSD-3-Clause",
-		"url": "https://github.com/awxkee/pxfm",
 		"hasText": true
 	},
 	{
@@ -1433,34 +1281,10 @@
 	},
 	{
 		"kind": "crate",
-		"name": "rfd",
-		"version": "0.16.0",
-		"license": "MIT",
-		"url": "https://github.com/PolyMeilex/rfd",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "ring",
 		"version": "0.17.14",
 		"license": "Apache-2.0 AND ISC",
 		"url": "https://github.com/briansmith/ring",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "rs-fsrs",
-		"version": "1.2.1",
-		"license": "UNKNOWN",
-		"url": "",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "rusqlite",
-		"version": "0.37.0",
-		"license": "MIT",
-		"url": "https://github.com/rusqlite/rusqlite",
 		"hasText": true
 	},
 	{
@@ -1501,14 +1325,6 @@
 		"version": "0.103.14",
 		"license": "ISC",
 		"url": "https://github.com/rustls/webpki",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "rusty_mp3",
-		"version": "0.7.0",
-		"license": "Apache-2.0",
-		"url": "https://github.com/Remade-With-Rust/remade_ffmpeg_rs",
 		"hasText": true
 	},
 	{
@@ -1833,22 +1649,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "tauri-plugin-dialog",
-		"version": "2.7.2",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/tauri-apps/plugins-workspace",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "tauri-plugin-fs",
-		"version": "2.5.1",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/tauri-apps/plugins-workspace",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "tauri-plugin-opener",
 		"version": "2.5.4",
 		"license": "Apache-2.0 OR MIT",
@@ -2105,14 +1905,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "typed-path",
-		"version": "0.12.3",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/chipsenkbeil/typed-path",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "typeid",
 		"version": "1.0.3",
 		"license": "Apache-2.0 OR MIT",
@@ -2209,14 +2001,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "utf16string",
-		"version": "0.2.0",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/getsentry/utf16string",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "utf8_iter",
 		"version": "1.0.4",
 		"license": "Apache-2.0 OR MIT",
@@ -2229,14 +2013,6 @@
 		"version": "1.24.0",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/uuid-rs/uuid",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "vecmath",
-		"version": "1.0.0",
-		"license": "MIT",
-		"url": "https://github.com/pistondevelopers/vecmath.git",
 		"hasText": true
 	},
 	{
@@ -2553,50 +2329,10 @@
 	},
 	{
 		"kind": "crate",
-		"name": "zip",
-		"version": "8.6.0",
-		"license": "MIT",
-		"url": "https://github.com/zip-rs/zip2",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "zlib-rs",
-		"version": "0.6.7",
-		"license": "Zlib",
-		"url": "https://github.com/trifectatechfoundation/zlib-rs",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "zmij",
 		"version": "1.0.23",
 		"license": "MIT",
 		"url": "https://github.com/dtolnay/zmij",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "zopfli",
-		"version": "0.8.3",
-		"license": "Apache-2.0",
-		"url": "https://github.com/zopfli-rs/zopfli",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "zune-core",
-		"version": "0.5.3",
-		"license": "Apache-2.0 OR MIT OR Zlib",
-		"url": "https://github.com/etemesi254/zune-image",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "zune-jpeg",
-		"version": "0.5.15",
-		"license": "Apache-2.0 OR MIT OR Zlib",
-		"url": "https://github.com/etemesi254/zune-image/tree/dev/crates/zune-jpeg",
 		"hasText": true
 	},
 	{
@@ -2966,14 +2702,6 @@
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/tauri-apps/tauri",
 		"hasText": false
-	},
-	{
-		"kind": "npm",
-		"name": "@tauri-apps/plugin-dialog",
-		"version": "2.7.2",
-		"license": "MIT OR Apache-2.0",
-		"url": "https://github.com/tauri-apps/plugins-workspace",
-		"hasText": true
 	},
 	{
 		"kind": "npm",
@@ -4625,14 +4353,6 @@
 	},
 	{
 		"kind": "npm",
-		"name": "yaml",
-		"version": "2.9.0",
-		"license": "ISC",
-		"url": "github:eemeli/yaml",
-		"hasText": true
-	},
-	{
-		"kind": "npm",
 		"name": "yocto-queue",
 		"version": "0.1.0",
 		"license": "MIT",
@@ -4653,134 +4373,6 @@
 		"version": "4.4.3",
 		"license": "MIT",
 		"url": "https://github.com/colinhacks/zod",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium",
-		"version": "prebuilt binary",
-		"license": "BSD-3-Clause AND Apache-2.0",
-		"url": "https://pdfium.googlesource.com/pdfium/",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "pdfium-binaries (build scripts)",
-		"version": "packaging",
-		"license": "MIT",
-		"url": "https://github.com/bblanchon/pdfium-binaries",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: abseil",
-		"version": "bundled in pdfium.dll",
-		"license": "Apache-2.0",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: agg23",
-		"version": "bundled in pdfium.dll",
-		"license": "see text",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: fast_float",
-		"version": "bundled in pdfium.dll",
-		"license": "MIT",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: freetype",
-		"version": "bundled in pdfium.dll",
-		"license": "FTL",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: icu",
-		"version": "bundled in pdfium.dll",
-		"license": "BSD-3-Clause AND Unicode-3.0 AND MIT",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: lcms",
-		"version": "bundled in pdfium.dll",
-		"license": "MIT",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: libjpeg_turbo.ijg",
-		"version": "bundled in pdfium.dll",
-		"license": "IJG",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: libjpeg_turbo.md",
-		"version": "bundled in pdfium.dll",
-		"license": "BSD-3-Clause AND IJG",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: libopenjpeg",
-		"version": "bundled in pdfium.dll",
-		"license": "BSD-2-Clause",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: libpng",
-		"version": "bundled in pdfium.dll",
-		"license": "Zlib",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: libtiff",
-		"version": "bundled in pdfium.dll",
-		"license": "see text",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: llvm-libc",
-		"version": "bundled in pdfium.dll",
-		"license": "Apache-2.0 AND MIT",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: simdutf",
-		"version": "bundled in pdfium.dll",
-		"license": "MIT",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
-		"hasText": true
-	},
-	{
-		"kind": "vendored",
-		"name": "PDFium: zlib",
-		"version": "bundled in pdfium.dll",
-		"license": "Zlib",
-		"url": "https://pdfium.googlesource.com/pdfium/+/main/DEPS",
 		"hasText": true
 	}
 ]
