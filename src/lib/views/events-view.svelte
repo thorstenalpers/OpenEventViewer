@@ -10,6 +10,7 @@
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
 	import { ALL_CHANNELS, LEVELS, PINNED_CHANNELS, RANGES, keyOf, levelKey } from '$lib/events';
+	import { call } from '$lib/bridge/client';
 	import { events } from '$lib/stores/events.svelte';
 	import { createEventsTable } from '$lib/stores/events-table.svelte';
 	import { assistant } from '$lib/stores/assistant.svelte';
@@ -32,6 +33,21 @@
 	const rangeOptions = $derived(
 		RANGES.map((range) => ({ value: range, label: t.events.ranges[range] }))
 	);
+
+	function firstLine(message: string): string {
+		return message.split('\n')[0]?.trim() ?? '';
+	}
+
+	// The default browser rather than a webview of our own: a search result is the web, and the web
+	// belongs where the user already has their bookmarks, their sign-ins and their ad blocker.
+	async function search(event: EventRecord) {
+		const terms = [event.provider, `Event ID ${event.eventId}`, firstLine(event.message)]
+			.filter(Boolean)
+			.join(' ');
+		await call('open_url', {
+			url: `https://www.google.com/search?q=${encodeURIComponent(terms)}`
+		});
+	}
 
 	async function ask(event: EventRecord) {
 		await assistant.attachEvent(event);
@@ -158,6 +174,7 @@
 		onSelect={(event: EventRecord) =>
 			events.select(keyOf(event) === events.selectedId ? null : event)}
 		onAsk={ask}
+		onSearch={search}
 	/>
 
 	{#if events.selected}

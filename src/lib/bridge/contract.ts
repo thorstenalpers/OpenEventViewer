@@ -136,6 +136,8 @@ export const commands = {
 	log_write: { response: z.null() },
 	third_party_licenses: { response: z.string() },
 	devtools_open: { response: z.null() },
+	open_url: { response: z.null() },
+	app_exit: { response: z.null() },
 	assistant_status: { response: assistantStatus },
 	assistant_set_key: { response: z.null() }
 } as const;
@@ -158,6 +160,8 @@ export interface CommandArgs {
 	log_write: { level: LogLevel; source: string; message: string };
 	third_party_licenses: Record<string, never>;
 	devtools_open: Record<string, never>;
+	open_url: { url: string };
+	app_exit: Record<string, never>;
 	assistant_status: { source: AssistantSource };
 	assistant_set_key: { key: string };
 }

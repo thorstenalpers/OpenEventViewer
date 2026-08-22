@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
 use tauri::{AppHandle, Manager, State};
+use tauri_plugin_opener::OpenerExt;
 
 use crate::assistant;
 use crate::diagnose::{self, Bundle, Incident};
@@ -165,6 +166,29 @@ pub fn third_party_licenses(app: AppHandle) -> AppResult<String> {
     Err(AppError::Message(format!(
         "{NAME} is missing — run `npm run licenses`. Looked in: {tried:?}"
     )))
+}
+
+/// Hands a web address to whatever the machine opens links with.
+///
+/// Only `http` and `https`: anything else reaching the shell here would be this app running a
+/// program on someone's behalf, which is not what a link in an event message is.
+#[tauri::command(async)]
+pub fn open_url(app: AppHandle, url: String) -> AppResult<()> {
+    if !url.starts_with("https://") && !url.starts_with("http://") {
+        return Err(AppError::Message(format!("{url} is not a web address")));
+    }
+    app.opener()
+        .open_url(url, None::<&str>)
+        .map_err(|error| AppError::Message(error.to_string()))
+}
+
+/// Closes the app from its own menu.
+///
+/// `exit` rather than closing the window: the window is the app, and leaving the process behind a
+/// closed window is how an app ends up running twice.
+#[tauri::command]
+pub fn app_exit(app: AppHandle) {
+    app.exit(0);
 }
 
 #[tauri::command]

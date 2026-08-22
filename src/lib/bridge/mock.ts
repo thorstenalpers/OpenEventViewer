@@ -559,6 +559,22 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 		case 'devtools_open':
 			return null;
 
+		case 'app_exit':
+			// A browser tab cannot close itself unless a script opened it, so this only says so.
+			logEntries.push({
+				timestamp: new Date().toISOString(),
+				level: 'info',
+				source: 'host',
+				message: 'Exit — the mock host has no window to close.'
+			});
+			return null;
+
+		case 'open_url': {
+			const { url } = args as CommandArgs['open_url'];
+			window.open(url, '_blank', 'noopener');
+			return null;
+		}
+
 		case 'assistant_status': {
 			const { source } = args as CommandArgs['assistant_status'];
 			return { source, cliAvailable: true, hasKey: storedKey, systemPrompt: SYSTEM_PROMPT };

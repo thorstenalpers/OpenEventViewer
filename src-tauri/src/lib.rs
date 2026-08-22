@@ -65,6 +65,8 @@ pub fn run() {
             commands::log_write,
             commands::third_party_licenses,
             commands::devtools_open,
+            commands::open_url,
+            commands::app_exit,
             commands::assistant_status,
             commands::assistant_set_key,
         ])
