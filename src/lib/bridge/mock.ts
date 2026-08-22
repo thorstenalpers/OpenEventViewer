@@ -310,6 +310,22 @@ function events(): EventRecord[] {
 	return allEvents;
 }
 
+/** What wevtapi accepts in one query. Over it, the host refuses rather than answering with none. */
+const MAX_EXPRESSIONS = 20;
+
+function expressionCount(filter: EventFilter): number {
+	const levels = filter.levels.length
+		? filter.levels.length + (filter.levels.includes(4) && !filter.levels.includes(0) ? 1 : 0)
+		: 0;
+	return (
+		levels +
+		(filter.from ? 1 : 0) +
+		(filter.to ? 1 : 0) +
+		filter.eventIds.length +
+		filter.providers.length
+	);
+}
+
 /** The same narrowing the host's XPath does, so a filter behaves the same in both. */
 function matches(event: EventRecord, filter: EventFilter): boolean {
 	const channels = filter.channels.length ? filter.channels : ['System', 'Application'];
@@ -466,6 +482,13 @@ export function mockHost<T extends CommandName>(name: T, args: CommandArgs[T]): 
 		case 'events_query': {
 			const { filter } = args as CommandArgs['events_query'];
 			if (filter.channels.includes('Security')) throw new Error(ACCESS_DENIED);
+			const conditions = expressionCount(filter);
+			if (conditions > MAX_EXPRESSIONS) {
+				throw new Error(
+					`this filter asks ${conditions} separate conditions and the event log accepts at most ` +
+						`${MAX_EXPRESSIONS} — narrow the levels, the event ids or the providers`
+				);
+			}
 
 			const started = performance.now();
 			const matching = events().filter((event) => matches(event, filter));

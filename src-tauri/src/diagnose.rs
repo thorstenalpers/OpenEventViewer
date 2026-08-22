@@ -224,26 +224,34 @@ fn seconds_between(left: &str, right: &str) -> Option<i64> {
     Some((parse(left).ok()? - parse(right).ok()?).num_seconds())
 }
 
-/// One query for every signature at once, rather than one per provider.
+/// One query per signature, rather than one query for all of them.
+///
+/// A single query naming twelve providers and twenty-six ids is past what wevtapi accepts, and
+/// `EvtQueryTolerateQueryErrors` means it answers with nothing instead of saying so. Each
+/// signature on its own is a handful of conditions and highly selective, so twelve of them cost
+/// less than one broad scan would.
 pub fn incidents(days: u32) -> AppResult<Vec<Incident>> {
     let from = stamp(Utc::now() - Duration::days(i64::from(days.max(1))));
-    let result = eventlog::query(&Filter {
-        channels: vec!["System".into(), "Application".into()],
-        levels: vec![1, 2, 3],
-        from: Some(from),
-        to: None,
-        event_ids: SIGNATURES
-            .iter()
-            .flat_map(|signature| signature.ids.iter().copied())
-            .collect(),
-        providers: SIGNATURES
-            .iter()
-            .map(|signature| signature.provider.to_string())
-            .collect(),
-        max: SCAN_MAX,
-    })?;
+    let per_signature = SCAN_MAX / SIGNATURES.len();
+    let mut found = Vec::new();
 
-    Ok(find_incidents(result.events))
+    for signature in SIGNATURES {
+        let result = eventlog::query(&Filter {
+            channels: vec!["System".into(), "Application".into()],
+            levels: vec![1, 2, 3],
+            from: Some(from.clone()),
+            to: None,
+            event_ids: signature.ids.to_vec(),
+            providers: vec![signature.provider.to_string()],
+            max: per_signature,
+        })?;
+        found.extend(result.events);
+        if found.len() >= SCAN_MAX {
+            break;
+        }
+    }
+
+    Ok(find_incidents(found))
 }
 
 pub fn bundle(channel: &str, record_id: u64) -> AppResult<Bundle> {
@@ -461,6 +469,34 @@ mod tests {
         assert_eq!(
             found[0].headline,
             "The previous system shutdown was unexpected."
+        );
+    }
+}
+
+#[cfg(test)]
+mod live {
+    use super::*;
+
+    #[test]
+    #[ignore = "reads the machine's own log"]
+    fn the_machine_is_scanned_and_one_incident_is_bundled() {
+        let found = incidents(30).expect("a scan");
+        println!("{} incidents in 30 days", found.len());
+        for incident in found.iter().take(6) {
+            println!(
+                "  {} {:?} {}",
+                incident.time, incident.kind, incident.headline
+            );
+        }
+        // A machine that has had nothing go wrong is a valid answer, not a failure.
+        let Some(first) = found.first() else { return };
+        let bundle = bundle(&first.event.channel, first.event.record_id).expect("a bundle");
+        println!(
+            "bundle {} — {} : {} events, {} chars of prompt",
+            bundle.from,
+            bundle.to,
+            bundle.events.len(),
+            bundle.prompt.len()
         );
     }
 }

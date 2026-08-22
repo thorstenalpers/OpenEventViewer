@@ -35,6 +35,11 @@ const BATCH: usize = 128;
 /// How long `EvtNext` may wait for the next batch.
 const NEXT_TIMEOUT_MS: u32 = 2_000;
 
+/// What wevtapi will accept in one query. Documented, and enforced here rather than by the API:
+/// with `EvtQueryTolerateQueryErrors` an over-long query is not rejected, it simply matches
+/// nothing — the one failure mode that looks exactly like an empty log.
+const MAX_EXPRESSIONS: usize = 20;
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DataItem {
@@ -175,6 +180,15 @@ pub fn list_channels() -> AppResult<Vec<String>> {
 pub fn query(filter: &Filter) -> AppResult<QueryResult> {
     let started = std::time::Instant::now();
     let wanted = filter.max.clamp(1, MAX_EVENTS);
+
+    let conditions = expression_count(filter);
+    if conditions > MAX_EXPRESSIONS {
+        return Err(AppError::Message(format!(
+            "this filter asks {conditions} separate conditions and the event log accepts at most \
+             {MAX_EXPRESSIONS} — narrow the levels, the event ids or the providers"
+        )));
+    }
+
     let text = build_query(filter);
 
     // One channel goes in as a path with a plain XPath; anything else has to be a structured query,
@@ -479,22 +493,21 @@ pub fn keyword_names(mask: u64) -> Vec<String> {
 /// One channel is a plain XPath against the path the query is opened on. Anything else — none, or
 /// several — has to be a structured query, because a path can only name one channel.
 pub fn build_query(filter: &Filter) -> String {
-    let predicate = predicate(filter);
-
     match filter.channels.len() {
-        1 => predicate,
+        1 => predicate(filter, false),
         _ => {
             let channels: Vec<&str> = if filter.channels.is_empty() {
                 vec!["System", "Application"]
             } else {
                 filter.channels.iter().map(String::as_str).collect()
             };
+            let inner = predicate(filter, true);
             let selects = channels
                 .iter()
                 .map(|channel| {
                     format!(
-                        "<Select Path=\"{}\">{predicate}</Select>",
-                        escape(channel.replace('"', ""))
+                        "<Select Path=\"{}\">{inner}</Select>",
+                        escape(channel, true)
                     )
                 })
                 .collect::<String>();
@@ -503,7 +516,13 @@ pub fn build_query(filter: &Filter) -> String {
     }
 }
 
-fn predicate(filter: &Filter) -> String {
+/// The comparison operators are the whole reason this needs to know where it will end up.
+///
+/// A structured query is XML, so `>` has to be written `&gt;`. A single-channel query is not: the
+/// string goes straight to wevtapi, which reads `&gt;` as three characters and quietly matches
+/// nothing at all — a time filter that silently returns an empty log.
+fn predicate(filter: &Filter, xml: bool) -> String {
+    let (gt, lt) = if xml { ("&gt;", "&lt;") } else { (">", "<") };
     let mut clauses: Vec<String> = Vec::new();
 
     if !filter.levels.is_empty() {
@@ -520,14 +539,14 @@ fn predicate(filter: &Filter) -> String {
 
     if let Some(from) = filter.from.as_deref().filter(|value| !value.is_empty()) {
         clauses.push(format!(
-            "TimeCreated[@SystemTime&gt;='{}']",
-            escape(from.to_string())
+            "TimeCreated[@SystemTime{gt}='{}']",
+            escape(from, xml)
         ));
     }
     if let Some(to) = filter.to.as_deref().filter(|value| !value.is_empty()) {
         clauses.push(format!(
-            "TimeCreated[@SystemTime&lt;='{}']",
-            escape(to.to_string())
+            "TimeCreated[@SystemTime{lt}='{}']",
+            escape(to, xml)
         ));
     }
 
@@ -541,7 +560,7 @@ fn predicate(filter: &Filter) -> String {
         let names = filter
             .providers
             .iter()
-            .map(|name| format!("@Name='{}'", escape(name.clone())))
+            .map(|name| format!("@Name=\"{}\"", escape(name, xml)))
             .collect::<Vec<_>>()
             .join(" or ");
         clauses.push(format!("Provider[{names}]"));
@@ -554,6 +573,28 @@ fn predicate(filter: &Filter) -> String {
     }
 }
 
+/// Every term wevtapi counts against its own ceiling.
+pub fn expression_count(filter: &Filter) -> usize {
+    let levels = if filter.levels.is_empty() {
+        0
+    } else if filter.levels.contains(&4) && !filter.levels.contains(&0) {
+        filter.levels.len() + 1
+    } else {
+        filter.levels.len()
+    };
+
+    levels
+        + usize::from(
+            filter
+                .from
+                .as_deref()
+                .is_some_and(|value| !value.is_empty()),
+        )
+        + usize::from(filter.to.as_deref().is_some_and(|value| !value.is_empty()))
+        + filter.event_ids.len()
+        + filter.providers.len()
+}
+
 fn one_of(parts: impl Iterator<Item = String>) -> String {
     let joined: Vec<String> = parts.collect();
     if joined.len() == 1 {
@@ -563,12 +604,19 @@ fn one_of(parts: impl Iterator<Item = String>) -> String {
     }
 }
 
-/// An apostrophe would close the literal it sits in, and a filter typed by hand is the one place a
-/// provider name arrives unvetted.
-fn escape(value: String) -> String {
-    value
+/// A provider name arrives from a text field, so it is the one part of the query nothing has
+/// vetted.
+///
+/// The literal is double-quoted, which is why the double quote is the character that has to go: an
+/// apostrophe is then harmless in both forms, and an XPath string literal has no escape of its own
+/// to fall back on. The XML entities apply only where the query is embedded in XML.
+fn escape(value: &str, xml: bool) -> String {
+    let stripped = value.replace('"', "");
+    if !xml {
+        return stripped;
+    }
+    stripped
         .replace('&', "&amp;")
-        .replace('\'', "&apos;")
         .replace('<', "&lt;")
         .replace('>', "&gt;")
 }
@@ -738,8 +786,10 @@ mod tests {
         assert_eq!(build_query(&one), "*[System[(Level=0 or Level=4)]]");
     }
 
+    /// A single-channel query is a bare XPath, not XML. wevtapi reads an escaped `&gt;` as three
+    /// characters and matches nothing at all — a time filter that silently empties the log.
     #[test]
-    fn a_time_window_becomes_two_escaped_comparisons() {
+    fn a_time_window_on_one_channel_compares_with_a_raw_operator() {
         let mut one = filter();
         one.channels = vec!["System".into()];
         one.from = Some("2026-08-20T00:00:00.000Z".into());
@@ -747,9 +797,25 @@ mod tests {
 
         assert_eq!(
             build_query(&one),
-            "*[System[TimeCreated[@SystemTime&gt;='2026-08-20T00:00:00.000Z'] and \
-             TimeCreated[@SystemTime&lt;='2026-08-21T00:00:00.000Z']]]"
+            "*[System[TimeCreated[@SystemTime>='2026-08-20T00:00:00.000Z'] and \
+             TimeCreated[@SystemTime<='2026-08-21T00:00:00.000Z']]]"
         );
+    }
+
+    /// Embedded in a `<Select>`, the same comparison is XML and has to be escaped.
+    #[test]
+    fn a_time_window_across_channels_escapes_it_because_that_query_is_xml() {
+        let mut two = filter();
+        two.channels = vec!["System".into(), "Application".into()];
+        two.from = Some("2026-08-20T00:00:00.000Z".into());
+
+        let query = build_query(&two);
+
+        assert!(
+            query.contains("@SystemTime&gt;='2026-08-20T00:00:00.000Z'"),
+            "{query}"
+        );
+        assert!(!query.contains("@SystemTime>="), "{query}");
     }
 
     #[test]
@@ -762,21 +828,21 @@ mod tests {
         assert_eq!(
             build_query(&one),
             "*[System[(EventID=41 or EventID=6008) and \
-             Provider[@Name='Microsoft-Windows-Kernel-Power']]]"
+             Provider[@Name=\"Microsoft-Windows-Kernel-Power\"]]]"
         );
     }
 
-    /// An apostrophe in a provider name would close the literal it sits in, and the name comes
-    /// straight out of a text field.
+    /// The literal is double-quoted, so an apostrophe in a provider name is harmless and a double
+    /// quote is the one character that would close it.
     #[test]
     fn a_quote_in_a_provider_name_cannot_close_the_literal() {
         let mut one = filter();
         one.channels = vec!["System".into()];
-        one.providers = vec!["O'Brien Software".into()];
+        one.providers = vec![r#"O'Brien "Software""#.into()];
 
         assert_eq!(
             build_query(&one),
-            "*[System[Provider[@Name='O&apos;Brien Software']]]"
+            r#"*[System[Provider[@Name="O'Brien Software"]]]"#
         );
     }
 
@@ -925,6 +991,30 @@ mod tests {
         assert_eq!(keyword_names(0x0080_0000_0000_0000), vec!["Classic"]);
         assert_eq!(keyword_names(0x0020_0000_0000_0000), vec!["Audit Success"]);
         assert!(keyword_names(0x0000_0000_0000_0002).is_empty());
+    }
+
+    /// An over-long query is the worst kind of failure: `EvtQueryTolerateQueryErrors` means
+    /// wevtapi does not reject it, it just matches nothing, which reads as an empty log.
+    #[test]
+    fn a_filter_with_too_many_conditions_is_refused_rather_than_silently_emptied() {
+        let mut one = filter();
+        one.channels = vec!["System".into()];
+        one.levels = vec![1, 2, 3];
+        one.from = Some("2026-08-20T00:00:00.000Z".into());
+        one.event_ids = (1..=20).collect();
+
+        assert_eq!(expression_count(&one), 24);
+        let refused = query(&one).expect_err("24 conditions is past the ceiling");
+        assert!(refused.to_string().contains("at most 20"), "{refused}");
+    }
+
+    #[test]
+    fn the_level_zero_that_information_drags_in_counts_towards_the_ceiling() {
+        let mut one = filter();
+        one.channels = vec!["System".into()];
+        one.levels = vec![4];
+
+        assert_eq!(expression_count(&one), 2);
     }
 
     #[test]

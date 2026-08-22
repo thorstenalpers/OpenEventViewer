@@ -83,6 +83,24 @@ describe('bridge client', () => {
 		expect(result.truncated).toBe(true);
 	});
 
+	/// With EvtQueryTolerateQueryErrors an over-long query is not rejected by wevtapi, it simply
+	/// matches nothing — which reads as an empty log rather than as a filter that asked too much.
+	it('refuses a filter with more conditions than the event log accepts', async () => {
+		await expect(
+			call('events_query', {
+				filter: {
+					channels: ['System'],
+					levels: [1, 2, 3],
+					from: '2026-08-01T00:00:00.000Z',
+					to: null,
+					eventIds: Array.from({ length: 20 }, (_, index) => index + 1),
+					providers: [],
+					max: 100
+				}
+			})
+		).rejects.toThrow(/at most 20/);
+	});
+
 	it('rejects a reply that does not match the contract', () => {
 		expect(() => commands.assistant_status.response.parse({ source: 'cli' })).toThrow();
 	});
