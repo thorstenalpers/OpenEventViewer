@@ -1,14 +1,6 @@
 #[derive(Debug, thiserror::Error)]
 pub enum AppError {
     #[error("{0}")]
-    Ingest(#[from] openexamtrainer_ingest::IngestError),
-    #[error("{0}")]
-    Vce(#[from] openexamtrainer_ingest::vce::VceError),
-    #[error("{0}")]
-    Bank(#[from] openexamtrainer_ingest::bank::BankError),
-    #[error("database: {0}")]
-    Database(#[from] rusqlite::Error),
-    #[error("{0}")]
     Json(#[from] serde_json::Error),
     #[error("{0}")]
     Tauri(#[from] tauri::Error),

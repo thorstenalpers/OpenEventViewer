@@ -17,9 +17,9 @@ env:
 
 jobs:
   check:
-    # Windows only, on purpose. WebView2, the Windows Credential Manager, Windows speech synthesis
-    # and the win-x64 Pdfium build are the product, not an incidental host — there is no second
-    # platform whose green tick would mean anything.
+    # Windows only, on purpose. The event log, WebView2 and the Windows Credential Manager are the
+    # product, not an incidental host — there is no second platform whose green tick would mean
+    # anything.
     runs-on: windows-latest
     defaults:
       run:
@@ -44,18 +44,6 @@ jobs:
           key: cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
           restore-keys: cargo-${{ runner.os }}-
 
-      # Pdfium is BSD-3 and deliberately absent from the source tree. Cached because the fetch reads
-      # the GitHub API unauthenticated, and a rate limit there would fail a run with nothing wrong
-      # with it.
-      - name: Cache pdfium
-        uses: actions/cache@v4
-        with:
-          path: vendor/pdfium
-          key: pdfium-${{ hashFiles('scripts/fetch-pdfium.ps1') }}
-
-      - name: Fetch pdfium
-        run: ./scripts/fetch-pdfium.ps1
-
       - run: npm ci
 
       # Formatting first: it needs nothing built and it is the failure you fix in one command.
@@ -65,13 +53,8 @@ jobs:
       - run: npm test
       - run: cargo clippy --workspace --all-targets -- -D warnings
 
-      # Two things this step does *not* prove, both by design rather than oversight:
-      #
-      # The ingest fixture tests skip themselves when the vendor exam PDFs are missing, and they are
-      # missing here — that material is gitignored and never redistributed. Those tests reporting ok
-      # in CI means they did not run. The extraction guarantee lives on a machine that has the files.
-      #
-      # `the_local_binary_answers` is `#[ignore]`d and stays that way: it spends a real request.
+      # The `#[ignore]`d tests stay ignored: they read the machine's own event log or spend a real
+      # assistant request, and neither is something a run on a fresh runner can claim to have shown.
       - run: cargo test --workspace
 
   bundle:
@@ -102,15 +85,6 @@ jobs:
             target
           key: bundle-cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
           restore-keys: bundle-cargo-${{ runner.os }}-
-
-      - name: Cache pdfium
-        uses: actions/cache@v4
-        with:
-          path: vendor/pdfium
-          key: pdfium-${{ hashFiles('scripts/fetch-pdfium.ps1') }}
-
-      - name: Fetch pdfium
-        run: ./scripts/fetch-pdfium.ps1
 
       - run: npm ci
 

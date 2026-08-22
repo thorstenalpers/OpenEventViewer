@@ -10,21 +10,24 @@
 		"frontendDist": "../build"
 	},
 	"app": {
-		"windows": [],
-		"security": {
-			"csp": null,
-			"assetProtocol": {
-				"enable": true,
-				"scope": ["**"]
+		"windows": [
+			{
+				"label": "main",
+				"title": "OpenExamTrainer",
+				"width": 1360,
+				"height": 900,
+				"minWidth": 1000,
+				"minHeight": 640
 			}
+		],
+		"security": {
+			"csp": null
 		}
 	},
 	"bundle": {
 		"active": true,
 		"targets": "nsis",
 		"resources": {
-			"../vendor/pdfium/bin/pdfium.dll": "",
-			"../vendor/sherpa-onnx/bin/*.dll": "",
 			"resources/THIRD_PARTY_LICENSES.txt": ""
 		},
 		"icon": [

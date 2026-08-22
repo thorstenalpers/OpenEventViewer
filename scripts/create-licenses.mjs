@@ -138,67 +138,7 @@ function repository(path) {
 	}
 }
 
-/**
- * PDFium is not a dependency of either tree — it is a prebuilt binary dropped into `vendor/` and
- * copied into the installer, so nothing above would ever list it. It is also the component whose
- * notices most obviously have to ship, since its machine code is inside the bundle.
- *
- * Two traps in that directory, both found the hard way:
- *
- * 1. `vendor/pdfium/LICENSE` is **not** PDFium's licence. The binaries come from
- *    bblanchon/pdfium-binaries, and that file is the MIT licence of the packaging repository.
- *    Printing it under the heading "PDFium — BSD-3-Clause" would attribute the wrong copyright
- *    holder to the wrong licence.
- * 2. `pdfium.dll` statically contains freetype, icu, libjpeg-turbo, zlib and a dozen more. Their
- *    notices are in `licenses/`, and they ship inside the DLL whether or not anyone lists them.
- */
-function vendored() {
-	const base = join(root, 'vendor', 'pdfium');
-	const entries = [];
-
-	const packaging = join(base, 'LICENSE');
-	if (existsSync(packaging)) {
-		entries.push({
-			kind: 'vendored',
-			name: 'pdfium-binaries (build scripts)',
-			version: 'packaging',
-			license: 'MIT',
-			url: 'https://github.com/bblanchon/pdfium-binaries',
-			text: readFileSync(packaging, 'utf8').trim()
-		});
-	}
-
-	const folder = join(base, 'licenses');
-	if (existsSync(folder)) {
-		const stems = readdirSync(folder).map((file) => file.replace(/\.[^.]+$/, ''));
-		for (const file of readdirSync(folder).sort()) {
-			const stem = file.replace(/\.[^.]+$/, '');
-			// libjpeg-turbo ships two notices under one stem; the extension is what tells them apart.
-			const component = stems.filter((other) => other === stem).length > 1 ? file : stem;
-			entries.push({
-				kind: 'vendored',
-				name: stem === 'pdfium' ? 'PDFium' : `PDFium: ${component}`,
-				version: stem === 'pdfium' ? 'prebuilt binary' : 'bundled in pdfium.dll',
-				license: '',
-				url:
-					stem === 'pdfium'
-						? 'https://pdfium.googlesource.com/pdfium/'
-						: 'https://pdfium.googlesource.com/pdfium/+/main/DEPS',
-				text: readFileSync(join(folder, file), 'utf8').trim()
-			});
-		}
-	}
-
-	return entries;
-}
-
-/**
- * Every licence a text announces, not the first one matched.
- *
- * PDFium's own notice carries BSD-3-Clause for PDFium *and* the full Apache-2.0 text for the parts
- * taken from elsewhere. Returning a single identifier there would have labelled it `Apache-2.0` and
- * dropped the licence that actually governs the library.
- */
+/** Every licence a text announces, not the first one matched. */
 function spdxOf(text) {
 	if (!text) return 'UNKNOWN';
 
@@ -223,7 +163,7 @@ function spdxOf(text) {
 	return found.length ? found.join(' AND ') : 'see text';
 }
 
-const entries = [...vendored(), ...crates(), ...packages()]
+const entries = [...crates(), ...packages()]
 	.map((entry) => ({ ...entry, license: entry.license || spdxOf(entry.text) }))
 	.sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));
 
