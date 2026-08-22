@@ -41,6 +41,7 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'level',
 		accessorKey: 'levelName',
 		header: 'level',
+		size: 112,
 		filterFn: oneOf,
 		meta: { filter: 'choice' }
 	},
@@ -48,6 +49,7 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'time',
 		accessorKey: 'timeCreated',
 		header: 'time',
+		size: 176,
 		filterFn: withinTime,
 		meta: { filter: 'time' }
 	},
@@ -55,6 +57,7 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'provider',
 		accessorKey: 'provider',
 		header: 'provider',
+		size: 240,
 		filterFn: oneOf,
 		meta: { filter: 'choice' }
 	},
@@ -62,6 +65,7 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'eventId',
 		accessorKey: 'eventId',
 		header: 'eventId',
+		size: 88,
 		filterFn: matchesNumber,
 		meta: { filter: 'number' }
 	},
@@ -69,6 +73,7 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'task',
 		accessorKey: 'task',
 		header: 'task',
+		size: 144,
 		filterFn: oneOf,
 		meta: { filter: 'choice' }
 	},
@@ -76,6 +81,7 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'channel',
 		accessorKey: 'channel',
 		header: 'channel',
+		size: 144,
 		filterFn: oneOf,
 		meta: { filter: 'choice' }
 	},
@@ -83,6 +89,7 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'computer',
 		accessorKey: 'computer',
 		header: 'computer',
+		size: 128,
 		filterFn: oneOf,
 		meta: { filter: 'choice' }
 	},
@@ -91,13 +98,14 @@ export const COLUMNS: ColumnDef<EventRecord, never>[] = [
 		id: 'message',
 		accessorKey: 'message',
 		header: 'message',
+		size: 520,
 		filterFn: 'includesString',
 		meta: { filter: 'text' }
 	}
 ];
 
-/** Fixed, in the same order as COLUMNS, plus the actions column the table adds itself. */
-export const WIDTHS = ['7rem', '11rem', '15rem', '5.5rem', '9rem', '9rem', '8rem', 'auto', '3rem'];
+/** The two buttons at the end of a row, which are not a column and do not resize. */
+export const ACTIONS_WIDTH = 64;
 
 export type EventsTableData = DataTable<EventRecord>;
 

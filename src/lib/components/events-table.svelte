@@ -3,12 +3,13 @@
 	import ArrowDownIcon from '@lucide/svelte/icons/arrow-down';
 	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
 	import SparklesIcon from '@lucide/svelte/icons/sparkles';
+	import SearchIcon from '@lucide/svelte/icons/globe';
 	import LevelBadge from '$lib/components/level-badge.svelte';
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
 	import { keyOf, type TimeRange } from '$lib/events';
-	import { WIDTHS, type EventsTableData } from '$lib/stores/events-table.svelte';
+	import { ACTIONS_WIDTH, type EventsTableData } from '$lib/stores/events-table.svelte';
 	import ChoiceFilter from '$lib/components/filters/choice-filter.svelte';
 	import TimeFilter from '$lib/components/filters/time-filter.svelte';
 	import NumberFilter from '$lib/components/filters/number-filter.svelte';
@@ -20,10 +21,11 @@
 		onSelect?: (event: EventRecord) => void;
 		/** Absent on the diagnosis bundle, where the whole window is attached in one go. */
 		onAsk?: (event: EventRecord) => void;
+		onSearch?: (event: EventRecord) => void;
 		class?: string;
 	}
 
-	let { data, selectedId = null, onSelect, onAsk, class: className }: Props = $props();
+	let { data, selectedId = null, onSelect, onAsk, onSearch, class: className }: Props = $props();
 
 	const t = $derived(i18n.t);
 
@@ -49,6 +51,15 @@
 		return t.events.columns[column as keyof typeof t.events.columns] ?? column;
 	}
 
+	/** The same drag, for anyone who is not holding a mouse. */
+	function nudge(pressed: KeyboardEvent, column: Column<EventRecord, unknown>) {
+		const step = pressed.key === 'ArrowLeft' ? -16 : pressed.key === 'ArrowRight' ? 16 : 0;
+		if (step === 0) return;
+		pressed.preventDefault();
+		const width = Math.max(48, column.getSize() + step);
+		data.table.setColumnSizing((old) => ({ ...old, [column.id]: width }));
+	}
+
 	function shown(value: string): string {
 		const parsed = Date.parse(value);
 		return Number.isNaN(parsed) ? value : new Date(parsed).toLocaleString();
@@ -69,11 +80,16 @@
 	bind:clientHeight={viewport}
 	onscroll={scrolled}
 >
-	<table class="w-full table-fixed border-collapse text-sm">
+	<table
+		class="table-fixed border-collapse text-sm"
+		style:width="{data.table.getTotalSize() + ACTIONS_WIDTH}px"
+		style:min-width="100%"
+	>
 		<colgroup>
-			{#each WIDTHS as width, index (index)}
-				<col style:width />
+			{#each data.table.getVisibleLeafColumns() as column (column.id)}
+				<col style:width="{column.getSize()}px" />
 			{/each}
+			<col style:width="{ACTIONS_WIDTH}px" />
 		</colgroup>
 		<thead class="sticky top-0 z-10 bg-background">
 			{#each data.table.getHeaderGroups() as headerGroup (headerGroup.id)}
@@ -81,7 +97,7 @@
 					{#each headerGroup.headers as header (header.id)}
 						{@const sorted = header.column.getIsSorted()}
 						{@const index = header.column.getSortIndex()}
-						<th class="h-8 px-2 text-start font-medium text-muted-foreground select-none">
+						<th class="relative h-8 px-2 text-start font-medium text-muted-foreground select-none">
 							<button
 								type="button"
 								class="flex w-full cursor-pointer items-center gap-1 truncate hover:text-foreground"
@@ -100,6 +116,23 @@
 									<span class="text-[10px] tabular-nums">{index + 1}</span>
 								{/if}
 							</button>
+							<!-- Sits on the seam and spans both header rows, so the target is the whole
+							     boundary rather than eight pixels of one line. `touch-none` because the
+							     pointer events would otherwise be swallowed by the container's own scroll. -->
+							<button
+								type="button"
+								aria-label={t.events.resize(label(header.column.id))}
+								onmousedown={header.getResizeHandler()}
+								ontouchstart={header.getResizeHandler()}
+								ondblclick={() => header.column.resetSize()}
+								onkeydown={(pressed) => nudge(pressed, header.column)}
+								class={cn(
+									'absolute end-0 top-0 z-20 h-16 w-1.5 translate-x-1/2 cursor-col-resize touch-none',
+									'after:absolute after:inset-y-1 after:start-1/2 after:w-px after:-translate-x-1/2 after:bg-border',
+									'hover:after:inset-y-0 hover:after:w-0.5 hover:after:bg-primary',
+									header.column.getIsResizing() && 'after:inset-y-0 after:w-0.5 after:bg-primary'
+								)}
+							></button>
 						</th>
 					{/each}
 					<th class="h-8 px-2"></th>
@@ -168,21 +201,37 @@
 					<td class="truncate px-2" title={event.channel}>{event.channel}</td>
 					<td class="truncate px-2">{event.computer}</td>
 					<td class="truncate px-2 text-muted-foreground" title={event.message}>{event.message}</td>
-					<td class="px-1 text-end">
-						{#if onAsk}
-							<button
-								type="button"
-								class="cursor-pointer rounded p-1 text-muted-foreground hover:bg-accent hover:text-primary"
-								aria-label={t.events.ask}
-								title={t.events.ask}
-								onclick={(clicked) => {
-									clicked.stopPropagation();
-									onAsk?.(event);
-								}}
-							>
-								<SparklesIcon class="size-3.5" />
-							</button>
-						{/if}
+					<td class="px-1">
+						<div class="flex items-center justify-end gap-0.5">
+							{#if onAsk}
+								<button
+									type="button"
+									class="cursor-pointer rounded p-1 text-muted-foreground hover:bg-accent hover:text-primary"
+									aria-label={t.events.ask}
+									title={t.events.ask}
+									onclick={(clicked) => {
+										clicked.stopPropagation();
+										onAsk?.(event);
+									}}
+								>
+									<SparklesIcon class="size-3.5" />
+								</button>
+							{/if}
+							{#if onSearch}
+								<button
+									type="button"
+									class="cursor-pointer rounded p-1 text-muted-foreground hover:bg-accent hover:text-primary"
+									aria-label={t.events.search}
+									title={t.events.search}
+									onclick={(clicked) => {
+										clicked.stopPropagation();
+										onSearch?.(event);
+									}}
+								>
+									<SearchIcon class="size-3.5" />
+								</button>
+							{/if}
+						</div>
 					</td>
 				</tr>
 			{/each}
