@@ -15,7 +15,7 @@
 	import type { AssistantSource, AssistantStatus } from '$lib/bridge/contract';
 	import { i18n, LOCALES, isLocale } from '$lib/i18n/index.svelte';
 	import { THEME_PRESETS, isThemePreset } from '$lib/theme/preset';
-	import { settings } from '$lib/stores/settings.svelte';
+	import { settings, MAX_ROW_CHOICES } from '$lib/stores/settings.svelte';
 
 	const t = $derived(i18n.t);
 
@@ -41,6 +41,12 @@
 	]);
 
 	const localeOptions = LOCALES.map((locale) => ({ value: locale.id, label: locale.label }));
+	const rowOptions = $derived(
+		MAX_ROW_CHOICES.map((rows) => ({
+			value: String(rows),
+			label: t.settings.eventsRowsValue(rows)
+		}))
+	);
 	const presetOptions = $derived(
 		THEME_PRESETS.map((preset) => ({ value: preset, label: t.settings.presets[preset] ?? preset }))
 	);
@@ -141,6 +147,18 @@
 					bind:value={preset}
 					options={presetOptions}
 					aria-label={t.settings.colours}
+					class="w-44"
+				/>
+			</div>
+
+			<div class={ROW}>
+				{@render describe(t.settings.eventsRows, t.settings.eventsRowsBody)}
+				<Select
+					value={String(settings.eventsMaxRows)}
+					options={rowOptions}
+					onchange={(event: Event) =>
+						settings.setEventsMaxRows(Number((event.currentTarget as HTMLSelectElement).value))}
+					aria-label={t.settings.eventsRows}
 					class="w-44"
 				/>
 			</div>

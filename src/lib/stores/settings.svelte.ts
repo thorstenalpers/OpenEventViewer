@@ -6,6 +6,10 @@ import { applyPreset, isThemePreset, type ThemePreset } from '$lib/theme/preset'
 const LOCALE_KEY = 'oev.locale';
 const PRESET_KEY = 'oev.preset';
 const SIDEBAR_KEY = 'oev.sidebar';
+const MAX_ROWS_KEY = 'oev.events.maxRows';
+
+/** What one query may load. Past the last of these the wait stops being a wait. */
+export const MAX_ROW_CHOICES = [1000, 5000, 20000, 50000] as const;
 
 /**
  * Preferences the UI owns. They live in `localStorage` rather than in the host's settings file:
@@ -17,6 +21,7 @@ class SettingsStore {
 	locale = $state<Locale>('en');
 	preset = $state<ThemePreset>('default');
 	sidebarExpanded = $state(true);
+	eventsMaxRows = $state(5000);
 
 	// These two belong to the host, not the webview: the log buffer lives in Rust and has to know
 	// about `debugLogging` before the first command runs, which `localStorage` cannot tell it.
@@ -37,6 +42,16 @@ class SettingsStore {
 		applyPreset(this.preset);
 
 		this.sidebarExpanded = localStorage.getItem(SIDEBAR_KEY) !== 'collapsed';
+
+		const rows = Number(localStorage.getItem(MAX_ROWS_KEY));
+		if (MAX_ROW_CHOICES.includes(rows as (typeof MAX_ROW_CHOICES)[number])) {
+			this.eventsMaxRows = rows;
+		}
+	}
+
+	setEventsMaxRows(rows: number): void {
+		this.eventsMaxRows = rows;
+		localStorage?.setItem(MAX_ROWS_KEY, String(rows));
 	}
 
 	toggleSidebar(): void {

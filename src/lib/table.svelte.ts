@@ -4,6 +4,7 @@ import {
 	getFilteredRowModel,
 	getSortedRowModel,
 	type ColumnDef,
+	type ColumnFiltersState,
 	type RowData,
 	type SortingState,
 	type Table,
@@ -18,7 +19,18 @@ import {
  * Routing unmounts a page, so a table's state would otherwise reset on every trip to Settings and
  * back. Keyed by table so two tables never share a filter.
  */
-const KEPT: Record<string, { sorting: SortingState; globalFilter: string }> = {};
+const KEPT: Record<
+	string,
+	{ sorting: SortingState; globalFilter: string; columnFilters: ColumnFiltersState }
+> = {};
+
+/** What a view is handed: the table itself plus the two filters it does not drive through columns. */
+export interface DataTable<TData extends RowData> {
+	readonly table: Table<TData>;
+	globalFilter: string;
+	readonly columnFilters: ColumnFiltersState;
+	clearColumnFilters(): void;
+}
 
 /**
  * TanStack Table driven by runes.
@@ -33,13 +45,14 @@ export function createDataTable<TData extends RowData>(
 	initialSorting: SortingState = [],
 	/** Set to keep this table's sort and filter across navigation. */
 	key?: string
-) {
+): DataTable<TData> {
 	const kept = key ? KEPT[key] : undefined;
 	let sorting = $state<SortingState>(kept?.sorting ?? initialSorting);
 	let globalFilter = $state(kept?.globalFilter ?? '');
+	let columnFilters = $state<ColumnFiltersState>(kept?.columnFilters ?? []);
 
 	function remember() {
-		if (key) KEPT[key] = { sorting, globalFilter };
+		if (key) KEPT[key] = { sorting, globalFilter, columnFilters };
 	}
 
 	const common = {
@@ -67,13 +80,17 @@ export function createDataTable<TData extends RowData>(
 		createTable<TData>({
 			...common,
 			data: getRows(),
-			state: { ...defaults, sorting, globalFilter },
+			state: { ...defaults, sorting, globalFilter, columnFilters },
 			onSortingChange: (updater: Updater<SortingState>) => {
 				sorting = typeof updater === 'function' ? updater(sorting) : updater;
 				remember();
 			},
 			onGlobalFilterChange: (updater: Updater<string>) => {
 				globalFilter = typeof updater === 'function' ? updater(globalFilter) : updater;
+				remember();
+			},
+			onColumnFiltersChange: (updater: Updater<ColumnFiltersState>) => {
+				columnFilters = typeof updater === 'function' ? updater(columnFilters) : updater;
 				remember();
 			}
 		})
@@ -88,6 +105,13 @@ export function createDataTable<TData extends RowData>(
 		},
 		set globalFilter(value: string) {
 			globalFilter = value;
+			remember();
+		},
+		get columnFilters() {
+			return columnFilters;
+		},
+		clearColumnFilters() {
+			columnFilters = [];
 			remember();
 		}
 	};

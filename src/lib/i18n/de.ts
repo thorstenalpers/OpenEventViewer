@@ -19,7 +19,52 @@ export const de: Translations = {
 	},
 	events: {
 		title: 'Ereignisse',
-		subtitle: 'Was Windows aufgezeichnet hat, neueste zuerst.'
+		subtitle: 'Was Windows aufgezeichnet hat, neueste zuerst.',
+		channel: 'Kanal',
+		allChannels: 'System und Anwendung',
+		level: 'Stufe',
+		levels: {
+			critical: 'Kritisch',
+			error: 'Fehler',
+			warning: 'Warnung',
+			information: 'Information',
+			verbose: 'Ausführlich'
+		},
+		range: 'Zeitraum',
+		ranges: {
+			hour: 'Letzte Stunde',
+			day: 'Letzte 24 Stunden',
+			week: 'Letzte 7 Tage',
+			custom: 'Eigener Zeitraum'
+		},
+		from: 'Von',
+		to: 'Bis',
+		eventIds: 'Ereignis-IDs',
+		providers: 'Quellen',
+		providersHint: 'Exakte Namen, mit Komma getrennt',
+		load: 'Laden',
+		keyword: 'Alle Spalten durchsuchen…',
+		columnFilter: 'Spaltenfilter',
+		clearColumnFilters: 'Spaltenfilter zurücksetzen',
+		loaded: (shown: number, total: number) =>
+			shown === total ? `${total} Ereignisse` : `${shown} von ${total} Ereignissen`,
+		elapsed: (ms: number) => `in ${ms} ms gelesen`,
+		truncated:
+			'mehr als die Zeilengrenze — grenz den Filter ein oder erhöh sie in den Einstellungen',
+		securityHint:
+			'Schließ OpenEventViewer und starte es als Administrator neu, oder wähl einen Kanal, der das nicht braucht.',
+		empty: 'Nichts passt.',
+		ask: 'Den Assistenten zu diesem Ereignis fragen',
+		columns: {
+			level: 'Stufe',
+			time: 'Zeit',
+			provider: 'Quelle',
+			eventId: 'ID',
+			task: 'Aufgabe',
+			channel: 'Kanal',
+			computer: 'Computer',
+			message: 'Meldung'
+		}
 	},
 	log: {
 		title: 'Protokoll',
@@ -96,6 +141,10 @@ export const de: Translations = {
 		language: 'Sprache',
 		languageBody:
 			'Die Oberfläche der App. Der Ereignistext behält die Sprache, in der Windows ihn aufgezeichnet hat.',
+		eventsRows: 'Ereignisse: Zeilen pro Abfrage',
+		eventsRowsBody:
+			'Jedes Ereignis kostet einen Nachschlag beim Herausgeber — eine größere Zahl bedeutet also längeres Warten, nicht nur eine längere Liste.',
+		eventsRowsValue: (rows: number) => `${rows.toLocaleString('de')} Zeilen`,
 		showLogs: 'Protokoll in der Seitenleiste zeigen',
 		showLogsBody: 'Fügt der Navigation einen Eintrag Protokoll hinzu.',
 		debugLogging: 'Debug-Einträge aufzeichnen',

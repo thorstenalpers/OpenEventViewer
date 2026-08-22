@@ -17,7 +17,51 @@ export const en = {
 	},
 	events: {
 		title: 'Events',
-		subtitle: 'What Windows recorded, newest first.'
+		subtitle: 'What Windows recorded, newest first.',
+		channel: 'Channel',
+		allChannels: 'System and Application',
+		level: 'Level',
+		levels: {
+			critical: 'Critical',
+			error: 'Error',
+			warning: 'Warning',
+			information: 'Information',
+			verbose: 'Verbose'
+		},
+		range: 'Time',
+		ranges: {
+			hour: 'Last hour',
+			day: 'Last 24 hours',
+			week: 'Last 7 days',
+			custom: 'Custom range'
+		},
+		from: 'From',
+		to: 'To',
+		eventIds: 'Event IDs',
+		providers: 'Providers',
+		providersHint: 'Exact names, comma separated',
+		load: 'Load',
+		keyword: 'Search every column…',
+		columnFilter: 'column filter',
+		clearColumnFilters: 'Clear column filters',
+		loaded: (shown: number, total: number) =>
+			shown === total ? `${total} events` : `${shown} of ${total} events`,
+		elapsed: (ms: number) => `read in ${ms} ms`,
+		truncated: 'more than the row limit — narrow the filter or raise it in Settings',
+		securityHint:
+			'Close OpenEventViewer and start it again as administrator, or pick a channel that does not need it.',
+		empty: 'Nothing matches.',
+		ask: 'Ask the assistant about this event',
+		columns: {
+			level: 'Level',
+			time: 'Time',
+			provider: 'Provider',
+			eventId: 'ID',
+			task: 'Task',
+			channel: 'Channel',
+			computer: 'Computer',
+			message: 'Message'
+		}
 	},
 	log: {
 		title: 'Log',
@@ -91,6 +135,10 @@ export const en = {
 		} as Record<string, string>,
 		language: 'Language',
 		languageBody: 'The app interface. Event text keeps the language Windows recorded it in.',
+		eventsRows: 'Events: rows to load',
+		eventsRowsBody:
+			'Every event costs the publisher a message lookup, so a bigger number is a longer wait rather than a longer list.',
+		eventsRowsValue: (rows: number) => `${rows.toLocaleString('en')} rows`,
 		showLogs: 'Show the log in the sidebar',
 		showLogsBody: 'Adds a Log entry to the navigation.',
 		debugLogging: 'Record debug entries',
