@@ -10,11 +10,12 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { call } from '$lib/bridge/client';
-	import { viewState } from '$lib/stores/view-state.svelte';
 	import { i18n } from '$lib/i18n/index.svelte';
 	import components from '$lib/third-party.json';
 
 	const t = $derived(i18n.t);
+
+	let filter = $state('');
 	const APP_VERSION = '0.1.0';
 
 	let notices = $state<string | null>(null);
@@ -22,11 +23,9 @@
 	let loading = $state(false);
 
 	const shown = $derived(
-		viewState.infoFilter.trim()
+		filter.trim()
 			? components.filter((entry) =>
-					`${entry.name} ${entry.license}`
-						.toLowerCase()
-						.includes(viewState.infoFilter.trim().toLowerCase())
+					`${entry.name} ${entry.license}`.toLowerCase().includes(filter.trim().toLowerCase())
 				)
 			: components
 	);
@@ -92,7 +91,7 @@
 			<p class="text-xs text-muted-foreground">{t.info.shipped}</p>
 
 			<div class="flex flex-wrap items-center gap-3">
-				<Input placeholder={t.info.filter} bind:value={viewState.infoFilter} class="max-w-sm" />
+				<Input placeholder={t.info.filter} bind:value={filter} class="max-w-sm" />
 				<Button variant="outline" onclick={loadNotices} disabled={loading}>
 					{loading ? t.common.loading : notices ? t.info.hideTexts : t.info.showTexts}
 				</Button>

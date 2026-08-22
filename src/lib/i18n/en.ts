@@ -1,60 +1,22 @@
 export const en = {
 	sidebar: {
-		overview: 'Overview',
+		events: 'Events',
 		log: 'Log',
-		projects: 'My Exams',
-		review: 'Review',
-		study: 'Study',
-		notes: 'Notes',
-		train: 'Train',
-		browse: 'Browse',
-		media: 'Media',
-		catalog: 'Catalog',
-		stats: 'Statistics',
 		settings: 'Settings',
 		info: 'Info',
 		toLight: 'Switch to light theme',
 		toDark: 'Switch to dark theme',
 		sections: 'Sections',
-		noProject: 'No project loaded',
 		collapse: 'Collapse the sidebar',
 		expand: 'Expand the sidebar'
 	},
 	common: {
-		back: 'Back',
 		loading: 'Loading…',
-		noBinder: 'No exam selected.',
-		noBinderBody:
-			'This page is about one exam. Create one, or pick one from the list, and it fills itself.',
-		toProjects: 'Go to My Exams',
 		mockHost: 'Mock host — no Tauri backend. Data on this page is fixture data.'
 	},
-	dashboard: {
-		title: 'Overview',
-		subtitle: 'Where you stand across every project.',
-		projects: 'My Exams',
-		questions: 'Questions',
-		dueToday: 'Due today',
-		weak: 'Weak',
-		progress: 'Progress',
-		accuracy: 'Accuracy',
-		accuracyValue: (percent: number) => `${percent}% of all answers were correct.`,
-		answeredOf: (answered: number, total: number) =>
-			`${answered} of ${total} questions answered at least once.`,
-		nothingAnswered: 'Nothing answered yet — the numbers appear after the first session.',
-		startDue: (count: number) => `Study ${count} due`,
-		startWeak: (count: number) => `Drill ${count} weak`,
-		createFirst: 'Create your first project',
-		recent: 'Recent sessions',
-		noSessions: 'No finished session yet.',
-		modes: {
-			practice: 'Practice',
-			focus: 'Focus',
-			due: 'Due',
-			weak: 'Weak',
-			exam: 'Exam',
-			challenge: 'Challenge'
-		} as Record<string, string>
+	events: {
+		title: 'Events',
+		subtitle: 'What Windows recorded, newest first.'
 	},
 	log: {
 		title: 'Log',
@@ -76,48 +38,11 @@ export const en = {
 		empty: 'Nothing logged yet.',
 		count: (shown: number, total: number) => `${shown} of ${total} entries`
 	},
-	projects: {
-		title: 'My Exams',
-		subtitle: (count: number) => `${count} exam${count === 1 ? '' : 's'} on this machine.`,
-		create: 'New exam',
-		template: 'Exam',
-		ownExam: 'Not in the list',
-		docUrl: 'Documentation page',
-		templateHint:
-			'The code and the documentation page together identify an exam. A code typed here is remembered as a template for next time.',
-		code: 'Certification',
-		name: 'Name',
-		namePlaceholder: 'Optional — defaults to the code',
-		save: 'Create',
-		created: (code: string) => `${code} created. Import a file into it next.`,
-		importDeck: 'Import a project file',
-		filter: 'Filter projects…',
-		multiSortHint: 'Shift-click a second column to sort by both.',
-		empty: 'No projects yet.',
-		noFile: 'no file yet',
-		addFile: 'Add file',
-		train: 'Train',
-		exportAria: (title: string) => `Export ${title}`,
-		deleteAria: (title: string) => `Delete ${title}`,
-		exported: (count: number, path: string) => `Exported ${count} questions to ${path}`,
-		imported: (title: string, count: number) => `Imported ${title} — ${count} questions`,
-		columns: {
-			project: 'Project',
-			certification: 'Certification',
-			questions: 'Questions',
-			review: 'Review',
-			attempts: 'Attempts',
-			accuracy: 'Accuracy',
-			created: 'Created',
-			lastStudied: 'Last studied',
-			actions: 'Actions'
-		}
-	},
 	info: {
 		title: 'Info',
 		subtitle: 'What this app is, and what it is built on.',
 		appBody:
-			'Import certification material, drill it, and turn every wrong answer into the next session.',
+			'Read the Windows event logs, filter them down to what matters, and ask an assistant what a run of them means.',
 		offline: 'Everything runs on this machine. Nothing is uploaded, and no telemetry is collected.',
 		appLicense: 'OpenExamTrainer is MIT licensed.',
 		thirdParty: 'Third-party components',
@@ -133,248 +58,12 @@ export const en = {
 		noOwnText: 'no own text',
 		withoutText: (count: number) =>
 			`${count} components published no licence file of their own; the canonical text of the licence named applies.`,
-		material: 'Your material',
+		material: 'Your logs',
 		materialBody:
-			'Imported exam material stays yours and stays on this machine. Its copyright is unaffected by this app, and nothing here grants a licence to redistribute it.'
-	},
-	import: {
-		choose: 'Choose a file',
-		extracting: 'Extracting…',
-		hint: 'The extractor reports what it actually recovered. A dump that advertises 250 questions and contains 11 is reported as 11.',
-		profile: 'Profile',
-		meta: (pages: number, furniture: number) =>
-			`${pages} pages · ${furniture} furniture lines removed`,
-		questions: 'Questions',
-		needReview: 'Need review',
-		missingFigure: 'Missing their figure',
-		figuresRecovered: 'Figures recovered',
-		excerpt: (markers: number[]) =>
-			`This file is an excerpt. Marker${markers.length === 1 ? '' : 's'} ${markers.join(', ')} carried an advertisement instead of a question.`,
-		skips: (numbers: number[]) =>
-			`The source skips question number${numbers.length === 1 ? '' : 's'} ${numbers.join(', ')}.`,
-		startTraining: 'Start training',
-		review: (count: number) => `Review ${count}`
-	},
-	exam: {
-		subtitle: (started: string) => `Started ${started}.`,
-		studyGuide: 'Study guide',
-		checklist: 'Checklist',
-		derived: 'The app knows this one — it ticks itself.',
-		steps: {
-			create: 'Create the exam',
-			intro: 'Watch an introduction',
-			study: 'Work through the material',
-			notes: 'Write your own notes',
-			train: 'Drill the questions',
-			pass: 'Pass the exam'
-		},
-		certifications: 'Passed',
-		certificationsBody: 'Every time this exam was passed — a certification expires and is retaken.',
-		noCertifications: 'Not passed yet.',
-		passedCount: 'Times passed',
-		passedOn: 'Passed on',
-		note: 'Note',
-		notePlaceholder: 'Optional — score, attempt, anything worth remembering',
-		addDate: 'Add',
-		removeDate: (date: string) => `Remove ${date}`
-	},
-	study: {
-		title: 'Study',
-		subtitle: (binder: string) => `Courses, videos and documentation for ${binder}.`,
-		all: 'Everything',
-		kinds: {
-			course: 'Course',
-			video: 'Video',
-			docs: 'Documentation',
-			other: 'Other'
-		} as Record<string, string>,
-		empty: 'Nothing here yet — add a course, a video or a page below.',
-		open: 'Open',
-		play: 'Play',
-		close: 'Close',
-		removeAria: (title: string) => `Remove ${title}`,
-		minutes: (count: number) => `${count} min`,
-		hours: (hours: number, minutes: number) => `${hours} h ${minutes} min`,
-		totalTime: (span: string) => `${span} in total`,
-		addTitle: 'Add material',
-		addBody: 'A link stays a link; a video off this machine is played here.',
-		url: 'Address',
-		linkTitle: 'Title',
-		kind: 'Kind',
-		minutesLabel: 'Minutes',
-		description: 'Description',
-		descriptionPlaceholder: 'What this covers, in your own words',
-		add: 'Add',
-		addVideo: 'Add a video file',
-		noPlayback: 'Playback needs the app — a browser cannot open a file off your disk.'
-	},
-	notes: {
-		title: 'Notes',
-		subtitle: (binder: string) => `What you wrote down for ${binder}.`,
-		ownTitle: 'Your notes',
-		ownBody: 'Kept for the whole exam. Notes on a single question live with that question.',
-		empty: 'Nothing written yet.',
-		placeholder: 'What you want to remember…',
-		save: 'Save note',
-		none: 'No note on this question yet.',
-		saveAnswer: 'Save as note',
-		saved: 'Saved to the binder.',
-		workshopTitle: 'Made from your notes',
-		workshopBody:
-			'The assistant rewrites your notes as a summary; the summary can then be read out as an episode. Both are files you can delete.',
-		summarise: 'Write a summary',
-		summarising: 'Summarising…',
-		asPodcast: 'As podcast',
-		recording: 'Recording…',
-		asPdf: 'As PDF',
-		typesetting: 'Typesetting…',
-		noArtefacts: 'Nothing made yet.',
-		removeAria: (name: string) => `Delete ${name}`,
-		assistantNote:
-			'The summary is written by whichever assistant is set in Settings — the local binary sends nothing to a third party.'
-	},
-	timeline: {
-		title: 'Timeline',
-		subtitle: 'When each exam began, and every time it was passed.',
-		started: 'Started',
-		passed: 'Passed',
-		empty: 'No exams yet — the axis fills itself as you create them.'
-	},
-	question: {
-		figureAlt: (index: number) => `Figure ${index} recovered from the source page`,
-		figureUnavailable: 'The figure for this question is no longer on disk.'
-	},
-	review: {
-		title: 'Review',
-		subtitle: (count: number, binder: string) =>
-			`${count} question${count === 1 ? '' : 's'} in ${binder} the extractor was unsure about.`,
-		clean: 'Nothing to review — every question passed the confidence threshold.',
-		page: (page: number) => `page ${page}`,
-		confidence: (value: string) => `confidence ${value}`,
-		needsSource:
-			'The real question is a figure the extractor could not recover from the source page. Only the answer key survived, so this question is excluded from scored sessions.',
-		matrixKey: 'Answer key recovered from the explanation',
-		backToTraining: 'Back to training',
-		warnings: {
-			number_out_of_sequence: 'Marker number out of sequence',
-			option_letters_not_sequential: 'Option letters not sequential',
-			answer_without_option: 'Answer letter has no matching option',
-			missing_answer: 'No answer found',
-			stem_too_short: 'Stem suspiciously short',
-			figure_missing: 'Figure missing from the source'
-		} as Record<string, string>
-	},
-	train: {
-		noBinderTitle: 'No binder selected',
-		noBinderBody: 'Import a file or pick a binder in the library first.',
-		score: (correct: number, total: number) => `${correct} of ${total} correct`,
-		summaryMeta: (seconds: number, wrong: number) => `${seconds} seconds · ${wrong} to work on`,
-		sessionScore: 'Session score',
-		sessionProgress: 'Session progress',
-		startFocus: (count: number) => `Start focus session (${count})`,
-		nothingMissed: 'Nothing missed — there is no focus set.',
-		binderMeta: (questions: number, excluded: number) =>
-			`${questions} questions · ${excluded} excluded because their figure is missing`,
-		practice: 'Practice',
-		dueToday: 'Due today',
-		weak: 'Weak questions',
-		exam: 'Exam',
-		challengeTitle: 'Challenge',
-		challengeBody:
-			'A seed fixes the questions and their order, so two runs are the same exam and the times compare.',
-		seed: 'Seed',
-		questions: 'Questions',
-		minutes: 'Minutes',
-		takeChallenge: 'Take the challenge',
-		noRuns: (seed: number) => `No runs on seed ${seed} yet.`,
-		postResult: 'Post to the catalog board',
-		postedAt: (place: number, total: number) => `Posted — ${place} of ${total} on that board.`,
-		publishToPost:
-			'Publish this binder to the catalog and a run on it can go on a board others can be measured against.',
-		chooseN: (count: number) => `Choose ${count}`,
-		noFeedback: 'no feedback until the end',
-		correct: 'Correct.',
-		notCorrect: 'Not correct.',
-		next: 'Next question',
-		finish: 'Finish',
-		check: 'Check',
-		answerAndContinue: 'Answer and continue'
-	},
-	browse: {
-		back: 'Back',
-		forward: 'Forward',
-		reload: 'Reload',
-		address: 'Address',
-		go: 'Go',
-		portals: {
-			learn: 'Microsoft Learn',
-			azure: 'Azure documentation',
-			credentials: 'Certification catalogue',
-			youtube: 'YouTube'
-		},
-		mockNote:
-			'The embedded browser is a second WebView2 child of the app window. It has no equivalent in a plain browser, so this area stays empty under the mock host — the measured rectangle is still what the app sends the host.'
-	},
-	media: {
-		title: 'Media',
-		subtitle: (binder: string) => `Videos and audio for ${binder}.`,
-		videosTitle: 'Videos',
-		videosBody:
-			'A YouTube link or any other URL, optionally anchored to one question with a start time.',
-		colTitle: 'Title',
-		colUrl: 'URL',
-		colStart: 'Starts at',
-		add: 'Add',
-		anchorTo: 'Anchor to question',
-		wholeBinder: 'the whole binder',
-		noVideos: 'No videos yet.',
-		open: 'Open',
-		removeAria: (title: string) => `Remove ${title}`,
-		from: (time: string) => `from ${time}`,
-		podcastTitle: 'Podcast',
-		podcastBody:
-			'Read out on this machine, offline. No key, no account, nothing leaves it. Which voice reads is a setting.',
-		readAnswer: 'Read the answer',
-		readExplanation: 'Read the explanation',
-		pause: 'Pause',
-		seconds: 'seconds',
-		format: 'Format',
-		formatMp3: 'MP3 — small enough to carry',
-		formatWav: 'WAV — what the voice produced',
-		spokenLanguage: 'Spoken language',
-		spokenEn: 'English',
-		spokenDe: 'German',
-		spokenLanguageBody:
-			'Picks the words around each question, and the Windows voice when no voice pack is chosen in Settings. The question itself is read in the language you imported it in — it is never translated.',
-		recallOnly: 'Questions and silence only — a pure recall drill.',
-		record: 'Record episode',
-		recording: 'Recording…',
-		episodeMeta: (duration: string, chapters: number) => `${duration} · ${chapters} chapters`
-	},
-	stats: {
-		title: 'Statistics',
-		subtitle: (binder: string) =>
-			`Every number below is derived from the attempt log of ${binder}.`,
-		empty: 'Nothing answered yet — the numbers appear after the first session.',
-		byTopic: 'By topic',
-		byQuestion: 'By question',
-		topic: 'Topic',
-		noTopic: 'No topic',
-		question: 'Question',
-		questionCount: (count: number) => `${count} question${count === 1 ? '' : 's'}`,
-		attempts: 'Attempts',
-		accuracy: 'Accuracy',
-		averageTime: 'Average time',
-		lapses: 'Lapses',
-		due: 'Due',
-		neverAnswered: 'never answered',
-		excluded: 'excluded'
+			'The event logs stay where Windows keeps them. This app reads them and never writes to them.'
 	},
 	assistant: {
 		title: 'Assistant',
-		explain: 'Why this answer?',
-		variants: 'Give me variants',
-		note: 'Turn into a note',
 		thinking: 'Thinking…',
 		sourceCli: 'local claude',
 		sourceAnthropic: 'anthropic',
@@ -400,51 +89,18 @@ export const en = {
 			vercel: 'Vercel'
 		} as Record<string, string>,
 		language: 'Language',
-		languageBody: 'The app interface. Question text keeps the language of the source you imported.',
-		voice: 'Voice',
-		voiceBody: 'Who reads podcast episodes out loud.',
-		voiceWindows: 'Windows voice',
-		voicePreview: 'Preview',
-		voiceStopPreview: 'Stop',
-		voiceSampleLabel: 'Text',
-		voiceSamples: {
-			all: 'All, one after another',
-			pangram: 'Pangram',
-			balanced: 'Balanced sentence',
-			passage: 'The North Wind and the Sun',
-			named: 'The voice introduces itself',
-			question: 'From your material'
-		},
-		voiceSpoken: {
-			pangram: 'The quick brown fox jumps over the lazy dog.',
-			balanced: 'The birch canoe slid on the smooth planks.',
-			passage:
-				'The North Wind and the Sun were disputing which was the stronger, when a traveller came along wrapped in a warm cloak.',
-			named: (name: string) => `You are listening to ${name}.`
-		},
-		voiceSystem: 'the Windows voice for this language',
-		voicePacks: 'Voice packs',
-		voicePacksBody:
-			'Downloaded once and then read offline, unlike the Windows voices, which are installed per language and rarely include German.',
-		voiceSize: (megabytes: number) => `${megabytes} MB download`,
-		voiceInstalled: (count: number) => `installed · ${count} voice${count === 1 ? '' : 's'}`,
-		voiceDownload: 'Download',
-		voiceDownloading: 'Downloading…',
-		voiceUnpacking: 'Unpacking — this takes a few minutes',
-		voiceCancel: 'Cancel',
-		voiceRemove: 'Remove',
+		languageBody: 'The app interface. Event text keeps the language Windows recorded it in.',
 		showLogs: 'Show the log in the sidebar',
 		showLogsBody: 'Adds a Log entry to the navigation.',
 		debugLogging: 'Record debug entries',
 		debugLoggingBody:
 			'Verbose. Off by default, because debug entries crowd out the ones you went looking for.',
 		assistant: 'Assistant',
-		assistantBody: 'Where the explain and variant buttons send their question.',
+		assistantBody: 'Where the assistant sends what you ask it.',
 		sourceCliLabel: 'Local claude binary',
 		sourceCliDetail: 'Runs on this machine. This app sends nothing to a third party.',
 		sourceAnthropicLabel: 'Anthropic API',
-		sourceAnthropicDetail:
-			'The question and its explanation go to api.anthropic.com when you press a button.',
+		sourceAnthropicDetail: 'What the preview shows goes to api.anthropic.com when you press Send.',
 		found: 'found',
 		keyStored: 'key stored',
 		apiKey: 'API key',
@@ -452,68 +108,6 @@ export const en = {
 		keyNote:
 			'The key goes into the Windows Credential Manager, never into a file this app owns, and it cannot be read back into this window.',
 		stored: 'Stored in the Windows Credential Manager.'
-	},
-	catalog: {
-		title: 'Catalog',
-		subtitle: 'Binders published from this machine, and what can be taken back off it.',
-		localNote:
-			'The catalog is a file on this disk rather than a server. Publishing copies the deck into the app’s own folder and adds a row to catalog.sqlite3 — nothing leaves this machine, and nobody else can see it yet.',
-		publishedAs: 'Published as',
-		rename: 'Rename',
-		namePlaceholder: 'A name to publish under',
-		search: 'Search',
-		searchPlaceholder: 'Title or certification…',
-		sort: 'Sort',
-		sortRecent: 'Newest first',
-		sortRating: 'Best rated',
-		sortQuestions: 'Most questions',
-		sortTitle: 'By title',
-		empty: 'Nothing published yet.',
-		noMatch: 'Nothing matches that.',
-		mine: 'yours',
-		by: (owner: string) => `by ${owner}`,
-		questions: (count: number) => `${count} question${count === 1 ? '' : 's'}`,
-		needsSource: (count: number) => `${count} without a source`,
-		noRating: 'not rated',
-		ratingOf: (average: number, count: number) =>
-			`${average.toFixed(1)} from ${count} rating${count === 1 ? '' : 's'}`,
-		publishTitle: 'Publish a project',
-		publishBody: 'Publishing again replaces the entry it already has rather than adding a copy.',
-		project: 'Project',
-		review: 'Show what would be published',
-		previewTitle: 'What would be published',
-		previewBody:
-			'Measured off the deck the publish actually writes, not counted off the tables — a preview assembled a second way is a preview of something else.',
-		links: 'links',
-		videos: 'videos',
-		notes: 'notes',
-		figures: 'figures',
-		sourceExcluded: 'The imported PDF stays here: a deck carries no sources folder.',
-		confirm: 'Publish',
-		cancel: 'Cancel',
-		import: 'Import',
-		importing: 'Importing…',
-		imported: (title: string) => `${title} is in the library.`,
-		published: (title: string) => `${title} is in the catalog.`,
-		withdraw: 'Withdraw',
-		rate: 'Rate',
-		rating: 'Your rating',
-		comment: 'Comment (optional)',
-		ratings: 'Ratings',
-		noRatings: 'Nobody has rated this yet.',
-		board: 'Leaderboard',
-		noBoard: 'No run has been posted for this binder yet.',
-		seed: 'Seed',
-		boardRow: (correct: number, total: number) => `${correct} of ${total}`,
-		syncTitle: 'Progress',
-		syncBody:
-			'A question is paired across machines by a hash of its stem and its answer key, never by its row id — ids are local, and the same dump imported twice numbers its rows differently. Only the schedule travels: the attempt log is append-only, so filling it to make two counts agree would be forging a history.',
-		push: 'Push',
-		pull: 'Pull',
-		syncResult: (pushed: number, pulled: number, skipped: number) =>
-			`${pushed} pushed, ${pulled} pulled, ${skipped} left alone.`,
-		oneMachine:
-			'With one machine this is a round trip to itself. What it proves is the pairing, not the network.'
 	}
 };
 

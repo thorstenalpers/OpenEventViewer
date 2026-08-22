@@ -37,10 +37,10 @@ describe('i18n', () => {
 
 	it('switches the interface language', () => {
 		i18n.locale = 'en';
-		expect(i18n.t.sidebar.projects).toBe('My Exams');
+		expect(i18n.t.sidebar.settings).toBe('Settings');
 
 		i18n.locale = 'de';
-		expect(i18n.t.sidebar.projects).toBe('Meine Examen');
+		expect(i18n.t.sidebar.settings).toBe('Einstellungen');
 
 		i18n.locale = 'en';
 	});
@@ -51,10 +51,8 @@ describe('i18n', () => {
 		expect(isLocale('fr')).toBe(false);
 	});
 
-	it('pluralises counted strings in both languages', () => {
-		expect(en.projects.subtitle(1)).toBe('1 exam on this machine.');
-		expect(en.projects.subtitle(3)).toBe('3 exams on this machine.');
-		expect(de.projects.subtitle(1)).toBe('1 Exam auf diesem Rechner.');
-		expect(de.projects.subtitle(3)).toBe('3 Examen auf diesem Rechner.');
+	it('formats counted strings in both languages', () => {
+		expect(en.log.count(2, 7)).toBe('2 of 7 entries');
+		expect(de.log.count(2, 7)).toBe('2 von 7 Einträgen');
 	});
 });

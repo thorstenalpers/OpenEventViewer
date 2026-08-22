@@ -3,22 +3,7 @@
 	 * Every route the sidebar can reach, in one list so the layout can preload exactly what the
 	 * navigation offers — a route added here is preloaded without anyone remembering to say so.
 	 */
-	export const ROUTES = [
-		'/',
-		'/projects',
-		'/exam',
-		'/review',
-		'/study',
-		'/notes',
-		'/train',
-		'/browse',
-		'/media',
-		'/catalog',
-		'/stats',
-		'/log',
-		'/info',
-		'/settings'
-	] as const;
+	export const ROUTES = ['/', '/log', '/info', '/settings'] as const;
 
 	export type Route = (typeof ROUTES)[number];
 </script>
@@ -27,16 +12,7 @@
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import type { Component } from 'svelte';
-	import DashboardIcon from '@lucide/svelte/icons/layout-dashboard';
-	import ProjectsIcon from '@lucide/svelte/icons/folder-kanban';
-	import ReviewIcon from '@lucide/svelte/icons/scan-eye';
-	import StudyIcon from '@lucide/svelte/icons/graduation-cap';
-	import NotesIcon from '@lucide/svelte/icons/notebook-pen';
-	import TrainIcon from '@lucide/svelte/icons/target';
-	import BrowseIcon from '@lucide/svelte/icons/globe';
-	import MediaIcon from '@lucide/svelte/icons/clapperboard';
-	import CatalogIcon from '@lucide/svelte/icons/library-big';
-	import StatsIcon from '@lucide/svelte/icons/chart-column';
+	import EventsIcon from '@lucide/svelte/icons/list';
 	import SettingsIcon from '@lucide/svelte/icons/settings';
 	import InfoIcon from '@lucide/svelte/icons/info';
 	import LogIcon from '@lucide/svelte/icons/scroll-text';
@@ -44,7 +20,6 @@
 	import { cn } from '$lib/utils';
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { settings } from '$lib/stores/settings.svelte';
-	import { library } from '$lib/stores/library.svelte';
 
 	interface Entry {
 		route: Route;
@@ -54,19 +29,9 @@
 
 	const t = $derived(i18n.t);
 	const expanded = $derived(settings.sidebarExpanded);
-	const project = $derived(library.selected);
 
 	const entries = $derived<Entry[]>([
-		{ route: '/', label: t.sidebar.overview, icon: DashboardIcon },
-		{ route: '/projects', label: t.sidebar.projects, icon: ProjectsIcon },
-		{ route: '/review', label: t.sidebar.review, icon: ReviewIcon },
-		{ route: '/study', label: t.sidebar.study, icon: StudyIcon },
-		{ route: '/notes', label: t.sidebar.notes, icon: NotesIcon },
-		{ route: '/train', label: t.sidebar.train, icon: TrainIcon },
-		{ route: '/browse', label: t.sidebar.browse, icon: BrowseIcon },
-		{ route: '/media', label: t.sidebar.media, icon: MediaIcon },
-		{ route: '/catalog', label: t.sidebar.catalog, icon: CatalogIcon },
-		{ route: '/stats', label: t.sidebar.stats, icon: StatsIcon },
+		{ route: '/', label: t.sidebar.events, icon: EventsIcon },
 		// Off by default and switched on in Settings: a log nobody is reading is a menu entry
 		// that costs a row and answers nothing.
 		...(settings.showLogs ? [{ route: '/log' as const, label: t.sidebar.log, icon: LogIcon }] : [])
@@ -138,15 +103,8 @@
 		>
 			<PanelLeftIcon class="size-4" />
 		</button>
-		<!-- The loaded project, not the version: which certification is open is the one thing worth
-		     a permanent line, and the version belongs on the Info page. -->
 		<span class={cn('min-w-0 flex-col leading-none', expanded ? 'hidden md:flex' : 'hidden')}>
-			<span class="truncate text-[13px] font-semibold tracking-tight">
-				{project ? project.certification : 'OpenExamTrainer'}
-			</span>
-			<span class="truncate pt-0.5 text-[10px] text-sidebar-foreground/60">
-				{project ? project.title : t.sidebar.noProject}
-			</span>
+			<span class="truncate text-[13px] font-semibold tracking-tight">OpenExamTrainer</span>
 		</span>
 	</div>
 

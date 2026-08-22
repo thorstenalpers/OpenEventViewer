@@ -1,6 +1,9 @@
 # Package managers
 package-lock.json
 
+# Written by the tooling on this machine, not part of the repo
+/.claude/settings.local.json
+
 # Build output
 build/
 dist/

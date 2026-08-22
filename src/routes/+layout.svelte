@@ -6,9 +6,7 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SidebarShell, { ROUTES } from '$lib/components/sidebar-shell.svelte';
-	import { library } from '$lib/stores/library.svelte';
 	import { settings } from '$lib/stores/settings.svelte';
-	import { voice } from '$lib/stores/voice.svelte';
 	import { captureErrors } from '$lib/stores/log.svelte';
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { call, isMockHost } from '$lib/bridge/client';
@@ -19,20 +17,6 @@
 	// than take the page down silently with it.
 	captureErrors();
 	settings.restore();
-	// At start rather than when the settings page opens: the chosen voice reads episodes, and a
-	// pack deleted from the folder between two runs has to stop being the one that reads.
-	voice.restore();
-
-	$effect(() => {
-		void library.refresh();
-	});
-
-	// No focus-reclaiming here, deliberately. An earlier version took the focus back for the app on
-	// every mouseenter and pointerdown — which is the trap site::focus_chrome's own doc warns about:
-	// a native select's popup is a window of its own, and so is the title bar, and stealing the
-	// activation on those events closes the popup mid-click and swallows the close button. The app
-	// loses focus only to things that legitimately take it — the portal (handed back by site_hide
-	// and the Browse view's own handlers) and, before CREATE_NO_WINDOW, spawned console windows.
 
 	// `main` is the scroll container, not the window, so the browser's own restoration never sees
 	// it. Remembering the offset per route is what makes leaving a long statistics table and coming
@@ -66,8 +50,8 @@
 		// a component swap rather than a network round trip and a module evaluation.
 		for (const route of ROUTES) void preloadCode(resolve(route));
 
-		// F12 by hand: the UI is a child webview, and a child does not reliably get WebView2's own
-		// accelerators — without this there is no way to read a console error out of the app.
+		// F12 by hand: WebView2's own accelerators are off in a packaged app, and without this
+		// there is no way to read a console error out of it.
 		const devtools = (event: KeyboardEvent) => {
 			if (event.key === 'F12') {
 				event.preventDefault();

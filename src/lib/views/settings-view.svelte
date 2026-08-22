@@ -1,9 +1,5 @@
 <script lang="ts">
 	import { setMode, userPrefersMode } from 'mode-watcher';
-	import DownloadIcon from '@lucide/svelte/icons/download';
-	import PlayIcon from '@lucide/svelte/icons/play';
-	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
-	import SquareIcon from '@lucide/svelte/icons/square';
 	import {
 		Card,
 		CardContent,
@@ -20,63 +16,8 @@
 	import { i18n, LOCALES, isLocale } from '$lib/i18n/index.svelte';
 	import { THEME_PRESETS, isThemePreset } from '$lib/theme/preset';
 	import { settings } from '$lib/stores/settings.svelte';
-	import { library } from '$lib/stores/library.svelte';
-	import { voice, type VoiceSample } from '$lib/stores/voice.svelte';
 
 	const t = $derived(i18n.t);
-
-	let sampleKind = $state('pangram');
-	let ownQuestion = $state<string | null>(null);
-
-	// The one sample that is not written here: what the voice will actually be asked to read. Only
-	// the first line of it, because a stem can run to a paragraph and this is a preview.
-	$effect(() => {
-		const binder = library.selected;
-		if (!binder || binder.questionCount === 0) {
-			ownQuestion = null;
-			return;
-		}
-		void call('list_questions', { binderId: binder.id })
-			.then((questions) => {
-				const first = questions[0];
-				const stem = (first?.stem.split('\n')[0] ?? '').trim();
-				ownQuestion = stem ? stem.slice(0, 200) : null;
-			})
-			.catch(() => (ownQuestion = null));
-	});
-
-	const spokenTexts = $derived<Record<string, string>>({
-		pangram: t.settings.voiceSpoken.pangram,
-		balanced: t.settings.voiceSpoken.balanced,
-		passage: t.settings.voiceSpoken.passage,
-		named: t.settings.voiceSpoken.named(voice.chosenLabel ?? t.settings.voiceSystem),
-		...(ownQuestion ? { question: ownQuestion } : {})
-	});
-
-	// Every sample first, then the one that plays the lot: it is the long option, and an option that
-	// takes half a minute does not belong where the eye lands first.
-	const sampleOptions = $derived([
-		...Object.keys(spokenTexts).map((key) => ({
-			value: key,
-			label: t.settings.voiceSamples[key as keyof typeof t.settings.voiceSamples]
-		})),
-		{ value: 'all', label: t.settings.voiceSamples.all }
-	]);
-
-	// The question sample disappears with the project it came from; a stale choice would leave the
-	// dropdown showing nothing.
-	$effect(() => {
-		if (!sampleOptions.some((option) => option.value === sampleKind)) sampleKind = 'pangram';
-	});
-
-	const samples = $derived<VoiceSample[]>(
-		sampleKind === 'all'
-			? Object.entries(spokenTexts).map(([key, text]) => ({
-					label: `${t.settings.voiceSamples[key as keyof typeof t.settings.voiceSamples]}.`,
-					text
-				}))
-			: [{ text: spokenTexts[sampleKind] ?? t.settings.voiceSpoken.pangram }]
-	);
 
 	const ROW = 'flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-3 py-2.5';
 
@@ -100,11 +41,6 @@
 	]);
 
 	const localeOptions = LOCALES.map((locale) => ({ value: locale.id, label: locale.label }));
-	// The Windows voice first, because it is what reads before anything has been downloaded.
-	const voiceOptions = $derived([
-		{ value: '', label: t.settings.voiceWindows },
-		...voice.speakers.map((speaker) => ({ value: speaker.value, label: speaker.label }))
-	]);
 	const presetOptions = $derived(
 		THEME_PRESETS.map((preset) => ({ value: preset, label: t.settings.presets[preset] ?? preset }))
 	);
@@ -197,128 +133,6 @@
 					aria-label={t.settings.language}
 					class="w-44"
 				/>
-			</div>
-
-			<div class={ROW}>
-				{@render describe(t.settings.voice, t.settings.voiceBody)}
-				<div class="flex min-w-0 flex-wrap items-center justify-end gap-2">
-					<Select
-						value={voice.choice}
-						options={voiceOptions}
-						onchange={(event: Event) =>
-							voice.setChoice((event.currentTarget as HTMLSelectElement).value)}
-						aria-label={t.settings.voice}
-						class="w-56"
-					/>
-					<!-- A split control: the chooser names the text, the button plays it, and one shared
-					     border makes them read as one thing. The button sits on the outside because it is
-					     the action, and the row puts the last child against the right edge.
-
-					     The chooser is a bare <select> rather than a menu built from divs, so it keeps the
-					     platform's own popup, its keyboard handling and its screen reader role. Its width
-					     is set rather than left to its content: a native select sizes to what it shows, and
-					     the seam would slide every time the choice changed. It may shrink below that when
-					     the window is narrow, because the button must not be pushed off the card.
-
-					     Only the button half swaps between play and stop. Replacing the whole control
-					     while a sample runs would take the chooser off screen for as long as it plays. -->
-					<span class="text-xs text-muted-foreground">{t.settings.voiceSampleLabel}</span>
-					<div class="inline-flex max-w-full items-stretch">
-						<div class="relative inline-flex w-44 min-w-0 shrink items-center">
-							<select
-								bind:value={sampleKind}
-								aria-label={t.settings.voiceSampleLabel}
-								class="h-8 w-full min-w-0 cursor-pointer appearance-none truncate rounded-md rounded-e-none border border-e-0 border-input bg-background ps-2.5 pe-7 text-xs shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-							>
-								{#each sampleOptions as option (option.value)}
-									<option value={option.value}>{option.label}</option>
-								{/each}
-							</select>
-							<ChevronDownIcon class="pointer-events-none absolute end-2 size-3.5 opacity-60" />
-						</div>
-						{#if voice.speaking}
-							<Button
-								size="sm"
-								variant="outline"
-								class="min-w-28 shrink-0 rounded-s-none"
-								onclick={() => voice.stop()}
-							>
-								<SquareIcon class="size-3.5 fill-current" />
-								{t.settings.voiceStopPreview}
-							</Button>
-						{:else}
-							<Button
-								size="sm"
-								variant="outline"
-								class="min-w-28 shrink-0 rounded-s-none"
-								onclick={() => voice.preview(samples, settings.locale)}
-							>
-								<PlayIcon class="size-4" />
-								{t.settings.voicePreview}
-							</Button>
-						{/if}
-					</div>
-				</div>
-			</div>
-
-			<div class={ROW}>
-				{@render describe(t.settings.voicePacks, t.settings.voicePacksBody)}
-				<div class="flex flex-col items-end gap-1">
-					{#each voice.packs as pack (pack.id)}
-						<div class="flex items-center gap-2 text-xs">
-							<span class="text-muted-foreground">{pack.label}</span>
-							{#if pack.installed}
-								<Badge variant="neutral">{t.settings.voiceInstalled(pack.voices)}</Badge>
-								<Button
-									size="sm"
-									variant="ghost"
-									class="h-7 px-2"
-									onclick={() => voice.remove(pack.id)}
-								>
-									{t.settings.voiceRemove}
-								</Button>
-							{:else if voice.isInstalling(pack.id)}
-								<div class="h-1.5 w-24 overflow-hidden rounded-full bg-muted">
-									<div
-										class="h-full bg-primary transition-[width]"
-										style:width={voice.percentOf(pack.id) === null
-											? '10%'
-											: `${voice.percentOf(pack.id)}%`}
-									></div>
-								</div>
-								{#if voice.isUnpacking(pack.id)}
-									<span class="text-muted-foreground">{t.settings.voiceUnpacking}</span>
-								{:else}
-									<span class="w-8 text-muted-foreground">
-										{voice.percentOf(pack.id) === null ? '' : `${voice.percentOf(pack.id)}%`}
-									</span>
-									<Button
-										size="sm"
-										variant="ghost"
-										class="h-7 px-2"
-										onclick={() => voice.cancel(pack.id)}
-									>
-										{t.settings.voiceCancel}
-									</Button>
-								{/if}
-							{:else}
-								<span class="text-muted-foreground">{t.settings.voiceSize(pack.megabytes)}</span>
-								<Button
-									size="sm"
-									variant="outline"
-									class="h-7 px-2"
-									onclick={() => voice.install(pack.id)}
-									aria-label={`${t.settings.voiceDownload} — ${pack.label}`}
-								>
-									<DownloadIcon class="size-3.5" />
-								</Button>
-							{/if}
-						</div>
-					{/each}
-					{#if voice.error}
-						<p class="text-xs text-destructive">{voice.error}</p>
-					{/if}
-				</div>
 			</div>
 
 			<div class={ROW}>

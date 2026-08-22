@@ -19,8 +19,7 @@
 	},
 	"dependencies": {
 		"@tanstack/table-core": "^8.21.3",
-		"@tauri-apps/api": "^2.9.0",
-		"@tauri-apps/plugin-dialog": "^2.4.0"
+		"@tauri-apps/api": "^2.9.0"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
