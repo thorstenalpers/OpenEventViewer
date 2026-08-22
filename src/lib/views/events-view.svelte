@@ -5,6 +5,7 @@
 	import { Select } from '$lib/components/ui/select';
 	import EventsTable from '$lib/components/events-table.svelte';
 	import EventDetail from '$lib/components/event-detail.svelte';
+	import EventsHistogram from '$lib/components/events-histogram.svelte';
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
@@ -147,6 +148,8 @@
 			{/if}
 		</div>
 	{/if}
+
+	<EventsHistogram events={data.table.getRowModel().rows.map((row) => row.original)} />
 
 	<EventsTable
 		{data}

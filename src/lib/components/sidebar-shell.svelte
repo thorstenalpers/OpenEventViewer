@@ -35,14 +35,13 @@
 	const entries = $derived<Entry[]>([
 		{ route: '/', label: t.sidebar.events, icon: EventsIcon },
 		{ route: '/assistant', label: t.sidebar.assistant, icon: AssistantIcon },
-		{ route: '/diagnose', label: t.sidebar.diagnose, icon: DiagnoseIcon },
-		// Off by default and switched on in Settings: a log nobody is reading is a menu entry
-		// that costs a row and answers nothing.
-		...(settings.showLogs ? [{ route: '/log' as const, label: t.sidebar.log, icon: LogIcon }] : [])
+		{ route: '/diagnose', label: t.sidebar.diagnose, icon: DiagnoseIcon }
 	]);
 
-	// Info sits above Settings at the foot, where the things you reach for last belong.
+	// The diagnostics live at the foot, with the things you reach for last. The log is off by
+	// default and switched on in Settings: one nobody is reading is a row that answers nothing.
 	const footer = $derived<Entry[]>([
+		...(settings.showLogs ? [{ route: '/log' as const, label: t.sidebar.log, icon: LogIcon }] : []),
 		{ route: '/info', label: t.sidebar.info, icon: InfoIcon },
 		{ route: '/settings', label: t.sidebar.settings, icon: SettingsIcon }
 	]);
