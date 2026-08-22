@@ -6,6 +6,7 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SidebarShell, { ROUTES } from '$lib/components/sidebar-shell.svelte';
+	import AppMenu from '$lib/components/app-menu.svelte';
 	import { settings } from '$lib/stores/settings.svelte';
 	import { captureErrors } from '$lib/stores/log.svelte';
 	import { updater } from '$lib/stores/updater.svelte';
@@ -80,14 +81,19 @@
 <ModeWatcher synchronousModeChanges />
 <Toaster />
 
-<div class="flex h-screen w-screen overflow-hidden">
-	<SidebarShell />
-	<main bind:this={scroller} class="flex-1 overflow-y-auto">
-		{#if isMockHost()}
-			<div class="border-b border-warning/40 bg-warning/10 px-6 py-2 text-xs text-muted-foreground">
-				{i18n.t.common.mockHost}
-			</div>
-		{/if}
-		{@render children?.()}
-	</main>
+<div class="flex h-screen w-screen flex-col overflow-hidden">
+	<AppMenu />
+	<div class="flex min-h-0 flex-1">
+		<SidebarShell />
+		<main bind:this={scroller} class="min-w-0 flex-1 overflow-y-auto">
+			{#if isMockHost()}
+				<div
+					class="border-b border-warning/40 bg-warning/10 px-6 py-2 text-xs text-muted-foreground"
+				>
+					{i18n.t.common.mockHost}
+				</div>
+			{/if}
+			{@render children?.()}
+		</main>
+	</div>
 </div>

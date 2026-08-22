@@ -97,20 +97,22 @@
 	aria-label={t.sidebar.sections}
 >
 	<div class={cn('flex h-12 shrink-0 items-center gap-1 px-2', !expanded && 'justify-center')}>
-		<button
-			type="button"
-			onclick={() => settings.toggleSidebar()}
-			aria-label={expanded ? t.sidebar.collapse : t.sidebar.expand}
-			aria-expanded={expanded}
-			class="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-sidebar-foreground/70 transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring focus-visible:outline-none"
-		>
-			<PanelLeftIcon class="size-4" />
-		</button>
 		<span class={cn('min-w-0 flex-col leading-none', expanded ? 'hidden md:flex' : 'hidden')}>
 			<span class="truncate text-[13px] font-semibold tracking-tight">OpenEventViewer</span>
 			<span class="truncate pt-0.5 text-[10px] text-sidebar-foreground/60">{t.sidebar.tagline}</span
 			>
 		</span>
+		<!-- After the title, so the control that hides the title sits on the edge it collapses to.
+		     With the rail there is no title left, and `justify-center` centres it on its own. -->
+		<button
+			type="button"
+			onclick={() => settings.toggleSidebar()}
+			aria-label={expanded ? t.sidebar.collapse : t.sidebar.expand}
+			aria-expanded={expanded}
+			class="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-sidebar-foreground/70 transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring focus-visible:outline-none md:ms-auto"
+		>
+			<PanelLeftIcon class="size-4" />
+		</button>
 	</div>
 
 	<ul class="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-1.5 pt-2">

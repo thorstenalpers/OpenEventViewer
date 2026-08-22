@@ -1,5 +1,4 @@
 <script lang="ts">
-	import RefreshIcon from '@lucide/svelte/icons/refresh-cw';
 	import TrashIcon from '@lucide/svelte/icons/trash-2';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -58,22 +57,9 @@
 	<div class="flex flex-wrap items-center gap-2">
 		<Input placeholder={t.log.filter} bind:value={log.messageFilter} class="max-w-sm" />
 		<Select bind:value={level} options={levelOptions} aria-label={t.log.level} class="w-40" />
-		<Button variant="outline" onclick={() => log.refresh()} disabled={log.loading}>
-			<RefreshIcon class="size-4" />
-			{t.log.refresh}
-		</Button>
 		<Button variant="ghost" onclick={() => log.clear()} aria-label={t.log.clear}>
 			<TrashIcon class="size-4" />
 		</Button>
-		<label class="flex cursor-pointer items-center gap-2 text-sm" title={t.log.includeWebBody}>
-			<input
-				type="checkbox"
-				class="size-4"
-				checked={log.includeWeb}
-				onchange={(event) => log.setIncludeWeb(event.currentTarget.checked)}
-			/>
-			{t.log.includeWeb}
-		</label>
 		<span class="text-xs text-muted-foreground"
 			>{t.log.count(shown.length, log.entries.length)}</span
 		>

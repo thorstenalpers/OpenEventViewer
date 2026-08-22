@@ -1,8 +1,6 @@
 import { call } from '$lib/bridge/client';
 import type { LogEntry, LogLevel } from '$lib/bridge/contract';
 
-const WEB_KEY = 'oev.log.web';
-
 /**
  * The host's log buffer, mirrored for display.
  *
@@ -19,22 +17,6 @@ class LogStore {
 	// Settings and back would otherwise silently reset what the reader was looking at.
 	messageFilter = $state('');
 	levelFilter = $state<LogLevel | 'all'>('all');
-
-	/**
-	 * Whether the webview's own console is copied into this log.
-	 *
-	 * Persisted, and deliberately readable from the Log view rather than only from Settings: the
-	 * failure this is for — a view whose handlers went inert — is one where Settings is exactly
-	 * what you cannot operate.
-	 */
-	includeWeb = $state(
-		typeof localStorage !== 'undefined' && localStorage.getItem(WEB_KEY) === 'on'
-	);
-
-	setIncludeWeb(on: boolean): void {
-		this.includeWeb = on;
-		localStorage?.setItem(WEB_KEY, on ? 'on' : 'off');
-	}
 
 	async refresh(): Promise<void> {
 		this.loading = true;
@@ -106,32 +88,22 @@ export function captureErrors(): void {
  * the host refuses an entry — one failed write would then log itself forever.
  */
 function captureConsole(): void {
-	const levels: [keyof Console, LogLevel][] = [
-		['error', 'error'],
-		['warn', 'warning'],
-		['info', 'info'],
-		['log', 'info'],
-		['debug', 'debug']
-	];
+	// Errors only. A framework reporting a broken hydration through `console.error` is the one line
+	// that explains a window nobody can click; everything else the console says is chatter that
+	// would evict it from a buffer of two thousand.
+	const original = console.error.bind(console);
 	let forwarding = false;
 
-	for (const [method, level] of levels) {
-		// Bound rather than borrowed: a console method pulled off the object loses its receiver.
-		const original = (console[method] as (...args: unknown[]) => void).bind(console);
-		(console as unknown as Record<string, unknown>)[method] = (...args: unknown[]) => {
-			original(...args);
-			// Errors always, the rest only when asked for. The switch exists to keep chatter out of
-			// the buffer, and a framework reporting a broken hydration through `console.error` is not
-			// chatter — it is the one line that explains a window nobody can click.
-			if (forwarding || (!log.includeWeb && level !== 'error')) return;
-			forwarding = true;
-			try {
-				void log.write(level, 'web', args.map(describe).join(' '));
-			} finally {
-				forwarding = false;
-			}
-		};
-	}
+	console.error = (...args: unknown[]) => {
+		original(...args);
+		if (forwarding) return;
+		forwarding = true;
+		try {
+			void log.write('error', 'web', args.map(describe).join(' '));
+		} finally {
+			forwarding = false;
+		}
+	};
 }
 
 function describe(value: unknown): string {
