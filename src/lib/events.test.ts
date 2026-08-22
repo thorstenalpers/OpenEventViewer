@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
 	bucketSizeFor,
 	choicesOf,
+	errorTally,
 	histogram,
 	inTimeRange,
 	isEmptyNumberQuery,
@@ -131,5 +132,62 @@ describe('histogram', () => {
 
 		expect(chart.from % chart.sizeMs).toBe(0);
 		expect(chart.to).toBeGreaterThan(chart.from);
+	});
+});
+
+describe('error tally', () => {
+	function event(minute: number, level: number, provider: string, eventId: number) {
+		return {
+			timeCreated: new Date(Date.UTC(2026, 7, 20, 12, minute)).toISOString(),
+			level,
+			provider,
+			eventId
+		};
+	}
+
+	const from = Date.UTC(2026, 7, 20, 12, 0);
+	const to = Date.UTC(2026, 7, 20, 12, 15);
+
+	it('counts only what went wrong, commonest first', () => {
+		const tally = errorTally(
+			[
+				event(1, 2, 'Application Error', 1000),
+				event(2, 3, 'DCOM', 10016),
+				event(3, 2, 'Application Error', 1000),
+				event(4, 1, 'BugCheck', 1001),
+				event(5, 4, 'ESENT', 326)
+			],
+			from,
+			to
+		);
+
+		expect(tally).toEqual([
+			{ label: 'Application Error · 1000', count: 2 },
+			{ label: 'BugCheck · 1001', count: 1 }
+		]);
+	});
+
+	/// The bucket is half-open, or an event on a boundary is counted into both bars beside it.
+	it('takes the start of the window and leaves its end to the next bucket', () => {
+		const at = (minute: number) => errorTally([event(minute, 2, 'A', 1)], from, to);
+
+		expect(at(0)).toHaveLength(1);
+		expect(at(14)).toHaveLength(1);
+		expect(at(15)).toHaveLength(0);
+	});
+
+	/// The same fault writes the same provider and id every time; grouping by message would split
+	/// one problem into forty because the text carries a path or a process id.
+	it('groups by provider and id rather than by the text', () => {
+		const tally = errorTally(
+			[
+				{ ...event(1, 2, 'Application Error', 1000) },
+				{ ...event(2, 2, 'Application Error', 1000) }
+			],
+			from,
+			to
+		);
+
+		expect(tally).toEqual([{ label: 'Application Error · 1000', count: 2 }]);
 	});
 });

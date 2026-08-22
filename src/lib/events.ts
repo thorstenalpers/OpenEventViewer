@@ -296,3 +296,33 @@ export function histogram(
 		peak: buckets.reduce((most, bucket) => Math.max(most, bucket.total), 0)
 	};
 }
+
+/** One kind of thing that went wrong, and how often it did. */
+export interface Tally {
+	label: string;
+	count: number;
+}
+
+/**
+ * What the errors in a stretch of log actually were, commonest first.
+ *
+ * Grouped by provider and id rather than by message: the same fault writes the same pair every
+ * time and a message that carries a path or a pid would split one problem into forty.
+ */
+export function errorTally(
+	events: { timeCreated: string; level: number; provider: string; eventId: number }[],
+	from: number,
+	to: number
+): Tally[] {
+	const counts = new Map<string, number>();
+	for (const event of events) {
+		if (event.level !== 1 && event.level !== 2) continue;
+		const at = Date.parse(event.timeCreated);
+		if (Number.isNaN(at) || at < from || at >= to) continue;
+		const label = `${event.provider} · ${event.eventId}`;
+		counts.set(label, (counts.get(label) ?? 0) + 1);
+	}
+	return [...counts]
+		.map(([label, count]) => ({ label, count }))
+		.sort((left, right) => right.count - left.count || left.label.localeCompare(right.label));
+}

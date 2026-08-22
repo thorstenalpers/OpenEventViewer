@@ -15,6 +15,27 @@ export const de: Translations = {
 		collapse: 'Seitenleiste einklappen',
 		expand: 'Seitenleiste ausklappen'
 	},
+	menu: {
+		label: 'Menüleiste',
+		sketch: 'Entwurf',
+		notBuilt: (action: string) => `${action} gibt es noch nicht.`,
+		titles: {
+			file: 'Datei',
+			view: 'Ansicht',
+			help: 'Hilfe'
+		},
+		items: {
+			saveAs: 'Ereignisse speichern unter…',
+			print: 'Drucken…',
+			exit: 'Beenden',
+			refresh: 'Aktualisieren',
+			columns: 'Spalten auswählen…',
+			clearFilters: 'Alle Filter zurücksetzen',
+			settings: 'Einstellungen',
+			documentation: 'Dokumentation',
+			about: 'Über OpenEventViewer'
+		}
+	},
 	common: {
 		loading: 'Wird geladen…',
 		mockHost: 'Mock-Host — kein Tauri-Backend. Die Daten auf dieser Seite sind Testdaten.'
@@ -57,6 +78,8 @@ export const de: Translations = {
 			'Schließ OpenEventViewer und starte es als Administrator neu, oder wähl einen Kanal, der das nicht braucht.',
 		empty: 'Nichts passt.',
 		ask: 'Den Assistenten zu diesem Ereignis fragen',
+		search: 'Im Web nach diesem Ereignis suchen',
+		resize: (column: string) => `Spalte ${column} in der Breite ändern`,
 		filters: {
 			search: 'Suchen…',
 			noMatch: 'Nichts passt.',
@@ -73,14 +96,18 @@ export const de: Translations = {
 			helpNot: 'alles außer'
 		},
 		overTime: 'Zeitlicher Verlauf',
+		andMore: (kinds: number, count: number) =>
+			`${kinds} weitere Art${kinds === 1 ? '' : 'en'}, zusammen ${count}`,
 		bucketSize: (minutes: number) =>
 			minutes >= 1440
 				? `ein Balken je ${minutes / 1440} Tag${minutes === 1440 ? '' : 'e'}`
 				: minutes >= 60
 					? `ein Balken je ${minutes / 60} Stunde${minutes === 60 ? '' : 'n'}`
 					: `ein Balken je ${minutes} Minute${minutes === 1 ? '' : 'n'}`,
-		bucketCount: (total: number, errors: number) =>
-			errors === 0 ? `${total} Ereignisse` : `${total} Ereignisse, davon ${errors} Fehler`,
+		bucketCount: (total: number, errors: number) => {
+			const events = `${total} Ereignis${total === 1 ? '' : 'se'}`;
+			return errors === 0 ? events : `${events}, davon ${errors} Fehler`;
+		},
 		columns: {
 			level: 'Stufe',
 			time: 'Zeit',
@@ -132,10 +159,6 @@ export const de: Translations = {
 			info: 'Info',
 			debug: 'Debug'
 		},
-		refresh: 'Aktualisieren',
-		includeWeb: 'Web-Konsole einbeziehen',
-		includeWebBody:
-			'Kopiert die Konsole des Webviews in dieses Protokoll, damit Oberfläche und Host eine gemeinsame Zeitleiste haben.',
 		clear: 'Protokoll leeren',
 		empty: 'Noch nichts protokolliert.',
 		count: (shown: number, total: number) => `${shown} von ${total} Einträgen`

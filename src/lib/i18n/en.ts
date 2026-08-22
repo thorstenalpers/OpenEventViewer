@@ -13,6 +13,27 @@ export const en = {
 		collapse: 'Collapse the sidebar',
 		expand: 'Expand the sidebar'
 	},
+	menu: {
+		label: 'Menu bar',
+		sketch: 'sketch',
+		notBuilt: (action: string) => `${action} is not built yet.`,
+		titles: {
+			file: 'File',
+			view: 'View',
+			help: 'Help'
+		},
+		items: {
+			saveAs: 'Save events as…',
+			print: 'Print…',
+			exit: 'Exit',
+			refresh: 'Refresh',
+			columns: 'Choose columns…',
+			clearFilters: 'Clear all filters',
+			settings: 'Settings',
+			documentation: 'Documentation',
+			about: 'About OpenEventViewer'
+		}
+	},
 	common: {
 		loading: 'Loading…',
 		mockHost: 'Mock host — no Tauri backend. Data on this page is fixture data.'
@@ -54,6 +75,8 @@ export const en = {
 			'Close OpenEventViewer and start it again as administrator, or pick a channel that does not need it.',
 		empty: 'Nothing matches.',
 		ask: 'Ask the assistant about this event',
+		search: 'Search the web for this event',
+		resize: (column: string) => `Resize the ${column} column`,
 		filters: {
 			search: 'Search…',
 			noMatch: 'Nothing matches.',
@@ -70,14 +93,20 @@ export const en = {
 			helpNot: 'everything but'
 		},
 		overTime: 'Over time',
+		andMore: (kinds: number, count: number) =>
+			`${kinds} more kind${kinds === 1 ? '' : 's'}, ${count} in total`,
 		bucketSize: (minutes: number) =>
 			minutes >= 1440
 				? `one bar per ${minutes / 1440} day${minutes === 1440 ? '' : 's'}`
 				: minutes >= 60
 					? `one bar per ${minutes / 60} hour${minutes === 60 ? '' : 's'}`
 					: `one bar per ${minutes} minute${minutes === 1 ? '' : 's'}`,
-		bucketCount: (total: number, errors: number) =>
-			errors === 0 ? `${total} events` : `${total} events, ${errors} of them errors`,
+		bucketCount: (total: number, errors: number) => {
+			const events = `${total} event${total === 1 ? '' : 's'}`;
+			return errors === 0
+				? events
+				: `${events}, ${errors} of them ${errors === 1 ? 'an error' : 'errors'}`;
+		},
 		columns: {
 			level: 'Level',
 			time: 'Time',
@@ -127,10 +156,6 @@ export const en = {
 			info: 'Info',
 			debug: 'Debug'
 		},
-		refresh: 'Refresh',
-		includeWeb: 'Include web console',
-		includeWebBody:
-			"Copies the webview's own console into this log, so interface and host share one timeline.",
 		clear: 'Clear the log',
 		empty: 'Nothing logged yet.',
 		count: (shown: number, total: number) => `${shown} of ${total} entries`
