@@ -42,6 +42,15 @@
 				"installerIcon": "icons/icon.ico",
 				"uninstallerIcon": "icons/icon.ico"
 			}
+		},
+		"createUpdaterArtifacts": true
+	},
+	"plugins": {
+		"updater": {
+			"pubkey": "",
+			"endpoints": [
+				"https://github.com/thorstenalpers/OpenEventViewer/releases/latest/download/latest.json"
+			]
 		}
 	}
 }

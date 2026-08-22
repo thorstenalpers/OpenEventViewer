@@ -175,6 +175,18 @@ export const de: Translations = {
 		keywords: 'Schlüsselwörter',
 		noData: 'Dieses Ereignis führt keine eigenen Daten.'
 	},
+	updater: {
+		title: 'Aktualisierungen',
+		body: (version: string) => `Version ${version}. Wird einmal beim Start geprüft.`,
+		check: 'Jetzt prüfen',
+		checking: 'Prüft…',
+		upToDate: 'aktuell',
+		available: (version: string) => `${version} ist verfügbar`,
+		downloading: (percent: number | null) => (percent === null ? 'Lädt…' : `Lädt — ${percent}%`),
+		ready: 'Installiert — startet neu',
+		install: 'Installieren und neu starten',
+		failed: 'Die Aktualisierungsprüfung ist fehlgeschlagen.'
+	},
 	settings: {
 		title: 'Einstellungen',
 		appearance: 'Darstellung',

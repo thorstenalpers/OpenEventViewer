@@ -16,6 +16,9 @@
 	import { i18n, LOCALES, isLocale } from '$lib/i18n/index.svelte';
 	import { THEME_PRESETS, isThemePreset } from '$lib/theme/preset';
 	import { settings, MAX_ROW_CHOICES } from '$lib/stores/settings.svelte';
+	import { updater } from '$lib/stores/updater.svelte';
+
+	const APP_VERSION = '0.1.0';
 
 	const t = $derived(i18n.t);
 
@@ -161,6 +164,39 @@
 					aria-label={t.settings.eventsRows}
 					class="w-44"
 				/>
+			</div>
+
+			<div class={ROW}>
+				{@render describe(t.updater.title, t.updater.body(APP_VERSION))}
+				<div class="flex items-center gap-2">
+					<span class="text-xs text-muted-foreground">
+						{#if updater.state.kind === 'checking'}
+							{t.updater.checking}
+						{:else if updater.state.kind === 'upToDate'}
+							{t.updater.upToDate}
+						{:else if updater.state.kind === 'available'}
+							{t.updater.available(updater.state.version)}
+						{:else if updater.state.kind === 'downloading'}
+							{t.updater.downloading(updater.state.percent)}
+						{:else if updater.state.kind === 'ready'}
+							{t.updater.ready}
+						{:else if updater.state.kind === 'error'}
+							<span class="text-destructive">{t.updater.failed}</span>
+						{/if}
+					</span>
+					{#if updater.state.kind === 'available'}
+						<Button size="sm" onclick={() => updater.install()}>{t.updater.install}</Button>
+					{:else}
+						<Button
+							size="sm"
+							variant="outline"
+							disabled={updater.busy}
+							onclick={() => updater.check()}
+						>
+							{t.updater.check}
+						</Button>
+					{/if}
+				</div>
 			</div>
 
 			<label class="{ROW} cursor-pointer select-none">

@@ -3,5 +3,11 @@
 	"identifier": "default",
 	"description": "Capabilities of the app window",
 	"windows": ["main"],
-	"permissions": ["core:default", "opener:allow-open-url", "window-state:default"]
+	"permissions": [
+		"core:default",
+		"opener:allow-open-url",
+		"window-state:default",
+		"updater:default",
+		"process:allow-restart"
+	]
 }

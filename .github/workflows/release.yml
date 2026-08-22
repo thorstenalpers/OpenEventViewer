@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: release-cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: release-cargo-${{ runner.os }}-
+
+      - run: npm ci
+
+      # Regenerated rather than trusted: the notices ship inside the installer because MIT, BSD and
+      # ISC all require the notice to accompany the distribution, and a stale file quietly stops
+      # naming a dependency that was added after it was last written.
+      - run: npm run licenses
+
+      # The private half of the minisign key pair whose public half is in tauri.conf.json. Without
+      # both secrets the build produces an installer with no `.sig`, and the updater refuses an
+      # unsigned one — which is the whole point of signing it.
+      - name: Build the installer and its signature
+        run: npm run app:build
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+
+      # `latest.json` is what the updater endpoint serves. Written here rather than by hand so the
+      # signature in it is the one that belongs to the installer beside it.
+      - name: Write latest.json
+        run: |
+          $setup = Get-ChildItem target/release/bundle/nsis/*-setup.exe | Select-Object -First 1
+          $signature = Get-Content "$($setup.FullName).sig" -Raw
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          $url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/$($setup.Name)"
+          $manifest = [ordered]@{
+            version   = $version
+            notes     = "See the release notes for $version."
+            pub_date  = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+            platforms = [ordered]@{
+              'windows-x86_64' = [ordered]@{ signature = $signature.Trim(); url = $url }
+            }
+          }
+          $manifest | ConvertTo-Json -Depth 5 | Out-File latest.json -Encoding utf8
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            target/release/bundle/nsis/*-setup.exe
+            target/release/bundle/nsis/*-setup.exe.sig
+            latest.json
+          fail_on_unmatched_files: true

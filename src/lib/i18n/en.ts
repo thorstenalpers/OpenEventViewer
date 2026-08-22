@@ -169,6 +169,19 @@ export const en = {
 		keywords: 'Keywords',
 		noData: 'This event carries no data of its own.'
 	},
+	updater: {
+		title: 'Updates',
+		body: (version: string) => `Version ${version}. Checked once at start.`,
+		check: 'Check now',
+		checking: 'Checking…',
+		upToDate: 'up to date',
+		available: (version: string) => `${version} is available`,
+		downloading: (percent: number | null) =>
+			percent === null ? 'Downloading…' : `Downloading — ${percent}%`,
+		ready: 'Installed — restarting',
+		install: 'Install and restart',
+		failed: 'The update check failed.'
+	},
 	settings: {
 		title: 'Settings',
 		appearance: 'Appearance',

@@ -8,7 +8,9 @@
 	import SidebarShell, { ROUTES } from '$lib/components/sidebar-shell.svelte';
 	import { settings } from '$lib/stores/settings.svelte';
 	import { captureErrors } from '$lib/stores/log.svelte';
+	import { updater } from '$lib/stores/updater.svelte';
 	import { i18n } from '$lib/i18n/index.svelte';
+	import { toast } from 'svelte-sonner';
 	import { call, isMockHost } from '$lib/bridge/client';
 
 	let { children }: { children?: Snippet } = $props();
@@ -46,6 +48,15 @@
 	});
 
 	onMount(() => {
+		// Silent: with no release published the endpoint answers with nothing, and a first run must
+		// not open with an error about an update that was never there.
+		void updater.check(true).then(() => {
+			if (updater.state.kind !== 'available') return;
+			toast(i18n.t.updater.available(updater.state.version), {
+				action: { label: i18n.t.updater.install, onClick: () => void updater.install() }
+			});
+		});
+
 		// Every route's code, fetched in the background right after start. A first click then costs
 		// a component swap rather than a network round trip and a module evaluation.
 		for (const route of ROUTES) void preloadCode(resolve(route));
