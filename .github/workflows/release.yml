@@ -39,6 +39,11 @@ jobs:
       # Regenerated rather than trusted: the notices ship inside the installer because MIT, BSD and
       # ISC all require the notice to accompany the distribution, and a stale file quietly stops
       # naming a dependency that was added after it was last written.
+      # `npm run licenses` shells out to `cargo license`, which no runner image carries. Without it
+      # the notices cannot be regenerated, and they are what the licences require to ship.
+      - name: Install cargo-license
+        run: cargo install cargo-license --locked
+
       - run: npm run licenses
 
       # The private half of the minisign key pair whose public half is in tauri.conf.json. Without
