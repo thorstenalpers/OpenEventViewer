@@ -1,5 +1,4 @@
 import { call } from '$lib/bridge/client';
-import type { AssistantSource } from '$lib/bridge/contract';
 import { i18n, isLocale, type Locale } from '$lib/i18n/index.svelte';
 import { applyPreset, isThemePreset, type ThemePreset } from '$lib/theme/preset';
 
@@ -17,7 +16,6 @@ export const MAX_ROW_CHOICES = [1000, 5000, 20000, 50000] as const;
  * the app from flashing the wrong palette on every start.
  */
 class SettingsStore {
-	assistantSource = $state<AssistantSource>('cli');
 	locale = $state<Locale>('en');
 	preset = $state<ThemePreset>('default');
 	sidebarExpanded = $state(true);

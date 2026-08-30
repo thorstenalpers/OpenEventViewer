@@ -1,26 +1,5 @@
 import { z } from 'zod';
 
-export const assistantSource = z.enum(['cli', 'anthropic']);
-export type AssistantSource = z.infer<typeof assistantSource>;
-
-export const assistantStatus = z.object({
-	source: assistantSource,
-	cliAvailable: z.boolean(),
-	hasKey: z.boolean(),
-	/** Shown in the preview, because it is part of what leaves the machine. */
-	systemPrompt: z.string()
-});
-export type AssistantStatus = z.infer<typeof assistantStatus>;
-
-export const chatRole = z.enum(['user', 'assistant']);
-export type ChatRole = z.infer<typeof chatRole>;
-
-export const chatMessage = z.object({
-	role: chatRole,
-	content: z.string()
-});
-export type ChatMessage = z.infer<typeof chatMessage>;
-
 export const dataItem = z.object({
 	name: z.string(),
 	value: z.string()
@@ -92,9 +71,7 @@ export const bundle = z.object({
 	incident,
 	from: z.string(),
 	to: z.string(),
-	events: z.array(eventRecord),
-	/** Exactly what the assistant would be given. */
-	prompt: z.string()
+	events: z.array(eventRecord)
 });
 export type Bundle = z.infer<typeof bundle>;
 
@@ -125,8 +102,6 @@ export const commands = {
 	events_channels: { response: z.array(z.string()) },
 	events_query: { response: queryResult },
 	events_xml: { response: z.string() },
-	events_render: { response: z.string() },
-	assistant_chat: { response: z.string() },
 	diagnose_incidents: { response: z.array(incident) },
 	diagnose_bundle: { response: bundle },
 	get_settings: { response: settings },
@@ -137,9 +112,7 @@ export const commands = {
 	third_party_licenses: { response: z.string() },
 	devtools_open: { response: z.null() },
 	open_url: { response: z.null() },
-	app_exit: { response: z.null() },
-	assistant_status: { response: assistantStatus },
-	assistant_set_key: { response: z.null() }
+	app_exit: { response: z.null() }
 } as const;
 
 export type CommandName = keyof typeof commands;
@@ -149,8 +122,6 @@ export interface CommandArgs {
 	events_channels: Record<string, never>;
 	events_query: { filter: EventFilter };
 	events_xml: { channel: string; recordId: number };
-	events_render: { events: EventRecord[] };
-	assistant_chat: { source: AssistantSource; messages: ChatMessage[] };
 	diagnose_incidents: { days: number };
 	diagnose_bundle: { channel: string; recordId: number };
 	get_settings: Record<string, never>;
@@ -162,6 +133,4 @@ export interface CommandArgs {
 	devtools_open: Record<string, never>;
 	open_url: { url: string };
 	app_exit: Record<string, never>;
-	assistant_status: { source: AssistantSource };
-	assistant_set_key: { key: string };
 }

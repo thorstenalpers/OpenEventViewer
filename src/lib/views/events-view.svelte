@@ -13,9 +13,6 @@
 	import { call } from '$lib/bridge/client';
 	import { events } from '$lib/stores/events.svelte';
 	import { createEventsTable } from '$lib/stores/events-table.svelte';
-	import { assistant } from '$lib/stores/assistant.svelte';
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
 
 	const t = $derived(i18n.t);
 
@@ -47,11 +44,6 @@
 		await call('open_url', {
 			url: `https://www.google.com/search?q=${encodeURIComponent(terms)}`
 		});
-	}
-
-	async function ask(event: EventRecord) {
-		await assistant.attachEvent(event);
-		await goto(resolve('/assistant'));
 	}
 
 	let channel = $state(events.channel);
@@ -173,11 +165,10 @@
 		selectedId={events.selectedId}
 		onSelect={(event: EventRecord) =>
 			events.select(keyOf(event) === events.selectedId ? null : event)}
-		onAsk={ask}
 		onSearch={search}
 	/>
 
 	{#if events.selected}
-		<EventDetail event={events.selected} onAsk={ask} onClose={() => events.select(null)} />
+		<EventDetail event={events.selected} onSearch={search} onClose={() => events.select(null)} />
 	{/if}
 </div>

@@ -1,18 +1,8 @@
 <script lang="ts">
 	import { setMode, userPrefersMode } from 'mode-watcher';
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardHeader,
-		CardTitle
-	} from '$lib/components/ui/card';
+	import { Card, CardContent } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import { Badge } from '$lib/components/ui/badge';
 	import { Select } from '$lib/components/ui/select';
-	import { call } from '$lib/bridge/client';
-	import type { AssistantSource, AssistantStatus } from '$lib/bridge/contract';
 	import { i18n, LOCALES, isLocale } from '$lib/i18n/index.svelte';
 	import { THEME_PRESETS, isThemePreset } from '$lib/theme/preset';
 	import { settings, MAX_ROW_CHOICES } from '$lib/stores/settings.svelte';
@@ -30,19 +20,6 @@
 		{ id: 'dark', label: t.settings.dark }
 	] as const);
 
-	const sources = $derived([
-		{
-			id: 'cli' as AssistantSource,
-			label: t.settings.sourceCliLabel,
-			detail: t.settings.sourceCliDetail
-		},
-		{
-			id: 'anthropic' as AssistantSource,
-			label: t.settings.sourceAnthropicLabel,
-			detail: t.settings.sourceAnthropicDetail
-		}
-	]);
-
 	const localeOptions = LOCALES.map((locale) => ({ value: locale.id, label: locale.label }));
 	const rowOptions = $derived(
 		MAX_ROW_CHOICES.map((rows) => ({
@@ -53,11 +30,6 @@
 	const presetOptions = $derived(
 		THEME_PRESETS.map((preset) => ({ value: preset, label: t.settings.presets[preset] ?? preset }))
 	);
-
-	let status = $state<AssistantStatus | null>(null);
-	let key = $state('');
-	let notice = $state<string | null>(null);
-	let error = $state<string | null>(null);
 
 	let locale = $state(settings.locale);
 	let preset = $state(settings.preset);
@@ -70,13 +42,6 @@
 		if (isThemePreset(preset) && preset !== settings.preset) settings.setPreset(preset);
 	});
 
-	$effect(() => {
-		const source = settings.assistantSource;
-		call('assistant_status', { source })
-			.then((result) => (status = result))
-			.catch(() => (status = null));
-	});
-
 	let loggingError = $state<string | null>(null);
 
 	async function logging(changes: { showLogs?: boolean; debugLogging?: boolean }) {
@@ -85,20 +50,6 @@
 			await settings.setLogging(changes);
 		} catch (caught) {
 			loggingError = caught instanceof Error ? caught.message : String(caught);
-		}
-	}
-
-	async function storeKey() {
-		error = null;
-		notice = null;
-		try {
-			await call('assistant_set_key', { key });
-			// Cleared immediately: the field is a one-way door, and the key cannot be read back.
-			key = '';
-			notice = t.settings.stored;
-			status = await call('assistant_status', { source: settings.assistantSource });
-		} catch (caught) {
-			error = caught instanceof Error ? caught.message : String(caught);
 		}
 	}
 </script>
@@ -221,55 +172,6 @@
 
 			{#if loggingError}
 				<p class="px-3 py-2 text-sm text-destructive">{loggingError}</p>
-			{/if}
-		</CardContent>
-	</Card>
-
-	<Card>
-		<CardHeader>
-			<CardTitle>{t.settings.assistant}</CardTitle>
-			<CardDescription>{t.settings.assistantBody}</CardDescription>
-		</CardHeader>
-		<CardContent class="flex flex-col gap-3">
-			<div class="flex flex-col gap-1.5">
-				{#each sources as source (source.id)}
-					<button
-						type="button"
-						onclick={() => (settings.assistantSource = source.id)}
-						class="flex flex-col items-start gap-0.5 rounded-md border px-3 py-2 text-start text-sm transition-colors {settings.assistantSource ===
-						source.id
-							? 'border-primary bg-primary/5'
-							: 'hover:bg-muted/50'}"
-					>
-						<span class="flex items-center gap-2 font-medium">
-							{source.label}
-							{#if source.id === 'cli' && status?.cliAvailable}
-								<Badge variant="accent">{t.settings.found}</Badge>
-							{:else if source.id === 'anthropic' && status?.hasKey}
-								<Badge variant="accent">{t.settings.keyStored}</Badge>
-							{/if}
-						</span>
-						<span class="text-xs text-muted-foreground">{source.detail}</span>
-					</button>
-				{/each}
-			</div>
-
-			{#if settings.assistantSource === 'anthropic'}
-				<div class="flex items-end gap-2">
-					<label class="flex flex-1 flex-col gap-1 text-xs text-muted-foreground">
-						{t.settings.apiKey}
-						<Input type="password" bind:value={key} placeholder="sk-ant-…" />
-					</label>
-					<Button onclick={storeKey} disabled={!key.trim()}>{t.settings.store}</Button>
-				</div>
-				<p class="text-xs text-muted-foreground">{t.settings.keyNote}</p>
-			{/if}
-
-			{#if notice}
-				<p class="text-sm text-muted-foreground">{notice}</p>
-			{/if}
-			{#if error}
-				<p class="text-sm text-destructive">{error}</p>
 			{/if}
 		</CardContent>
 	</Card>

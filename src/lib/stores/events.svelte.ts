@@ -15,8 +15,8 @@ import { settings } from '$lib/stores/settings.svelte';
 /**
  * What the Events page is looking at.
  *
- * A singleton rather than per-view state: routing unmounts the page, and a trip to the assistant
- * and back should not throw away a query that took three seconds to answer.
+ * A singleton rather than per-view state: routing unmounts the page, and a trip to Settings and
+ * back should not throw away a query that took three seconds to answer.
  */
 class EventsStore {
 	channels = $state<string[]>([]);

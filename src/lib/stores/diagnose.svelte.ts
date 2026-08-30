@@ -7,7 +7,7 @@ export const DAY_CHOICES = [1, 7, 30] as const;
  * The guided walk: scan a stretch of log for incidents, then pull the events around one of them.
  *
  * A singleton for the same reason the events store is one — the bundle costs a second query and
- * should survive a trip to the assistant and back.
+ * should survive a trip to another page and back.
  */
 class DiagnoseStore {
 	days = $state<number>(7);

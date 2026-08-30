@@ -4,7 +4,6 @@ export const de: Translations = {
 	sidebar: {
 		tagline: 'Windows-Ereignisprotokolle',
 		events: 'Ereignisse',
-		assistant: 'Assistent',
 		diagnose: 'Diagnose',
 		log: 'Protokoll',
 		settings: 'Einstellungen',
@@ -77,7 +76,6 @@ export const de: Translations = {
 		securityHint:
 			'Schließ OpenEventViewer und starte es als Administrator neu, oder wähl einen Kanal, der das nicht braucht.',
 		empty: 'Nichts passt.',
-		ask: 'Den Assistenten zu diesem Ereignis fragen',
 		search: 'Im Web nach diesem Ereignis suchen',
 		resize: (column: string) => `Spalte ${column} in der Breite ändern`,
 		filters: {
@@ -130,9 +128,6 @@ export const de: Translations = {
 			'Nichts gefunden. Such über einen längeren Zeitraum — oder nimm es als gute Nachricht.',
 		window: (from: string, to: string) => `${from} — ${to}`,
 		inWindow: (count: number) => `${count} Ereignis${count === 1 ? '' : 'se'} im Zeitfenster`,
-		previewBundle: 'Was der Assistent bekommen würde',
-		send: 'An den Assistenten schicken',
-		question: 'Was ist hier passiert, und was sollte ich als Nächstes prüfen?',
 		kinds: {
 			unexpectedShutdown: 'Unerwartetes Herunterfahren',
 			bugCheck: 'Bluescreen',
@@ -167,7 +162,7 @@ export const de: Translations = {
 		title: 'Info',
 		subtitle: 'Was diese App ist und worauf sie aufbaut.',
 		appBody:
-			'Die Windows-Ereignisprotokolle lesen, auf das Wesentliche filtern und einen Assistenten fragen, was eine Folge davon bedeutet.',
+			'Die Windows-Ereignisprotokolle lesen und auf das Wesentliche filtern — ohne Konto, ohne Upload, ohne Nutzungsdaten.',
 		offline:
 			'Alles läuft auf diesem Rechner. Nichts wird hochgeladen, und es werden keine Nutzungsdaten erhoben.',
 		appLicense: 'OpenEventViewer steht unter der MIT-Lizenz.',
@@ -188,33 +183,11 @@ export const de: Translations = {
 		materialBody:
 			'Die Ereignisprotokolle bleiben dort, wo Windows sie führt. Diese App liest sie und schreibt nie hinein.'
 	},
-	assistant: {
-		title: 'Assistent',
-		thinking: 'Denkt nach…',
-		sourceCli: 'lokales claude',
-		sourceAnthropic: 'anthropic',
-		noCli:
-			'Die lokale claude-Binary liegt nicht im PATH. Installiere Claude Code oder wähle in den Einstellungen einen gehosteten Anbieter.',
-		noKey: 'Kein API-Key hinterlegt. Trag in den Einstellungen einen ein.',
-		empty: 'Häng ein Ereignis aus der Ereignisliste an oder frag einfach etwas.',
-		placeholder: 'Frag nach den angehängten Ereignissen…',
-		send: 'Senden',
-		newConversation: 'Neues Gespräch',
-		preview: 'Was gesendet wird',
-		previewBody:
-			'Genau dieser Text verlässt den Rechner, wenn du auf Senden drückst — danach kommt nichts mehr dazu.',
-		systemPrompt: 'Feste Anweisungen',
-		nextMessage: 'Deine nächste Nachricht',
-		nothingYet: 'Noch nichts zu senden.',
-		characters: (count: number) => `${count.toLocaleString('de')} Zeichen`,
-		attachedCount: (count: number) => `${count} Ereignis${count === 1 ? '' : 'se'}`,
-		removeAttachment: (title: string) => `${title} entfernen`
-	},
 	detail: {
 		general: 'Allgemein',
 		data: 'Ereignisdaten',
 		xml: 'XML',
-		ask: 'Fragen',
+		search: 'Im Web suchen',
 		copy: 'Kopieren',
 		copied: 'Kopiert',
 		close: 'Detailbereich schließen',
@@ -262,20 +235,6 @@ export const de: Translations = {
 		showLogsBody: 'Fügt der Navigation einen Eintrag Protokoll hinzu.',
 		debugLogging: 'Debug-Einträge aufzeichnen',
 		debugLoggingBody:
-			'Ausführlich. Standardmäßig aus, weil Debug-Einträge genau die verdrängen, die man gesucht hat.',
-		assistant: 'Assistent',
-		assistantBody: 'Wohin der Assistent schickt, was du ihn fragst.',
-		sourceCliLabel: 'Lokale claude-Binary',
-		sourceCliDetail: 'Läuft auf diesem Rechner. Diese App schickt nichts an Dritte.',
-		sourceAnthropicLabel: 'Anthropic-API',
-		sourceAnthropicDetail:
-			'Was die Vorschau zeigt, geht an api.anthropic.com, sobald du auf Senden drückst.',
-		found: 'gefunden',
-		keyStored: 'Key hinterlegt',
-		apiKey: 'API-Key',
-		store: 'Speichern',
-		keyNote:
-			'Der Key landet im Windows-Anmeldeinformationsmanager, nie in einer Datei dieser App, und kann in dieses Fenster nicht zurückgelesen werden.',
-		stored: 'Im Windows-Anmeldeinformationsmanager hinterlegt.'
+			'Ausführlich. Standardmäßig aus, weil Debug-Einträge genau die verdrängen, die man gesucht hat.'
 	}
 };

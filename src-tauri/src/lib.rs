@@ -1,4 +1,3 @@
-mod assistant;
 mod commands;
 mod diagnose;
 mod dto;
@@ -54,8 +53,6 @@ pub fn run() {
             commands::events_channels,
             commands::events_query,
             commands::events_xml,
-            commands::events_render,
-            commands::assistant_chat,
             commands::diagnose_incidents,
             commands::diagnose_bundle,
             commands::get_settings,
@@ -67,8 +64,6 @@ pub fn run() {
             commands::devtools_open,
             commands::open_url,
             commands::app_exit,
-            commands::assistant_status,
-            commands::assistant_set_key,
         ])
         .run(tauri::generate_context!())
         .expect("error while running OpenEventViewer");

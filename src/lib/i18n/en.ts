@@ -2,7 +2,6 @@ export const en = {
 	sidebar: {
 		tagline: 'Windows event logs',
 		events: 'Events',
-		assistant: 'Assistant',
 		diagnose: 'Diagnose',
 		log: 'Log',
 		settings: 'Settings',
@@ -74,7 +73,6 @@ export const en = {
 		securityHint:
 			'Close OpenEventViewer and start it again as administrator, or pick a channel that does not need it.',
 		empty: 'Nothing matches.',
-		ask: 'Ask the assistant about this event',
 		search: 'Search the web for this event',
 		resize: (column: string) => `Resize the ${column} column`,
 		filters: {
@@ -128,9 +126,6 @@ export const en = {
 		nothing: 'Nothing found. Scan a longer stretch, or take it as good news.',
 		window: (from: string, to: string) => `${from} — ${to}`,
 		inWindow: (count: number) => `${count} event${count === 1 ? '' : 's'} in the window`,
-		previewBundle: 'What the assistant would be given',
-		send: 'Send to the assistant',
-		question: 'What happened here, and what should I check next?',
 		kinds: {
 			unexpectedShutdown: 'Unexpected shutdown',
 			bugCheck: 'Bug check',
@@ -164,7 +159,7 @@ export const en = {
 		title: 'Info',
 		subtitle: 'What this app is, and what it is built on.',
 		appBody:
-			'Read the Windows event logs, filter them down to what matters, and ask an assistant what a run of them means.',
+			'Read the Windows event logs and filter them down to what matters — no account, no upload, no telemetry.',
 		offline: 'Everything runs on this machine. Nothing is uploaded, and no telemetry is collected.',
 		appLicense: 'OpenEventViewer is MIT licensed.',
 		thirdParty: 'Third-party components',
@@ -184,33 +179,11 @@ export const en = {
 		materialBody:
 			'The event logs stay where Windows keeps them. This app reads them and never writes to them.'
 	},
-	assistant: {
-		title: 'Assistant',
-		thinking: 'Thinking…',
-		sourceCli: 'local claude',
-		sourceAnthropic: 'anthropic',
-		noCli:
-			'The local claude binary is not on PATH. Install Claude Code, or pick a hosted provider in Settings.',
-		noKey: 'No API key stored. Add one in Settings.',
-		empty: 'Attach an event from the Events page, or just ask something.',
-		placeholder: 'Ask about the attached events…',
-		send: 'Send',
-		newConversation: 'New conversation',
-		preview: 'What will be sent',
-		previewBody:
-			'Exactly this text leaves the machine when you press Send — nothing is added to it afterwards.',
-		systemPrompt: 'Standing instructions',
-		nextMessage: 'Your next message',
-		nothingYet: 'Nothing to send yet.',
-		characters: (count: number) => `${count.toLocaleString('en')} characters`,
-		attachedCount: (count: number) => `${count} event${count === 1 ? '' : 's'}`,
-		removeAttachment: (title: string) => `Remove ${title}`
-	},
 	detail: {
 		general: 'General',
 		data: 'Event data',
 		xml: 'XML',
-		ask: 'Ask',
+		search: 'Search the web',
 		copy: 'Copy',
 		copied: 'Copied',
 		close: 'Close the detail pane',
@@ -258,20 +231,7 @@ export const en = {
 		showLogsBody: 'Adds a Log entry to the navigation.',
 		debugLogging: 'Record debug entries',
 		debugLoggingBody:
-			'Verbose. Off by default, because debug entries crowd out the ones you went looking for.',
-		assistant: 'Assistant',
-		assistantBody: 'Where the assistant sends what you ask it.',
-		sourceCliLabel: 'Local claude binary',
-		sourceCliDetail: 'Runs on this machine. This app sends nothing to a third party.',
-		sourceAnthropicLabel: 'Anthropic API',
-		sourceAnthropicDetail: 'What the preview shows goes to api.anthropic.com when you press Send.',
-		found: 'found',
-		keyStored: 'key stored',
-		apiKey: 'API key',
-		store: 'Store',
-		keyNote:
-			'The key goes into the Windows Credential Manager, never into a file this app owns, and it cannot be read back into this window.',
-		stored: 'Stored in the Windows Credential Manager.'
+			'Verbose. Off by default, because debug entries crowd out the ones you went looking for.'
 	}
 };
 

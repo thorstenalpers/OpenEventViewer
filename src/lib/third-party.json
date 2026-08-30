@@ -49,22 +49,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "aws-lc-rs",
-		"version": "1.18.0",
-		"license": "(Apache-2.0 OR ISC) AND ISC",
-		"url": "https://github.com/aws/aws-lc-rs",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "aws-lc-sys",
-		"version": "0.44.0",
-		"license": "(Apache-2.0 OR ISC OR MIT) AND (Apache-2.0 OR ISC OR MIT-0) AND (Apache-2.0 OR ISC) AND Apache-2.0 AND BSD-3-Clause AND ISC AND MIT",
-		"url": "https://github.com/aws/aws-lc-rs",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "base64",
 		"version": "0.22.1",
 		"license": "Apache-2.0 OR MIT",
@@ -193,14 +177,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "chacha20",
-		"version": "0.10.1",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/RustCrypto/stream-ciphers",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "chrono",
 		"version": "0.4.45",
 		"license": "Apache-2.0 OR MIT",
@@ -219,14 +195,6 @@
 		"kind": "crate",
 		"name": "cpufeatures",
 		"version": "0.2.17",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/RustCrypto/utils",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "cpufeatures",
-		"version": "0.3.0",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/RustCrypto/utils",
 		"hasText": true
@@ -905,14 +873,6 @@
 	},
 	{
 		"kind": "crate",
-		"name": "keyring",
-		"version": "3.6.3",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/hwchen/keyring-rs.git",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "libc",
 		"version": "0.2.189",
 		"license": "Apache-2.0 OR MIT",
@@ -941,14 +901,6 @@
 		"version": "0.4.33",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/rust-lang/log",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "lru-slab",
-		"version": "0.1.2",
-		"license": "Apache-2.0 OR MIT OR Zlib",
-		"url": "https://github.com/Ralith/lru-slab",
 		"hasText": true
 	},
 	{
@@ -1177,58 +1129,10 @@
 	},
 	{
 		"kind": "crate",
-		"name": "quinn",
-		"version": "0.11.11",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/quinn-rs/quinn",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "quinn-proto",
-		"version": "0.11.16",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/quinn-rs/quinn",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "quinn-udp",
-		"version": "0.5.15",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/quinn-rs/quinn",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
 		"name": "quote",
 		"version": "1.0.47",
 		"license": "Apache-2.0 OR MIT",
 		"url": "https://github.com/dtolnay/quote",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "rand",
-		"version": "0.10.2",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/rust-random/rand",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "rand_core",
-		"version": "0.10.1",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/rust-random/rand_core",
-		"hasText": true
-	},
-	{
-		"kind": "crate",
-		"name": "rand_pcg",
-		"version": "0.10.2",
-		"license": "Apache-2.0 OR MIT",
-		"url": "https://github.com/rust-random/rngs",
 		"hasText": true
 	},
 	{

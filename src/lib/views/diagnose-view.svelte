@@ -1,8 +1,5 @@
 <script lang="ts">
 	import ActivityIcon from '@lucide/svelte/icons/activity';
-	import SparklesIcon from '@lucide/svelte/icons/sparkles';
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
 	import { Button } from '$lib/components/ui/button';
 	import { Badge } from '$lib/components/ui/badge';
 	import EventsTable from '$lib/components/events-table.svelte';
@@ -12,7 +9,6 @@
 	import { cn } from '$lib/utils';
 	import { createEventsTable } from '$lib/stores/events-table.svelte';
 	import { DAY_CHOICES, diagnose } from '$lib/stores/diagnose.svelte';
-	import { assistant } from '$lib/stores/assistant.svelte';
 
 	const t = $derived(i18n.t);
 
@@ -21,20 +17,6 @@
 	function shown(value: string): string {
 		const parsed = Date.parse(value);
 		return Number.isNaN(parsed) ? value : new Date(parsed).toLocaleString();
-	}
-
-	async function send() {
-		const bundle = diagnose.bundle;
-		if (!bundle) return;
-		assistant.attach({
-			id: `bundle:${bundle.incident.id}`,
-			kind: 'bundle',
-			title: `${t.diagnose.kinds[bundle.incident.kind]} — ${shown(bundle.incident.time)}`,
-			text: bundle.prompt,
-			events: bundle.events
-		});
-		assistant.draft = t.diagnose.question;
-		await goto(resolve('/assistant'));
 	}
 </script>
 
@@ -95,22 +77,9 @@
 				<span>{t.diagnose.window(shown(bundle.from), shown(bundle.to))}</span>
 				<span>·</span>
 				<span>{t.diagnose.inWindow(bundle.events.length)}</span>
-				<Button size="sm" class="ms-auto" onclick={send}>
-					<SparklesIcon class="size-3.5" />
-					{t.diagnose.send}
-				</Button>
 			</div>
 
 			<EventsTable {data} class="min-h-40 flex-1" />
-
-			<details class="rounded-md border">
-				<summary class="cursor-pointer px-3 py-2 text-xs font-medium">
-					{t.diagnose.previewBundle}
-				</summary>
-				<pre
-					data-testid="bundle-preview"
-					class="max-h-64 overflow-auto px-3 pb-3 text-[11px] whitespace-pre-wrap">{bundle.prompt}</pre>
-			</details>
 		{/if}
 	</div>
 </div>

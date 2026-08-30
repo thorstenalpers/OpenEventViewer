@@ -102,6 +102,6 @@ describe('bridge client', () => {
 	});
 
 	it('rejects a reply that does not match the contract', () => {
-		expect(() => commands.assistant_status.response.parse({ source: 'cli' })).toThrow();
+		expect(() => commands.events_query.response.parse({ events: [], truncated: false })).toThrow();
 	});
 });

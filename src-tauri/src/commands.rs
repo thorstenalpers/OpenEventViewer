@@ -3,11 +3,10 @@ use std::path::PathBuf;
 use tauri::{AppHandle, Manager, State};
 use tauri_plugin_opener::OpenerExt;
 
-use crate::assistant;
 use crate::diagnose::{self, Bundle, Incident};
 use crate::dto::Settings;
 use crate::error::{AppError, AppResult};
-use crate::eventlog::{self, EventRecord, Filter, QueryResult};
+use crate::eventlog::{self, Filter, QueryResult};
 
 pub struct AppState {
     pub config_dir: PathBuf,
@@ -64,25 +63,6 @@ pub async fn events_query(state: State<'_, AppState>, filter: Filter) -> AppResu
 #[tauri::command]
 pub async fn events_xml(channel: String, record_id: u64) -> AppResult<String> {
     blocking(move || eventlog::event_xml(&channel, record_id)).await
-}
-
-/// The exact text a run of events becomes in a prompt.
-///
-/// The interface asks for it so the preview can show it before anything is sent, rather than
-/// building its own version that might differ from the one the host would produce.
-#[tauri::command]
-pub async fn events_render(events: Vec<EventRecord>) -> AppResult<String> {
-    blocking(move || Ok(assistant::render_events_for_prompt(&events))).await
-}
-
-/// On its own thread: a hosted model answers in its own time, and the binary is a whole process —
-/// neither belongs in a pool slot that every other command is queueing behind.
-#[tauri::command]
-pub async fn assistant_chat(
-    source: assistant::Source,
-    messages: Vec<assistant::Message>,
-) -> AppResult<String> {
-    blocking(move || assistant::chat(source, &messages)).await
 }
 
 #[tauri::command]
@@ -199,16 +179,6 @@ pub fn devtools_open(app: AppHandle) -> AppResult<()> {
     }
     let _ = &app;
     Ok(())
-}
-
-#[tauri::command(async)]
-pub fn assistant_status(source: assistant::Source) -> AppResult<assistant::Status> {
-    Ok(assistant::status(source))
-}
-
-#[tauri::command(async)]
-pub fn assistant_set_key(key: String) -> AppResult<()> {
-    assistant::set_key(&key)
 }
 
 #[tauri::command(async)]

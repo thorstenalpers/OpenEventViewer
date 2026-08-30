@@ -3,7 +3,7 @@
 	 * Every route the sidebar can reach, in one list so the layout can preload exactly what the
 	 * navigation offers — a route added here is preloaded without anyone remembering to say so.
 	 */
-	export const ROUTES = ['/', '/assistant', '/diagnose', '/log', '/info', '/settings'] as const;
+	export const ROUTES = ['/', '/diagnose', '/log', '/info', '/settings'] as const;
 
 	export type Route = (typeof ROUTES)[number];
 </script>
@@ -13,7 +13,6 @@
 	import { resolve } from '$app/paths';
 	import type { Component } from 'svelte';
 	import EventsIcon from '@lucide/svelte/icons/list';
-	import AssistantIcon from '@lucide/svelte/icons/sparkles';
 	import DiagnoseIcon from '@lucide/svelte/icons/activity';
 	import SettingsIcon from '@lucide/svelte/icons/settings';
 	import InfoIcon from '@lucide/svelte/icons/info';
@@ -34,7 +33,6 @@
 
 	const entries = $derived<Entry[]>([
 		{ route: '/', label: t.sidebar.events, icon: EventsIcon },
-		{ route: '/assistant', label: t.sidebar.assistant, icon: AssistantIcon },
 		{ route: '/diagnose', label: t.sidebar.diagnose, icon: DiagnoseIcon }
 	]);
 

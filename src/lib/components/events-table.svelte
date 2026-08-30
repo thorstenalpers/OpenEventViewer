@@ -2,7 +2,6 @@
 	import ArrowUpIcon from '@lucide/svelte/icons/arrow-up';
 	import ArrowDownIcon from '@lucide/svelte/icons/arrow-down';
 	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
-	import SparklesIcon from '@lucide/svelte/icons/sparkles';
 	import SearchIcon from '@lucide/svelte/icons/globe';
 	import LevelBadge from '$lib/components/level-badge.svelte';
 	import { i18n } from '$lib/i18n/index.svelte';
@@ -19,13 +18,12 @@
 		data: EventsTableData;
 		selectedId?: string | null;
 		onSelect?: (event: EventRecord) => void;
-		/** Absent on the diagnosis bundle, where the whole window is attached in one go. */
-		onAsk?: (event: EventRecord) => void;
+		/** Absent on the diagnosis bundle, which is read rather than acted on row by row. */
 		onSearch?: (event: EventRecord) => void;
 		class?: string;
 	}
 
-	let { data, selectedId = null, onSelect, onAsk, onSearch, class: className }: Props = $props();
+	let { data, selectedId = null, onSelect, onSearch, class: className }: Props = $props();
 
 	const t = $derived(i18n.t);
 
@@ -203,20 +201,6 @@
 					<td class="truncate px-2 text-muted-foreground" title={event.message}>{event.message}</td>
 					<td class="px-1">
 						<div class="flex items-center justify-end gap-0.5">
-							{#if onAsk}
-								<button
-									type="button"
-									class="cursor-pointer rounded p-1 text-muted-foreground hover:bg-accent hover:text-primary"
-									aria-label={t.events.ask}
-									title={t.events.ask}
-									onclick={(clicked) => {
-										clicked.stopPropagation();
-										onAsk?.(event);
-									}}
-								>
-									<SparklesIcon class="size-3.5" />
-								</button>
-							{/if}
 							{#if onSearch}
 								<button
 									type="button"

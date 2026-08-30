@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SparklesIcon from '@lucide/svelte/icons/sparkles';
+	import SearchIcon from '@lucide/svelte/icons/globe';
 	import CopyIcon from '@lucide/svelte/icons/copy';
 	import XIcon from '@lucide/svelte/icons/x';
 	import { Button } from '$lib/components/ui/button';
@@ -11,11 +11,11 @@
 
 	interface Props {
 		event: EventRecord;
-		onAsk: (event: EventRecord) => void;
+		onSearch: (event: EventRecord) => void;
 		onClose: () => void;
 	}
 
-	let { event, onAsk, onClose }: Props = $props();
+	let { event, onSearch, onClose }: Props = $props();
 
 	const t = $derived(i18n.t);
 
@@ -68,9 +68,9 @@
 		<span class="text-xs text-muted-foreground">{event.timeCreated}</span>
 
 		<div class="ms-auto flex items-center gap-1">
-			<Button size="sm" variant="outline" onclick={() => onAsk(event)}>
-				<SparklesIcon class="size-3.5" />
-				{t.detail.ask}
+			<Button size="sm" variant="outline" onclick={() => onSearch(event)}>
+				<SearchIcon class="size-3.5" />
+				{t.detail.search}
 			</Button>
 			<Button size="sm" variant="ghost" onclick={copy}>
 				<CopyIcon class="size-3.5" />

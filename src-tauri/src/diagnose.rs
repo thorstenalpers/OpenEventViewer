@@ -7,7 +7,6 @@
 use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 
-use crate::assistant;
 use crate::error::{AppError, AppResult};
 use crate::eventlog::{self, EventRecord, Filter};
 
@@ -34,7 +33,7 @@ const BUNDLE_CHANNELS: [&str; 4] = [
 ];
 
 /// Every machine records thousands of these and none of them explains a crash. Left out of the
-/// bundle so the run the assistant reads is evidence rather than wallpaper.
+/// bundle so the run it collects is evidence rather than wallpaper.
 const NOISE: [&str; 2] = ["DCOM", "Microsoft-Windows-DistributedCOM"];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -141,8 +140,6 @@ pub struct Bundle {
     pub from: String,
     pub to: String,
     pub events: Vec<EventRecord>,
-    /// Exactly what the assistant would be given, so the page can show it before anything is sent.
-    pub prompt: String,
 }
 
 pub fn classify(event: &EventRecord) -> Option<Kind> {
@@ -294,7 +291,6 @@ pub fn bundle(channel: &str, record_id: u64) -> AppResult<Bundle> {
         .ok_or_else(|| AppError::Message(format!("{channel} no longer holds event {record_id}")))?;
 
     Ok(Bundle {
-        prompt: assistant::render_events_for_prompt(&events),
         incident: Incident {
             id: format!("{channel}:{record_id}"),
             time: parsed.time_created,
@@ -492,11 +488,10 @@ mod live {
         let Some(first) = found.first() else { return };
         let bundle = bundle(&first.event.channel, first.event.record_id).expect("a bundle");
         println!(
-            "bundle {} — {} : {} events, {} chars of prompt",
+            "bundle {} — {} : {} events",
             bundle.from,
             bundle.to,
-            bundle.events.len(),
-            bundle.prompt.len()
+            bundle.events.len()
         );
     }
 }
