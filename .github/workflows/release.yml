@@ -159,6 +159,9 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.decide.outputs.tag }}
+          # Markdown with the merged pull requests, instead of the raw commit message and its
+          # Co-authored-by trailers.
+          generate_release_notes: true
           files: |
             target/release/bundle/nsis/OpenEventViewer_${{ needs.decide.outputs.version }}_x64-setup.exe
             target/release/bundle/nsis/OpenEventViewer_${{ needs.decide.outputs.version }}_x64-setup.exe.sig
