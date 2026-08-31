@@ -113,11 +113,12 @@ describe('histogram', () => {
 	});
 
 	/// Warning is not a failure. Colouring it red would make the chart say something the level
-	/// column does not.
-	it('counts only critical and error as the red part', () => {
+	/// column does not — it gets its own amber slice instead.
+	it('counts critical and error as the red part and warning as the amber one', () => {
 		const chart = histogram([event(0, 1), event(1, 2), event(2, 3), event(3, 4), event(4, 5)]);
 
 		expect(chart.buckets.reduce((sum, bucket) => sum + bucket.errors, 0)).toBe(2);
+		expect(chart.buckets.reduce((sum, bucket) => sum + bucket.warnings, 0)).toBe(1);
 		expect(chart.buckets.reduce((sum, bucket) => sum + bucket.total, 0)).toBe(5);
 	});
 
@@ -132,6 +133,18 @@ describe('histogram', () => {
 
 		expect(chart.from % chart.sizeMs).toBe(0);
 		expect(chart.to).toBeGreaterThan(chart.from);
+	});
+
+	/// Filtering to a quiet day must show a quiet day, not zoom into its one busy minute.
+	it('pins the axis to a given span instead of the events that happen to match', () => {
+		const at = Date.UTC(2026, 7, 20, 12, 0);
+		const chart = histogram([event(0, 4)], 60, {
+			from: at - 12 * 60 * 60_000,
+			to: at
+		});
+
+		expect(chart.to - chart.from).toBeGreaterThanOrEqual(12 * 60 * 60_000);
+		expect(chart.buckets.reduce((sum, bucket) => sum + bucket.total, 0)).toBe(1);
 	});
 });
 

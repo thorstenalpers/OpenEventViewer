@@ -14,27 +14,6 @@ export const de: Translations = {
 		collapse: 'Seitenleiste einklappen',
 		expand: 'Seitenleiste ausklappen'
 	},
-	menu: {
-		label: 'Menüleiste',
-		sketch: 'Entwurf',
-		notBuilt: (action: string) => `${action} gibt es noch nicht.`,
-		titles: {
-			file: 'Datei',
-			view: 'Ansicht',
-			help: 'Hilfe'
-		},
-		items: {
-			saveAs: 'Ereignisse speichern unter…',
-			print: 'Drucken…',
-			exit: 'Beenden',
-			refresh: 'Aktualisieren',
-			columns: 'Spalten auswählen…',
-			clearFilters: 'Alle Filter zurücksetzen',
-			settings: 'Einstellungen',
-			documentation: 'Dokumentation',
-			about: 'Über OpenEventViewer'
-		}
-	},
 	common: {
 		loading: 'Wird geladen…',
 		mockHost: 'Mock-Host — kein Tauri-Backend. Die Daten auf dieser Seite sind Testdaten.'
@@ -44,26 +23,8 @@ export const de: Translations = {
 		subtitle: 'Was Windows aufgezeichnet hat, neueste zuerst.',
 		channel: 'Kanal',
 		allChannels: 'System und Anwendung',
-		level: 'Stufe',
-		levels: {
-			critical: 'Kritisch',
-			error: 'Fehler',
-			warning: 'Warnung',
-			information: 'Information',
-			verbose: 'Ausführlich'
-		},
-		range: 'Zeitraum',
-		ranges: {
-			hour: 'Letzte Stunde',
-			day: 'Letzte 24 Stunden',
-			week: 'Letzte 7 Tage',
-			custom: 'Eigener Zeitraum'
-		},
 		from: 'Von',
 		to: 'Bis',
-		eventIds: 'Ereignis-IDs',
-		providers: 'Quellen',
-		providersHint: 'Exakte Namen, mit Komma getrennt',
 		load: 'Laden',
 		keyword: 'Alle Spalten durchsuchen…',
 		columnFilter: 'Spaltenfilter',
@@ -102,9 +63,13 @@ export const de: Translations = {
 				: minutes >= 60
 					? `ein Balken je ${minutes / 60} Stunde${minutes === 60 ? '' : 'n'}`
 					: `ein Balken je ${minutes} Minute${minutes === 1 ? '' : 'n'}`,
-		bucketCount: (total: number, errors: number) => {
+		bucketCount: (total: number, errors: number, warnings: number) => {
 			const events = `${total} Ereignis${total === 1 ? '' : 'se'}`;
-			return errors === 0 ? events : `${events}, davon ${errors} Fehler`;
+			const parts = [
+				errors > 0 && `${errors} Fehler`,
+				warnings > 0 && `${warnings} Warnung${warnings === 1 ? '' : 'en'}`
+			].filter(Boolean);
+			return parts.length === 0 ? events : `${events}, davon ${parts.join(' und ')}`;
 		},
 		columns: {
 			level: 'Stufe',
@@ -124,6 +89,9 @@ export const de: Translations = {
 		days: (count: number) => (count === 1 ? 'Letzter Tag' : `Letzte ${count} Tage`),
 		scan: 'Suchen',
 		scanning: 'Sucht…',
+		intro:
+			'Noch nichts durchsucht. Wähl oben einen Zeitraum und drück auf Suchen; jeder Fund — ein Absturz, ein Freeze, ein Datenträgerfehler, ein gedrosselter Prozessor — erscheint hier als Vorfall zum Öffnen.',
+		pick: 'Öffne einen Vorfall, um alles zu sehen, was der Rechner in der Viertelstunde drumherum geschrieben hat.',
 		nothing:
 			'Nichts gefunden. Such über einen längeren Zeitraum — oder nimm es als gute Nachricht.',
 		window: (from: string, to: string) => `${from} — ${to}`,
@@ -219,9 +187,14 @@ export const de: Translations = {
 		presets: {
 			default: 'Standard',
 			caffeine: 'Caffeine',
+			catppuccin: 'Catppuccin',
+			claude: 'Claude',
 			'modern-minimal': 'Modern Minimal',
 			mono: 'Mono',
 			'northern-lights': 'Northern Lights',
+			supabase: 'Supabase',
+			tangerine: 'Tangerine',
+			twitter: 'Twitter',
 			vercel: 'Vercel'
 		},
 		language: 'Sprache',

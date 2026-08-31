@@ -9,7 +9,7 @@
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
-	import { ALL_CHANNELS, LEVELS, PINNED_CHANNELS, RANGES, keyOf, levelKey } from '$lib/events';
+	import { ALL_CHANNELS, PINNED_CHANNELS, keyOf, type TimeRange } from '$lib/events';
 	import { call } from '$lib/bridge/client';
 	import { events } from '$lib/stores/events.svelte';
 	import { createEventsTable } from '$lib/stores/events-table.svelte';
@@ -27,9 +27,24 @@
 			.map((channel) => ({ value: channel, label: channel }))
 	]);
 
-	const rangeOptions = $derived(
-		RANGES.map((range) => ({ value: range, label: t.events.ranges[range] }))
-	);
+	// The same wall-clock reading `inTimeRange` uses, so the axis and the rows agree.
+	function wallClock(value: string | undefined): number | undefined {
+		if (!value) return undefined;
+		const parsed = Date.parse(value);
+		return Number.isNaN(parsed) ? undefined : parsed;
+	}
+
+	const timeSpan = $derived.by(() => {
+		const range = data.table.getColumn('time')?.getFilterValue() as TimeRange | undefined;
+		let from = wallClock(range?.from);
+		// A truncated load holds no answer for anything older than its oldest row. Drawing the
+		// filter's full window anyway would show quiet weeks that are really rows past the cap.
+		if (from !== undefined && events.truncated) {
+			const oldest = wallClock(events.events.at(-1)?.timeCreated);
+			if (oldest !== undefined && oldest > from) from = oldest;
+		}
+		return { from, to: wallClock(range?.to) };
+	});
 
 	function firstLine(message: string): string {
 		return message.split('\n')[0]?.trim() ?? '';
@@ -47,13 +62,9 @@
 	}
 
 	let channel = $state(events.channel);
-	let range = $state(events.range);
 
 	$effect(() => {
 		events.channel = channel;
-	});
-	$effect(() => {
-		events.range = range;
 	});
 
 	$effect(() => {
@@ -74,53 +85,6 @@
 			/>
 		</label>
 
-		<div class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.level}
-			<div class="flex h-9 items-center gap-1">
-				{#each LEVELS as level (level)}
-					<button
-						type="button"
-						aria-pressed={events.levels.has(level)}
-						onclick={() => events.toggleLevel(level)}
-						class={cn(
-							'cursor-pointer rounded-md border px-2 py-1 text-xs transition-colors',
-							events.levels.has(level)
-								? 'border-primary bg-primary/10 text-primary'
-								: 'border-input text-muted-foreground hover:bg-accent/40'
-						)}
-					>
-						{t.events.levels[levelKey(level)]}
-					</button>
-				{/each}
-			</div>
-		</div>
-
-		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.range}
-			<Select bind:value={range} options={rangeOptions} aria-label={t.events.range} class="w-40" />
-		</label>
-
-		{#if events.range === 'custom'}
-			<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-				{t.events.from}
-				<Input type="datetime-local" bind:value={events.from} class="w-52" />
-			</label>
-			<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-				{t.events.to}
-				<Input type="datetime-local" bind:value={events.to} class="w-52" />
-			</label>
-		{/if}
-
-		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.eventIds}
-			<Input bind:value={events.eventIdText} placeholder="41, 6008" class="w-32" />
-		</label>
-
-		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.providers}
-			<Input bind:value={events.providerText} placeholder={t.events.providersHint} class="w-56" />
-		</label>
-
 		<Button onclick={() => events.load()} disabled={events.loading}>
 			<RefreshIcon class={cn('size-4', events.loading && 'animate-spin')} />
 			{t.events.load}
@@ -135,7 +99,7 @@
 			class="max-w-sm"
 		/>
 		{#if data.columnFilters.length}
-			<Button size="sm" variant="ghost" onclick={() => data.clearColumnFilters()}>
+			<Button size="sm" variant="outline" onclick={() => data.clearColumnFilters()}>
 				{t.events.clearColumnFilters}
 			</Button>
 		{/if}
@@ -157,7 +121,10 @@
 		</div>
 	{/if}
 
-	<EventsHistogram events={data.table.getRowModel().rows.map((row) => row.original)} />
+	<EventsHistogram
+		events={data.table.getRowModel().rows.map((row) => row.original)}
+		span={timeSpan}
+	/>
 
 	<EventsTable
 		{data}
