@@ -65,6 +65,23 @@ jobs:
       # naming a dependency that was added after it was last written.
       # `npm run licenses` shells out to `cargo license`, which no runner image carries. Without it
       # the notices cannot be regenerated, and they are what the licences require to ship.
+      # The check above cannot tell a wrong password from a right one -- only that a key is there.
+      # Signing a throwaway file can, and it costs a second against six minutes of build before the
+      # bundler reaches the same conclusion. The signature is public; the key never leaves the env.
+      - name: Check the key and its password sign something
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          Set-Content -Path signing-probe.txt -Value 'probe'
+          npx tauri signer sign signing-probe.txt
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host '::error::The key and TAURI_SIGNING_PRIVATE_KEY_PASSWORD do not match. Set the password the key was generated with, or generate a new pair and update plugins.updater.pubkey with its public half.'
+            exit 1
+          }
+          Remove-Item signing-probe.txt, signing-probe.txt.sig -ErrorAction SilentlyContinue
+          Write-Host 'Key and password agree.'
+
       - name: Install cargo-license
         run: cargo install cargo-license --locked
 
