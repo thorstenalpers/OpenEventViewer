@@ -35,6 +35,7 @@ describe('theme presets', () => {
 	it('accepts only the presets themes.css actually defines', () => {
 		expect(THEME_PRESETS).toContain('default');
 		expect(isThemePreset('vercel')).toBe(true);
-		expect(isThemePreset('twitter')).toBe(false);
+		expect(isThemePreset('claude')).toBe(true);
+		expect(isThemePreset('doom-64')).toBe(false);
 	});
 });

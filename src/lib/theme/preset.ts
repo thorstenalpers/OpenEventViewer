@@ -1,9 +1,14 @@
 export const THEME_PRESETS = [
 	'default',
 	'caffeine',
+	'catppuccin',
+	'claude',
 	'modern-minimal',
 	'mono',
 	'northern-lights',
+	'supabase',
+	'tangerine',
+	'twitter',
 	'vercel'
 ] as const;
 
