@@ -27,6 +27,11 @@
 			.map((channel) => ({ value: channel, label: channel }))
 	]);
 
+	function shown(value: string): string {
+		const parsed = Date.parse(value);
+		return Number.isNaN(parsed) ? value : new Date(parsed).toLocaleString();
+	}
+
 	// The same wall-clock reading `inTimeRange` uses, so the axis and the rows agree.
 	function wallClock(value: string | undefined): number | undefined {
 		if (!value) return undefined;
@@ -105,6 +110,9 @@
 		{/if}
 		<p class="text-xs text-muted-foreground">
 			{t.events.loaded(data.table.getRowModel().rows.length, events.events.length)}
+			{#if events.oldest && events.newest}
+				· {t.events.span(shown(events.oldest), shown(events.newest))}
+			{/if}
 			· {t.events.elapsed(events.elapsedMs)}
 			{#if events.truncated}
 				· <span class="text-warning">{t.events.truncated}</span>

@@ -26,6 +26,7 @@ export const zh: Translations = {
 		from: '从',
 		to: '到',
 		load: '加载',
+		span: (from: string, to: string) => `${from} 至 ${to}`,
 		keyword: '搜索所有列…',
 		columnFilter: '列筛选器',
 		clearColumnFilters: '清除列筛选器',

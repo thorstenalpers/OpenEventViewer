@@ -26,6 +26,7 @@ export const es: Translations = {
 		from: 'Desde',
 		to: 'Hasta',
 		load: 'Cargar',
+		span: (from: string, to: string) => `de ${from} a ${to}`,
 		keyword: 'Buscar en todas las columnas…',
 		columnFilter: 'filtro de columna',
 		clearColumnFilters: 'Quitar los filtros de columna',

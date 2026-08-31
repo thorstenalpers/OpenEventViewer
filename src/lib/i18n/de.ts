@@ -26,6 +26,7 @@ export const de: Translations = {
 		from: 'Von',
 		to: 'Bis',
 		load: 'Laden',
+		span: (from: string, to: string) => `${from} bis ${to}`,
 		keyword: 'Alle Spalten durchsuchen…',
 		columnFilter: 'Spaltenfilter',
 		clearColumnFilters: 'Spaltenfilter zurücksetzen',

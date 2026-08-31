@@ -27,6 +27,7 @@ export const fr: Translations = {
 		from: 'Du',
 		to: 'Au',
 		load: 'Charger',
+		span: (from: string, to: string) => `du ${from} au ${to}`,
 		keyword: 'Rechercher dans toutes les colonnes…',
 		columnFilter: 'filtre de colonne',
 		clearColumnFilters: 'Effacer les filtres de colonnes',

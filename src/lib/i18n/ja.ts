@@ -27,6 +27,7 @@ export const ja: Translations = {
 		from: '開始',
 		to: '終了',
 		load: '読み込む',
+		span: (from: string, to: string) => `${from}〜${to}`,
 		keyword: 'すべての列を検索…',
 		columnFilter: '列フィルター',
 		clearColumnFilters: '列フィルターをクリア',

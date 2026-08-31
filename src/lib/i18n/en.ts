@@ -24,6 +24,7 @@ export const en = {
 		from: 'From',
 		to: 'To',
 		load: 'Load',
+		span: (from: string, to: string) => `${from} to ${to}`,
 		keyword: 'Search every column…',
 		columnFilter: 'column filter',
 		clearColumnFilters: 'Clear column filters',

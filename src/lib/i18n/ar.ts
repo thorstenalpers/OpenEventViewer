@@ -26,6 +26,7 @@ export const ar: Translations = {
 		from: 'من',
 		to: 'إلى',
 		load: 'تحميل',
+		span: (from: string, to: string) => `من ${from} إلى ${to}`,
 		keyword: 'البحث في كل الأعمدة…',
 		columnFilter: 'عامل تصفية العمود',
 		clearColumnFilters: 'مسح عوامل تصفية الأعمدة',

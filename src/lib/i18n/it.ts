@@ -26,6 +26,7 @@ export const it: Translations = {
 		from: 'Da',
 		to: 'A',
 		load: 'Carica',
+		span: (from: string, to: string) => `da ${from} a ${to}`,
 		keyword: 'Cerca in tutte le colonne…',
 		columnFilter: 'filtro di colonna',
 		clearColumnFilters: 'Azzera i filtri di colonna',

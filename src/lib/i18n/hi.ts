@@ -26,6 +26,7 @@ export const hi: Translations = {
 		from: 'से',
 		to: 'तक',
 		load: 'लोड करें',
+		span: (from: string, to: string) => `${from} से ${to} तक`,
 		keyword: 'हर कॉलम में खोजें…',
 		columnFilter: 'कॉलम फ़िल्टर',
 		clearColumnFilters: 'कॉलम फ़िल्टर हटाएँ',

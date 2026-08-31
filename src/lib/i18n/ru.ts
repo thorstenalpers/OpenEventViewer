@@ -26,6 +26,7 @@ export const ru: Translations = {
 		from: 'С',
 		to: 'По',
 		load: 'Загрузить',
+		span: (from: string, to: string) => `с ${from} по ${to}`,
 		keyword: 'Искать по всем столбцам…',
 		columnFilter: 'фильтр столбца',
 		clearColumnFilters: 'Сбросить фильтры столбцов',
