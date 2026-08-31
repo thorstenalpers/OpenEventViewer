@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.check.outputs.tag }}
+      version: ${{ steps.check.outputs.version }}
     steps:
       - uses: actions/checkout@v7
 
@@ -26,6 +27,7 @@ jobs:
           version=$(jq -r .version package.json)
           tag="v$version"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
           # Refused rather than overwritten: a tag that already names a release is the one thing
           # somebody may already have downloaded.
@@ -110,6 +112,13 @@ jobs:
           Remove-Item signing-probe.txt, signing-probe.txt.sig -ErrorAction SilentlyContinue
           Write-Host 'Key and password agree.'
 
+      # The cargo cache restores target/ complete with the previous release's bundle. Left in
+      # place, the *-setup.exe globs below match two installers and latest.json points at
+      # whichever sorts first — which shipped v1.0.0 with the 0.1.0 installer inside.
+      - name: Drop the bundles the cache carried over
+        run: |
+          if (Test-Path target/release/bundle) { Remove-Item target/release/bundle -Recurse -Force }
+
       - name: Install cargo-license
         run: cargo install cargo-license --locked
 
@@ -128,10 +137,11 @@ jobs:
       # signature in it is the one that belongs to the installer beside it.
       - name: Write latest.json
         run: |
-          $setup = Get-ChildItem target/release/bundle/nsis/*-setup.exe | Select-Object -First 1
-          $signature = Get-Content "$($setup.FullName).sig" -Raw
           $tag = '${{ needs.decide.outputs.tag }}'
-          $version = $tag.TrimStart('v')
+          $version = '${{ needs.decide.outputs.version }}'
+          # Named outright rather than globbed: the one file this run built, or a hard failure.
+          $setup = Get-Item "target/release/bundle/nsis/OpenEventViewer_${version}_x64-setup.exe"
+          $signature = Get-Content "$($setup.FullName).sig" -Raw
           $url = "https://github.com/${{ github.repository }}/releases/download/$tag/$($setup.Name)"
           $manifest = [ordered]@{
             version   = $version
@@ -149,8 +159,11 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.decide.outputs.tag }}
+          # Markdown with the merged pull requests, instead of the raw commit message and its
+          # Co-authored-by trailers.
+          generate_release_notes: true
           files: |
-            target/release/bundle/nsis/*-setup.exe
-            target/release/bundle/nsis/*-setup.exe.sig
+            target/release/bundle/nsis/OpenEventViewer_${{ needs.decide.outputs.version }}_x64-setup.exe
+            target/release/bundle/nsis/OpenEventViewer_${{ needs.decide.outputs.version }}_x64-setup.exe.sig
             latest.json
           fail_on_unmatched_files: true
