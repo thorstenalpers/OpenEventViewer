@@ -76,12 +76,15 @@ The public half goes into `plugins.updater.pubkey` in `src-tauri/tauri.conf.json
 and its password are the GitHub secrets `TAURI_SIGNING_PRIVATE_KEY` and
 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` and never enter the repository.
 
-**Cutting a release is bumping a number.** `package.json` holds the version; `tauri.conf.json`
-points at it and the interface reads it through `__APP_VERSION__`, so it is written once. A push to
-`main` whose version has no tag yet builds, signs, tags at that commit and publishes the installer,
-its `.sig` and a `latest.json` written from that signature. A push whose version is already out
-stops in under a minute. Running the workflow by hand is a rehearsal: it builds and signs and
-attaches the result to the run, and publishes nothing.
+**A release happens when somebody presses the button, and never otherwise.** `release.yml` runs on
+`workflow_dispatch` only — merging a pull request releases nothing. Pressing it builds, signs,
+creates the tag `v<version>` at that commit and publishes the installer, its `.sig` and a
+`latest.json` written from that signature. Nobody tags by hand. Tick `dry_run` to build and sign
+without publishing.
+
+`package.json` holds the version; `tauri.conf.json` points at it and the interface reads it through
+`__APP_VERSION__`, so it is written once. A version that already has a tag is refused before
+anything is compiled — bump it first:
 
 ```bash
 npm version patch   # or minor, or major
