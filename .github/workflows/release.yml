@@ -34,6 +34,30 @@ jobs:
           key: release-cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
           restore-keys: release-cargo-${{ runner.os }}-
 
+      # Before the six-minute build rather than after it. With no key the bundler is handed an
+      # empty string, tries to parse it as a minisign secret and reports it as a malformed one --
+      # which reads as "your key is broken" when the truth is "there is no key".
+      - name: Check there is something to sign with
+        env:
+          KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        run: |
+          $missing = @()
+          if (-not $env:KEY) { $missing += 'the secret TAURI_SIGNING_PRIVATE_KEY' }
+          $pubkey = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).plugins.updater.pubkey
+          if (-not $pubkey) { $missing += 'plugins.updater.pubkey in src-tauri/tauri.conf.json' }
+          if ($missing.Count -gt 0) {
+            Write-Host "::error::Nothing to sign with. Missing: $($missing -join '; ')."
+            Write-Host ''
+            Write-Host 'Generate the pair once, on a machine you trust:'
+            Write-Host '  npx tauri signer generate -w openeventviewer.key'
+            Write-Host ''
+            Write-Host 'Commit the public half into plugins.updater.pubkey, then add the private'
+            Write-Host 'half as the secret TAURI_SIGNING_PRIVATE_KEY and its password as'
+            Write-Host 'TAURI_SIGNING_PRIVATE_KEY_PASSWORD. The private half never enters the repo.'
+            exit 1
+          }
+          Write-Host 'Signing key and public key are both in place.'
+
       - run: npm ci
 
       # Regenerated rather than trusted: the notices ship inside the installer because MIT, BSD and
