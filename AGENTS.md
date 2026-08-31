@@ -74,8 +74,18 @@ npx tauri signer generate -w ~/.tauri/openeventviewer.key
 
 The public half goes into `plugins.updater.pubkey` in `src-tauri/tauri.conf.json`; the private half
 and its password are the GitHub secrets `TAURI_SIGNING_PRIVATE_KEY` and
-`TAURI_SIGNING_PRIVATE_KEY_PASSWORD` and never enter the repository. `release.yml` builds on a `v*`
-tag and uploads the installer, its `.sig` and a `latest.json` written from that signature.
+`TAURI_SIGNING_PRIVATE_KEY_PASSWORD` and never enter the repository.
+
+**Cutting a release is bumping a number.** `package.json` holds the version; `tauri.conf.json`
+points at it and the interface reads it through `__APP_VERSION__`, so it is written once. A push to
+`main` whose version has no tag yet builds, signs, tags at that commit and publishes the installer,
+its `.sig` and a `latest.json` written from that signature. A push whose version is already out
+stops in under a minute. Running the workflow by hand is a rehearsal: it builds and signs and
+attaches the result to the run, and publishes nothing.
+
+```bash
+npm version patch   # or minor, or major
+```
 
 ## Commands
 

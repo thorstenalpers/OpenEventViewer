@@ -2,14 +2,54 @@ name: Release
 
 on:
   push:
-    tags: ['v*']
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
+  # A minute of Linux in front of six minutes of Windows. Most pushes to main are not releases, and
+  # this is what tells them apart before anything is compiled.
+  decide:
+    runs-on: ubuntu-latest
+    outputs:
+      publish: ${{ steps.check.outputs.publish }}
+      tag: ${{ steps.check.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Is this version already released?
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(jq -r .version package.json)
+          tag="v$version"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+          # A run started by hand is a rehearsal whatever the version says: it builds and signs and
+          # publishes nothing, which is what makes it safe to press.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Rehearsal of $tag. Nothing will be published."
+            exit 0
+          fi
+
+          if gh api "repos/${{ github.repository }}/git/ref/tags/$tag" >/dev/null 2>&1; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::$tag is already released. Bump version in src-tauri/tauri.conf.json to cut a new one."
+            exit 0
+          fi
+
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+          echo "::notice::$tag has no release yet. Building one."
+
   release:
+    needs: decide
+    # A push whose version is already out has nothing to do; a rehearsal still builds, because
+    # finding out that a release *would* work is the whole point of pressing the button.
+    if: needs.decide.outputs.publish == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: windows-latest
     defaults:
       run:
@@ -102,11 +142,7 @@ jobs:
         run: |
           $setup = Get-ChildItem target/release/bundle/nsis/*-setup.exe | Select-Object -First 1
           $signature = Get-Content "$($setup.FullName).sig" -Raw
-          # A tag names the version of a real release. A manual run has no tag, so the version the
-          # app was actually built with is the only honest answer.
-          $tag = if ('${{ github.ref_type }}' -eq 'tag') { '${{ github.ref_name }}' } else {
-            'v' + (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
-          }
+          $tag = '${{ needs.decide.outputs.tag }}'
           $version = $tag.TrimStart('v')
           $url = "https://github.com/${{ github.repository }}/releases/download/$tag/$($setup.Name)"
           $manifest = [ordered]@{
@@ -119,21 +155,21 @@ jobs:
           }
           $manifest | ConvertTo-Json -Depth 5 | Out-File latest.json -Encoding utf8
 
+      # `tag_name` on a tag that does not exist yet creates it at this commit, so nobody has to
+      # remember to tag by hand — bumping the version in tauri.conf.json is the whole ceremony.
       - name: Publish the release
-        if: github.ref_type == 'tag'
+        if: needs.decide.outputs.publish == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.decide.outputs.tag }}
           files: |
             target/release/bundle/nsis/*-setup.exe
             target/release/bundle/nsis/*-setup.exe.sig
             latest.json
           fail_on_unmatched_files: true
 
-      # A manual run is a rehearsal: it builds, signs and checks everything and publishes nothing,
-      # because a release belongs to a tag and a manual run has none. Failing at the last step to
-      # say so wasted the whole build.
       - name: Keep what the rehearsal produced
-        if: github.ref_type != 'tag'
+        if: needs.decide.outputs.publish != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: release-rehearsal
@@ -144,6 +180,6 @@ jobs:
           if-no-files-found: error
 
       - name: Say that nothing was published
-        if: github.ref_type != 'tag'
+        if: needs.decide.outputs.publish != 'true'
         run: |
-          Write-Host '::notice::Rehearsal only. The installer, its signature and latest.json are attached to this run as an artifact. To publish them, push a tag: git tag v0.1.0 && git push origin v0.1.0'
+          Write-Host '::notice::Rehearsal only. The installer, its signature and latest.json are attached to this run as an artifact. A release happens when a push to main carries a version that has no tag yet.'
