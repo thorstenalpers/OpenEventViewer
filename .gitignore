@@ -6,3 +6,8 @@ dist/
 .vite/
 coverage/
 *.local
+
+# Signing keys. The documented `tauri signer generate -w` writes into the working directory, and
+# this repository is public — one `git add -A` is all it would take.
+*.key
+*.key.pub
