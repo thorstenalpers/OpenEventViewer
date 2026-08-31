@@ -102,8 +102,13 @@ jobs:
         run: |
           $setup = Get-ChildItem target/release/bundle/nsis/*-setup.exe | Select-Object -First 1
           $signature = Get-Content "$($setup.FullName).sig" -Raw
-          $version = "${{ github.ref_name }}".TrimStart('v')
-          $url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/$($setup.Name)"
+          # A tag names the version of a real release. A manual run has no tag, so the version the
+          # app was actually built with is the only honest answer.
+          $tag = if ('${{ github.ref_type }}' -eq 'tag') { '${{ github.ref_name }}' } else {
+            'v' + (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
+          }
+          $version = $tag.TrimStart('v')
+          $url = "https://github.com/${{ github.repository }}/releases/download/$tag/$($setup.Name)"
           $manifest = [ordered]@{
             version   = $version
             notes     = "See the release notes for $version."
@@ -114,10 +119,31 @@ jobs:
           }
           $manifest | ConvertTo-Json -Depth 5 | Out-File latest.json -Encoding utf8
 
-      - uses: softprops/action-gh-release@v2
+      - name: Publish the release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             target/release/bundle/nsis/*-setup.exe
             target/release/bundle/nsis/*-setup.exe.sig
             latest.json
           fail_on_unmatched_files: true
+
+      # A manual run is a rehearsal: it builds, signs and checks everything and publishes nothing,
+      # because a release belongs to a tag and a manual run has none. Failing at the last step to
+      # say so wasted the whole build.
+      - name: Keep what the rehearsal produced
+        if: github.ref_type != 'tag'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-rehearsal
+          path: |
+            target/release/bundle/nsis/*-setup.exe
+            target/release/bundle/nsis/*-setup.exe.sig
+            latest.json
+          if-no-files-found: error
+
+      - name: Say that nothing was published
+        if: github.ref_type != 'tag'
+        run: |
+          Write-Host '::notice::Rehearsal only. The installer, its signature and latest.json are attached to this run as an artifact. To publish them, push a tag: git tag v0.1.0 && git push origin v0.1.0'
