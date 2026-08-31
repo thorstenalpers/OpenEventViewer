@@ -9,7 +9,7 @@
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
-	import { ALL_CHANNELS, LEVELS, PINNED_CHANNELS, RANGES, keyOf, levelKey } from '$lib/events';
+	import { ALL_CHANNELS, PINNED_CHANNELS, keyOf } from '$lib/events';
 	import { call } from '$lib/bridge/client';
 	import { events } from '$lib/stores/events.svelte';
 	import { createEventsTable } from '$lib/stores/events-table.svelte';
@@ -27,9 +27,10 @@
 			.map((channel) => ({ value: channel, label: channel }))
 	]);
 
-	const rangeOptions = $derived(
-		RANGES.map((range) => ({ value: range, label: t.events.ranges[range] }))
-	);
+	function shown(value: string): string {
+		const parsed = Date.parse(value);
+		return Number.isNaN(parsed) ? value : new Date(parsed).toLocaleString();
+	}
 
 	function firstLine(message: string): string {
 		return message.split('\n')[0]?.trim() ?? '';
@@ -47,13 +48,9 @@
 	}
 
 	let channel = $state(events.channel);
-	let range = $state(events.range);
 
 	$effect(() => {
 		events.channel = channel;
-	});
-	$effect(() => {
-		events.range = range;
 	});
 
 	$effect(() => {
@@ -63,6 +60,8 @@
 </script>
 
 <div class="flex h-full flex-col gap-3 p-4 sm:p-6">
+	<!-- What to read. Everything about *which rows* is a column filter one row below the header,
+	     so nothing here is asked twice. -->
 	<div class="flex flex-wrap items-end gap-2">
 		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
 			{t.events.channel}
@@ -70,55 +69,8 @@
 				bind:value={channel}
 				options={channelOptions}
 				aria-label={t.events.channel}
-				class="w-64"
+				class="w-72"
 			/>
-		</label>
-
-		<div class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.level}
-			<div class="flex h-9 items-center gap-1">
-				{#each LEVELS as level (level)}
-					<button
-						type="button"
-						aria-pressed={events.levels.has(level)}
-						onclick={() => events.toggleLevel(level)}
-						class={cn(
-							'cursor-pointer rounded-md border px-2 py-1 text-xs transition-colors',
-							events.levels.has(level)
-								? 'border-primary bg-primary/10 text-primary'
-								: 'border-input text-muted-foreground hover:bg-accent/40'
-						)}
-					>
-						{t.events.levels[levelKey(level)]}
-					</button>
-				{/each}
-			</div>
-		</div>
-
-		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.range}
-			<Select bind:value={range} options={rangeOptions} aria-label={t.events.range} class="w-40" />
-		</label>
-
-		{#if events.range === 'custom'}
-			<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-				{t.events.from}
-				<Input type="datetime-local" bind:value={events.from} class="w-52" />
-			</label>
-			<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-				{t.events.to}
-				<Input type="datetime-local" bind:value={events.to} class="w-52" />
-			</label>
-		{/if}
-
-		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.eventIds}
-			<Input bind:value={events.eventIdText} placeholder="41, 6008" class="w-32" />
-		</label>
-
-		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
-			{t.events.providers}
-			<Input bind:value={events.providerText} placeholder={t.events.providersHint} class="w-56" />
 		</label>
 
 		<Button onclick={() => events.load()} disabled={events.loading}>
@@ -141,6 +93,9 @@
 		{/if}
 		<p class="text-xs text-muted-foreground">
 			{t.events.loaded(data.table.getRowModel().rows.length, events.events.length)}
+			{#if events.oldest && events.newest}
+				· {t.events.span(shown(events.oldest), shown(events.newest))}
+			{/if}
 			· {t.events.elapsed(events.elapsedMs)}
 			{#if events.truncated}
 				· <span class="text-warning">{t.events.truncated}</span>

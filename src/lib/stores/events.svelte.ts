@@ -1,19 +1,15 @@
-import { SvelteSet } from 'svelte/reactivity';
 import { call } from '$lib/bridge/client';
 import type { EventFilter, EventRecord } from '$lib/bridge/contract';
-import {
-	ALL_CHANNELS,
-	DEFAULT_CHANNELS,
-	boundsOf,
-	keyOf,
-	listIn,
-	numbersIn,
-	type Range
-} from '$lib/events';
+import { ALL_CHANNELS, DEFAULT_CHANNELS, keyOf } from '$lib/events';
 import { settings } from '$lib/stores/settings.svelte';
 
 /**
- * What the Events page is looking at.
+ * What the Events page has loaded.
+ *
+ * The split is deliberate: this decides *which log and how much of it* reaches the machine, and the
+ * table's own column filters decide what is shown of it. Level, provider and time were once asked
+ * twice — once here as an XPath predicate and once in the table — and two controls with the same
+ * name and different reach is a worse trade than one query that reads the newest of everything.
  *
  * A singleton rather than per-view state: routing unmounts the page, and a trip to Settings and
  * back should not throw away a query that took three seconds to answer.
@@ -21,12 +17,6 @@ import { settings } from '$lib/stores/settings.svelte';
 class EventsStore {
 	channels = $state<string[]>([]);
 	channel = $state<string>(ALL_CHANNELS);
-	levels = new SvelteSet<number>([1, 2, 3]);
-	range = $state<Range>('day');
-	from = $state('');
-	to = $state('');
-	eventIdText = $state('');
-	providerText = $state('');
 
 	events = $state<EventRecord[]>([]);
 	truncated = $state(false);
@@ -44,8 +34,24 @@ class EventsStore {
 		return this.events.find((event) => keyOf(event) === this.selectedId) ?? null;
 	}
 
-	toggleLevel(level: number): void {
-		if (!this.levels.delete(level)) this.levels.add(level);
+	/**
+	 * How far back what is loaded actually reaches.
+	 *
+	 * Shown beside the count, because a column filter can only narrow what was loaded: without this
+	 * an empty result for last Tuesday looks the same as a quiet Tuesday.
+	 */
+	get oldest(): string | null {
+		return this.events.reduce<string | null>(
+			(held, event) => (held === null || event.timeCreated < held ? event.timeCreated : held),
+			null
+		);
+	}
+
+	get newest(): string | null {
+		return this.events.reduce<string | null>(
+			(held, event) => (held === null || event.timeCreated > held ? event.timeCreated : held),
+			null
+		);
 	}
 
 	select(event: EventRecord | null): void {
@@ -63,14 +69,13 @@ class EventsStore {
 	}
 
 	toFilter(): EventFilter {
-		const span = boundsOf(this.range, this.from, this.to);
 		return {
 			channels: this.channel === ALL_CHANNELS ? DEFAULT_CHANNELS : [this.channel],
-			levels: [...this.levels].sort((left, right) => left - right),
-			from: span.from,
-			to: span.to,
-			eventIds: numbersIn(this.eventIdText),
-			providers: listIn(this.providerText),
+			levels: [],
+			from: null,
+			to: null,
+			eventIds: [],
+			providers: [],
 			max: settings.eventsMaxRows
 		};
 	}

@@ -14,22 +14,14 @@ export const en = {
 	},
 	menu: {
 		label: 'Menu bar',
-		sketch: 'sketch',
-		notBuilt: (action: string) => `${action} is not built yet.`,
 		titles: {
 			file: 'File',
 			view: 'View',
 			help: 'Help'
 		},
 		items: {
-			saveAs: 'Save events as…',
-			print: 'Print…',
 			exit: 'Exit',
-			refresh: 'Refresh',
-			columns: 'Choose columns…',
-			clearFilters: 'Clear all filters',
 			settings: 'Settings',
-			documentation: 'Documentation',
 			about: 'About OpenEventViewer'
 		}
 	},
@@ -42,27 +34,10 @@ export const en = {
 		subtitle: 'What Windows recorded, newest first.',
 		channel: 'Channel',
 		allChannels: 'System and Application',
-		level: 'Level',
-		levels: {
-			critical: 'Critical',
-			error: 'Error',
-			warning: 'Warning',
-			information: 'Information',
-			verbose: 'Verbose'
-		},
-		range: 'Time',
-		ranges: {
-			hour: 'Last hour',
-			day: 'Last 24 hours',
-			week: 'Last 7 days',
-			custom: 'Custom range'
-		},
 		from: 'From',
 		to: 'To',
-		eventIds: 'Event IDs',
-		providers: 'Providers',
-		providersHint: 'Exact names, comma separated',
 		load: 'Load',
+		span: (from: string, to: string) => `${from} to ${to}`,
 		keyword: 'Search every column…',
 		columnFilter: 'column filter',
 		clearColumnFilters: 'Clear column filters',
