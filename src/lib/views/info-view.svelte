@@ -16,7 +16,7 @@
 	const t = $derived(i18n.t);
 
 	let filter = $state('');
-	const APP_VERSION = '0.1.0';
+	const APP_VERSION = __APP_VERSION__;
 
 	let notices = $state<string | null>(null);
 	let noticesError = $state<string | null>(null);
