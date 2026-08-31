@@ -16,10 +16,11 @@ use windows::Win32::Foundation::{
     ERROR_TIMEOUT, WIN32_ERROR,
 };
 use windows::Win32::System::EventLog::{
-    EvtClose, EvtFormatMessage, EvtFormatMessageEvent, EvtFormatMessageTask, EvtNext,
-    EvtNextChannelPath, EvtOpenChannelEnum, EvtOpenPublisherMetadata, EvtQuery,
-    EvtQueryChannelPath, EvtQueryReverseDirection, EvtQueryTolerateQueryErrors, EvtRender,
-    EvtRenderEventXml, EVT_HANDLE,
+    EvtChannelConfigType, EvtChannelTypeAnalytic, EvtChannelTypeDebug, EvtClose, EvtFormatMessage,
+    EvtFormatMessageEvent, EvtFormatMessageTask, EvtGetChannelConfigProperty, EvtNext,
+    EvtNextChannelPath, EvtOpenChannelConfig, EvtOpenChannelEnum, EvtOpenPublisherMetadata,
+    EvtQuery, EvtQueryChannelPath, EvtQueryReverseDirection, EvtQueryTolerateQueryErrors,
+    EvtRender, EvtRenderEventXml, EVT_HANDLE, EVT_VARIANT,
 };
 
 use crate::error::{AppError, AppResult};
@@ -170,11 +171,46 @@ pub fn list_channels() -> AppResult<Vec<String>> {
         let mut buffer = vec![0u16; used as usize];
         unsafe { EvtNextChannelPath(enumerator.0, Some(&mut buffer), &mut used) }
             .map_err(|error| describe(&error, "listing the channels"))?;
-        channels.push(from_wide(&buffer));
+        let channel = from_wide(&buffer);
+        if queryable(&channel) {
+            channels.push(channel);
+        }
     }
 
     channels.sort_unstable();
     Ok(channels)
+}
+
+/// Whether `EvtQuery` will take this channel at all.
+///
+/// Analytic and Debug channels answer every query with ERROR_NOT_SUPPORTED, so offering them in
+/// the picker sells a query that can only fail. A channel whose type will not say stays offered —
+/// wrongly hiding a readable channel is the worse failure.
+fn queryable(channel: &str) -> bool {
+    let path = wide(channel);
+    let Ok(config) = (unsafe { EvtOpenChannelConfig(None, PCWSTR(path.as_ptr()), 0) }) else {
+        return true;
+    };
+    let config = Handle(config);
+
+    let mut variant: EVT_VARIANT = unsafe { std::mem::zeroed() };
+    let mut used = 0u32;
+    let read = unsafe {
+        EvtGetChannelConfigProperty(
+            config.0,
+            EvtChannelConfigType,
+            0,
+            std::mem::size_of::<EVT_VARIANT>() as u32,
+            Some(&mut variant),
+            &mut used,
+        )
+    };
+    if read.is_err() {
+        return true;
+    }
+
+    let kind = unsafe { variant.Anonymous.UInt32Val } as i32;
+    kind != EvtChannelTypeAnalytic.0 && kind != EvtChannelTypeDebug.0
 }
 
 pub fn query(filter: &Filter) -> AppResult<QueryResult> {
@@ -1061,6 +1097,20 @@ mod tests {
 
         assert!(channels.iter().any(|name| name == "System"));
         assert!(channels.iter().any(|name| name == "Application"));
+        // A Debug or Analytic name is only a convention — some such channels are declared
+        // Operational and answer fine. What must hold is that everything still on offer answers.
+        for name in channels
+            .iter()
+            .filter(|name| name.ends_with("/Debug") || name.ends_with("/Analytic"))
+        {
+            let filter = Filter {
+                channels: vec![name.clone()],
+                max: 1,
+                ..Filter::default()
+            };
+            query(&filter)
+                .unwrap_or_else(|error| panic!("{name} is offered but refuses a query: {error:?}"));
+        }
         println!("{} channels", channels.len());
     }
 }

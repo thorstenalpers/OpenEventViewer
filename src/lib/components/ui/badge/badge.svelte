@@ -7,6 +7,7 @@
       variant: {
         neutral: 'border-border text-muted-foreground',
         accent: 'border-primary/40 text-primary',
+        warning: 'border-warning/50 text-warning',
         destructive: 'border-destructive/40 text-destructive'
       }
     },

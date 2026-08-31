@@ -34,6 +34,7 @@ class SettingsStore {
 		const locale = localStorage.getItem(LOCALE_KEY);
 		if (locale && isLocale(locale)) this.locale = locale;
 		i18n.locale = this.locale;
+		i18n.applyToDocument();
 
 		const preset = localStorage.getItem(PRESET_KEY);
 		if (preset && isThemePreset(preset)) this.preset = preset;
@@ -60,6 +61,7 @@ class SettingsStore {
 	setLocale(locale: Locale): void {
 		this.locale = locale;
 		i18n.locale = locale;
+		i18n.applyToDocument();
 		localStorage?.setItem(LOCALE_KEY, locale);
 	}
 

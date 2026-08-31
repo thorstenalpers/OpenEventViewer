@@ -6,10 +6,12 @@
 
 	interface Props {
 		events: EventRecord[];
+		/** Pins the axis to the time filter's window; an open end falls back to the events. */
+		span?: { from?: number; to?: number };
 		class?: string;
 	}
 
-	let { events, class: className }: Props = $props();
+	let { events, span = {}, class: className }: Props = $props();
 
 	const t = $derived(i18n.t);
 
@@ -19,7 +21,7 @@
 	let width = $state(0);
 	// One bar per ~9 px, so the chart is denser on a wide window rather than stretched.
 	const columns = $derived(Math.max(12, Math.min(160, Math.floor(width / 9) || 60)));
-	const chart = $derived(histogram(events, columns));
+	const chart = $derived(histogram(events, columns, span));
 	const hovered = $state<{ index: number | null; x: number; y: number }>({
 		index: null,
 		x: 0,
@@ -49,22 +51,26 @@
 	}
 
 	/**
-	 * How tall one bar stands, and how much of it is red.
+	 * How tall one bar stands, and how much of it is red and amber.
 	 *
 	 * The bar is scaled by a square root — one spike of ten thousand would otherwise flatten every
 	 * other bar to a single pixel, and the quiet stretches are the interesting part. The split
-	 * inside it is then a straight proportion: scaling the two segments separately would draw four
+	 * inside it is then a straight proportion: scaling the segments separately would draw four
 	 * errors out of ten as two thirds of the bar.
 	 */
-	function bar(entry: Bucket): { total: number; errors: number } {
-		if (chart.peak === 0 || entry.total === 0) return { total: 0, errors: 0 };
+	function bar(entry: Bucket): { total: number; errors: number; warnings: number } {
+		if (chart.peak === 0 || entry.total === 0) return { total: 0, errors: 0, warnings: 0 };
 		const total = Math.max(
 			2,
 			Math.round((Math.sqrt(entry.total) / Math.sqrt(chart.peak)) * HEIGHT)
 		);
 		const errors =
 			entry.errors === 0 ? 0 : Math.max(1, Math.round((entry.errors / entry.total) * total));
-		return { total, errors };
+		const warnings =
+			entry.warnings === 0
+				? 0
+				: Math.min(total - errors, Math.max(1, Math.round((entry.warnings / entry.total) * total)));
+		return { total, errors, warnings };
 	}
 
 	function spanOf(entry: Bucket): string {
@@ -130,8 +136,9 @@
 				>
 					<div
 						class="w-full rounded-t-[1px] bg-primary/45"
-						style:height="{size.total - size.errors}px"
+						style:height="{size.total - size.errors - size.warnings}px"
 					></div>
+					<div class="w-full bg-warning" style:height="{size.warnings}px"></div>
 					<div class="w-full bg-destructive" style:height="{size.errors}px"></div>
 				</div>
 			{/each}
@@ -158,7 +165,7 @@
 	>
 		<p class="pb-1 text-[11px] text-muted-foreground tabular-nums">{spanOf(bucket)}</p>
 		<p class="font-medium">
-			{t.events.bucketCount(bucket.total, bucket.errors)}
+			{t.events.bucketCount(bucket.total, bucket.errors, bucket.warnings)}
 		</p>
 		{#if tally.length}
 			<ul class="flex flex-col gap-0.5 pt-1.5">

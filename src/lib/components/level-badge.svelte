@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Badge } from '$lib/components/ui/badge';
+	import { Badge, type BadgeVariant } from '$lib/components/ui/badge';
 
 	interface Props {
 		level: number;
@@ -8,15 +8,19 @@
 
 	let { level, label }: Props = $props();
 
-	// Critical and Error both read as "something broke"; only the warning tier earns its own colour,
-	// and Information must not compete with either for attention.
-	const variant = $derived(
-		level === 1 || level === 2
-			? ('destructive' as const)
-			: level === 3
-				? ('accent' as const)
-				: ('neutral' as const)
+	// One look per tier: Critical filled red, Error outlined red, Warning amber, Information plain,
+	// Verbose dimmed — so a column of badges reads as severity without reading a single label.
+	const variant: BadgeVariant = $derived(
+		level === 1 || level === 2 ? 'destructive' : level === 3 ? 'warning' : 'neutral'
+	);
+
+	const emphasis = $derived(
+		level === 1
+			? 'border-destructive bg-destructive text-destructive-foreground'
+			: level === 5
+				? 'opacity-60'
+				: ''
 	);
 </script>
 
-<Badge {variant}>{label}</Badge>
+<Badge {variant} class={emphasis}>{label}</Badge>

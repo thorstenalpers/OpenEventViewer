@@ -23,7 +23,7 @@
 <div class={cn('relative inline-flex items-center', className)}>
 	<select
 		bind:value
-		class="h-9 w-full cursor-pointer appearance-none rounded-md border border-input bg-background py-2 ps-3 pe-8 text-sm transition-colors hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+		class="h-9 w-full cursor-pointer appearance-none rounded-md border border-input bg-background py-1.5 ps-3 pe-8 text-sm transition-colors hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
 		{...rest}
 	>
 		{#each options as option (option.value)}

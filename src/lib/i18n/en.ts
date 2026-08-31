@@ -12,19 +12,6 @@ export const en = {
 		collapse: 'Collapse the sidebar',
 		expand: 'Expand the sidebar'
 	},
-	menu: {
-		label: 'Menu bar',
-		titles: {
-			file: 'File',
-			view: 'View',
-			help: 'Help'
-		},
-		items: {
-			exit: 'Exit',
-			settings: 'Settings',
-			about: 'About OpenEventViewer'
-		}
-	},
 	common: {
 		loading: 'Loading…',
 		mockHost: 'Mock host — no Tauri backend. Data on this page is fixture data.'
@@ -74,11 +61,13 @@ export const en = {
 				: minutes >= 60
 					? `one bar per ${minutes / 60} hour${minutes === 60 ? '' : 's'}`
 					: `one bar per ${minutes} minute${minutes === 1 ? '' : 's'}`,
-		bucketCount: (total: number, errors: number) => {
+		bucketCount: (total: number, errors: number, warnings: number) => {
 			const events = `${total} event${total === 1 ? '' : 's'}`;
-			return errors === 0
-				? events
-				: `${events}, ${errors} of them ${errors === 1 ? 'an error' : 'errors'}`;
+			const parts = [
+				errors > 0 && `${errors} ${errors === 1 ? 'error' : 'errors'}`,
+				warnings > 0 && `${warnings} ${warnings === 1 ? 'warning' : 'warnings'}`
+			].filter(Boolean);
+			return parts.length === 0 ? events : `${events}, of them ${parts.join(' and ')}`;
 		},
 		columns: {
 			level: 'Level',
@@ -98,6 +87,9 @@ export const en = {
 		days: (count: number) => (count === 1 ? 'Last day' : `Last ${count} days`),
 		scan: 'Scan',
 		scanning: 'Scanning…',
+		intro:
+			'Nothing has been scanned yet. Pick a stretch above and press Scan; every find — a crash, a freeze, a disk error, a throttled processor — appears here as an incident you can open.',
+		pick: 'Open an incident to see everything the machine wrote in the quarter of an hour around it.',
 		nothing: 'Nothing found. Scan a longer stretch, or take it as good news.',
 		window: (from: string, to: string) => `${from} — ${to}`,
 		inWindow: (count: number) => `${count} event${count === 1 ? '' : 's'} in the window`,
@@ -191,9 +183,14 @@ export const en = {
 		presets: {
 			default: 'Default',
 			caffeine: 'Caffeine',
+			catppuccin: 'Catppuccin',
+			claude: 'Claude',
 			'modern-minimal': 'Modern Minimal',
 			mono: 'Mono',
 			'northern-lights': 'Northern Lights',
+			supabase: 'Supabase',
+			tangerine: 'Tangerine',
+			twitter: 'Twitter',
 			vercel: 'Vercel'
 		} as Record<string, string>,
 		language: 'Language',

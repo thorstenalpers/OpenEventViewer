@@ -28,8 +28,21 @@
 					: t.events.filters.before(short(range.to))
 	);
 
+	/** Now, in the wall-clock shape `datetime-local` speaks. */
+	function nowLocal(): string {
+		const now = new Date();
+		const pad = (part: number) => String(part).padStart(2, '0');
+		return (
+			`${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}` +
+			`T${pad(now.getHours())}:${pad(now.getMinutes())}`
+		);
+	}
+
 	function set(edge: 'from' | 'to', value: string) {
 		const next: TimeRange = { ...range, [edge]: value };
+		// A lower bound alone almost always means "since then until now" — write the now down, so
+		// the reader sees the window they got and can move its end if they meant something else.
+		if (edge === 'from' && value && !next.to) next.to = nowLocal();
 		onChange(isEmptyTimeRange(next) ? undefined : next);
 	}
 </script>

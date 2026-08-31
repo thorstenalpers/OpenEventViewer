@@ -1,6 +1,6 @@
 [package]
 name = "openeventviewer"
-version = "0.1.0"
+version = "1.0.0"
 description = "Read the Windows event logs and filter them down to what matters"
 authors = ["thorstenalpers"]
 repository = "https://github.com/thorstenalpers/OpenEventViewer"

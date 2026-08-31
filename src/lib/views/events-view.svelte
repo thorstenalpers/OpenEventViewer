@@ -9,7 +9,7 @@
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
 	import type { EventRecord } from '$lib/bridge/contract';
-	import { ALL_CHANNELS, PINNED_CHANNELS, keyOf } from '$lib/events';
+	import { ALL_CHANNELS, PINNED_CHANNELS, keyOf, type TimeRange } from '$lib/events';
 	import { call } from '$lib/bridge/client';
 	import { events } from '$lib/stores/events.svelte';
 	import { createEventsTable } from '$lib/stores/events-table.svelte';
@@ -31,6 +31,25 @@
 		const parsed = Date.parse(value);
 		return Number.isNaN(parsed) ? value : new Date(parsed).toLocaleString();
 	}
+
+	// The same wall-clock reading `inTimeRange` uses, so the axis and the rows agree.
+	function wallClock(value: string | undefined): number | undefined {
+		if (!value) return undefined;
+		const parsed = Date.parse(value);
+		return Number.isNaN(parsed) ? undefined : parsed;
+	}
+
+	const timeSpan = $derived.by(() => {
+		const range = data.table.getColumn('time')?.getFilterValue() as TimeRange | undefined;
+		let from = wallClock(range?.from);
+		// A truncated load holds no answer for anything older than its oldest row. Drawing the
+		// filter's full window anyway would show quiet weeks that are really rows past the cap.
+		if (from !== undefined && events.truncated) {
+			const oldest = wallClock(events.events.at(-1)?.timeCreated);
+			if (oldest !== undefined && oldest > from) from = oldest;
+		}
+		return { from, to: wallClock(range?.to) };
+	});
 
 	function firstLine(message: string): string {
 		return message.split('\n')[0]?.trim() ?? '';
@@ -60,8 +79,6 @@
 </script>
 
 <div class="flex h-full flex-col gap-3 p-4 sm:p-6">
-	<!-- What to read. Everything about *which rows* is a column filter one row below the header,
-	     so nothing here is asked twice. -->
 	<div class="flex flex-wrap items-end gap-2">
 		<label class="flex flex-col gap-1 text-xs text-muted-foreground">
 			{t.events.channel}
@@ -69,7 +86,7 @@
 				bind:value={channel}
 				options={channelOptions}
 				aria-label={t.events.channel}
-				class="w-72"
+				class="w-64"
 			/>
 		</label>
 
@@ -87,7 +104,7 @@
 			class="max-w-sm"
 		/>
 		{#if data.columnFilters.length}
-			<Button size="sm" variant="ghost" onclick={() => data.clearColumnFilters()}>
+			<Button size="sm" variant="outline" onclick={() => data.clearColumnFilters()}>
 				{t.events.clearColumnFilters}
 			</Button>
 		{/if}
@@ -112,7 +129,10 @@
 		</div>
 	{/if}
 
-	<EventsHistogram events={data.table.getRowModel().rows.map((row) => row.original)} />
+	<EventsHistogram
+		events={data.table.getRowModel().rows.map((row) => row.original)}
+		span={timeSpan}
+	/>
 
 	<EventsTable
 		{data}

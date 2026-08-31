@@ -55,16 +55,21 @@
 	{/if}
 
 	<div class="flex min-h-0 flex-1 flex-col gap-3">
-		{#if diagnose.incidents.length === 0}
-			<p class="text-sm text-muted-foreground">
-				{diagnose.scanning ? t.common.loading : t.diagnose.nothing}
-			</p>
+		{#if diagnose.scanning}
+			<p class="text-sm text-muted-foreground">{t.common.loading}</p>
+		{:else if !diagnose.scanned}
+			<p class="max-w-prose text-sm text-muted-foreground">{t.diagnose.intro}</p>
+		{:else if diagnose.incidents.length === 0}
+			<p class="text-sm text-muted-foreground">{t.diagnose.nothing}</p>
 		{:else}
 			<ul class="flex max-h-64 flex-col divide-y overflow-y-auto rounded-md border">
 				{#each diagnose.incidents as incident (incident.id)}
 					{@render row(incident)}
 				{/each}
 			</ul>
+			{#if !diagnose.bundle && !diagnose.opening}
+				<p class="text-sm text-muted-foreground">{t.diagnose.pick}</p>
+			{/if}
 		{/if}
 
 		{#if diagnose.opening}

@@ -134,6 +134,8 @@ export interface Bucket {
 	total: number;
 	/** Critical and Error together: the part of the bar that is drawn in red. */
 	errors: number;
+	/** The amber slice between the errors and the rest. */
+	warnings: number;
 }
 
 export interface Histogram {
@@ -182,26 +184,29 @@ export function bucketSizeFor(spanMs: number, columns: number): number {
  * The loaded events counted into equal buckets over the span they cover.
  *
  * Built from whatever the table is currently showing rather than from everything loaded: a chart
- * that ignores the filters would be describing a different question than the one on screen.
+ * that ignores the filters would be describing a different question than the one on screen. A
+ * `span` end pins the axis to the time filter's window instead of the events that happen to match,
+ * so filtering to a quiet day shows a quiet day rather than zooming into its one busy minute.
  */
 export function histogram(
 	events: { timeCreated: string; level: number }[],
-	columns = 60
+	columns = 60,
+	span: { from?: number; to?: number } = {}
 ): Histogram {
 	const times = events
 		.map((event) => Date.parse(event.timeCreated))
 		.filter((at) => !Number.isNaN(at));
 	if (times.length === 0) return EMPTY_HISTOGRAM;
 
-	const oldest = Math.min(...times);
-	const newest = Math.max(...times);
+	const oldest = span.from ?? Math.min(...times);
+	const newest = span.to ?? Math.max(...times);
 	const sizeMs = bucketSizeFor(Math.max(newest - oldest, 1), columns);
 	const from = Math.floor(oldest / sizeMs) * sizeMs;
 	const to = Math.floor(newest / sizeMs) * sizeMs + sizeMs;
 
 	const buckets: Bucket[] = [];
 	for (let start = from; start < to; start += sizeMs) {
-		buckets.push({ start, total: 0, errors: 0 });
+		buckets.push({ start, total: 0, errors: 0, warnings: 0 });
 	}
 
 	for (const event of events) {
@@ -212,6 +217,7 @@ export function histogram(
 		bucket.total += 1;
 		// Critical and Error together. Warning is not a failure and would make the red misleading.
 		if (event.level === 1 || event.level === 2) bucket.errors += 1;
+		else if (event.level === 3) bucket.warnings += 1;
 	}
 
 	return {
