@@ -16,22 +16,14 @@ export const de: Translations = {
 	},
 	menu: {
 		label: 'Menüleiste',
-		sketch: 'Entwurf',
-		notBuilt: (action: string) => `${action} gibt es noch nicht.`,
 		titles: {
 			file: 'Datei',
 			view: 'Ansicht',
 			help: 'Hilfe'
 		},
 		items: {
-			saveAs: 'Ereignisse speichern unter…',
-			print: 'Drucken…',
 			exit: 'Beenden',
-			refresh: 'Aktualisieren',
-			columns: 'Spalten auswählen…',
-			clearFilters: 'Alle Filter zurücksetzen',
 			settings: 'Einstellungen',
-			documentation: 'Dokumentation',
 			about: 'Über OpenEventViewer'
 		}
 	},
@@ -44,27 +36,10 @@ export const de: Translations = {
 		subtitle: 'Was Windows aufgezeichnet hat, neueste zuerst.',
 		channel: 'Kanal',
 		allChannels: 'System und Anwendung',
-		level: 'Stufe',
-		levels: {
-			critical: 'Kritisch',
-			error: 'Fehler',
-			warning: 'Warnung',
-			information: 'Information',
-			verbose: 'Ausführlich'
-		},
-		range: 'Zeitraum',
-		ranges: {
-			hour: 'Letzte Stunde',
-			day: 'Letzte 24 Stunden',
-			week: 'Letzte 7 Tage',
-			custom: 'Eigener Zeitraum'
-		},
 		from: 'Von',
 		to: 'Bis',
-		eventIds: 'Ereignis-IDs',
-		providers: 'Quellen',
-		providersHint: 'Exakte Namen, mit Komma getrennt',
 		load: 'Laden',
+		span: (from: string, to: string) => `${from} bis ${to}`,
 		keyword: 'Alle Spalten durchsuchen…',
 		columnFilter: 'Spaltenfilter',
 		clearColumnFilters: 'Spaltenfilter zurücksetzen',

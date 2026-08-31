@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { toast } from 'svelte-sonner';
 	import { call } from '$lib/bridge/client';
 	import { i18n } from '$lib/i18n/index.svelte';
 	import { cn } from '$lib/utils';
@@ -12,8 +11,7 @@
 
 	interface Item {
 		id: ItemId;
-		/** Absent means the entry is a sketch and says so when it is pressed. */
-		run?: () => unknown;
+		run: () => unknown;
 		/** Only where the key really does it — an invented shortcut is worse than none. */
 		shortcut?: string;
 	}
@@ -23,24 +21,20 @@
 		groups: Item[][];
 	}
 
+	// Every entry here does what it says. An entry that only apologises when pressed is worse than
+	// no entry, so the sketches this bar started as are gone rather than greyed out.
 	const MENUS = $derived<Menu[]>([
 		{
 			id: 'file',
-			groups: [
-				[{ id: 'saveAs' }, { id: 'print' }],
-				[{ id: 'exit', run: () => call('app_exit', {}), shortcut: 'Alt+F4' }]
-			]
+			groups: [[{ id: 'exit', run: () => call('app_exit', {}), shortcut: 'Alt+F4' }]]
 		},
 		{
 			id: 'view',
-			groups: [
-				[{ id: 'refresh' }, { id: 'columns' }, { id: 'clearFilters' }],
-				[{ id: 'settings', run: () => goto(resolve('/settings')) }]
-			]
+			groups: [[{ id: 'settings', run: () => goto(resolve('/settings')) }]]
 		},
 		{
 			id: 'help',
-			groups: [[{ id: 'documentation' }], [{ id: 'about', run: () => goto(resolve('/info')) }]]
+			groups: [[{ id: 'about', run: () => goto(resolve('/info')) }]]
 		}
 	]);
 
@@ -48,10 +42,6 @@
 
 	function pick(item: Item) {
 		open = null;
-		if (!item.run) {
-			toast(t.menu.notBuilt(t.menu.items[item.id]));
-			return;
-		}
 		void item.run();
 	}
 </script>
@@ -118,10 +108,6 @@
 								<span class="flex-1">{t.menu.items[item.id]}</span>
 								{#if item.shortcut}
 									<span class="text-muted-foreground">{item.shortcut}</span>
-								{:else}
-									<span class="text-[10px] tracking-wide text-muted-foreground/70 uppercase">
-										{t.menu.sketch}
-									</span>
 								{/if}
 							</button>
 						{/each}
