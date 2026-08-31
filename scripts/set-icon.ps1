@@ -1,33 +1,16 @@
-# Applies one of the candidate icons in src-tauri/icon-variants/ and regenerates every size.
+# Regenerates every icon size from src-tauri/app-icon.svg.
 #
-# Usage:  scripts/set-icon.ps1 check
-#         scripts/set-icon.ps1            # lists what there is
+# Usage:  scripts/set-icon.ps1
 #
 # `tauri icon` also writes Android and iOS assets. This app is Windows only, so they are removed
 # again rather than left to be committed.
 
-param([string]$Name)
-
 $ErrorActionPreference = 'Stop'
 
 $root = Split-Path -Parent $PSScriptRoot
-$variants = Join-Path $root 'src-tauri\icon-variants'
-$target = Join-Path $root 'src-tauri\app-icon.svg'
+$source = Join-Path $root 'src-tauri\app-icon.svg'
 
-$available = Get-ChildItem $variants -Filter *.svg | ForEach-Object { $_.BaseName }
-
-if (-not $Name) {
-    Write-Host "Candidates in src-tauri/icon-variants:"
-    $available | ForEach-Object { Write-Host "  $_" }
-    exit 0
-}
-
-if ($available -notcontains $Name) {
-    throw "no candidate named '$Name'. Available: $($available -join ', ')"
-}
-
-Copy-Item (Join-Path $variants "$Name.svg") $target -Force
-Write-Host "app-icon.svg <- $Name.svg"
+if (-not (Test-Path $source)) { throw "no source icon at $source" }
 
 Push-Location $root
 try {
