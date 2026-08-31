@@ -6,6 +6,8 @@ The built-in Event Viewer can answer most of these questions, eventually. This o
 the two things that actually take the time: narrowing fifty thousand records to the dozen that
 matter, and seeing when they happened.
 
+![The Events page reading System and Application](docs/events.png)
+
 - **Events** — a virtualised table over up to 50 000 records. Per-column filters that fit each
   column: tick lists with a search box and a count for level, provider, task, channel and computer;
   a from/to range for the time; an expression for the ID (`41, 6008`, `>7000`, `7000-7040`,
