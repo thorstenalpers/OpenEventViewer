@@ -1,14 +1,9 @@
-name: Release
+﻿name: Release
 
 # Only ever by hand. A release is a decision, and nothing about merging a pull request says one
 # has been taken.
 on:
   workflow_dispatch:
-    inputs:
-      dry_run:
-        description: Build and sign, publish nothing
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -19,10 +14,9 @@ jobs:
   decide:
     runs-on: ubuntu-latest
     outputs:
-      publish: ${{ steps.check.outputs.publish }}
       tag: ${{ steps.check.outputs.tag }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Work out what would be released
         id: check
@@ -33,12 +27,6 @@ jobs:
           tag="v$version"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            echo "publish=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Rehearsal of $tag. Nothing will be published."
-            exit 0
-          fi
-
           # Refused rather than overwritten: a tag that already names a release is the one thing
           # somebody may already have downloaded.
           if gh api "repos/${{ github.repository }}/git/ref/tags/$tag" >/dev/null 2>&1; then
@@ -46,7 +34,6 @@ jobs:
             exit 1
           fi
 
-          echo "publish=true" >> "$GITHUB_OUTPUT"
           echo "::notice::Releasing $tag. The pipeline creates the tag; nobody has to."
 
   release:
@@ -57,15 +44,15 @@ jobs:
         shell: pwsh
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
 
       - name: Cache cargo
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.cargo/registry/index
@@ -159,8 +146,7 @@ jobs:
       # `tag_name` on a tag that does not exist yet creates it at this commit, so nobody has to
       # remember to tag by hand — bumping the version in tauri.conf.json is the whole ceremony.
       - name: Publish the release
-        if: needs.decide.outputs.publish == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.decide.outputs.tag }}
           files: |
@@ -168,19 +154,3 @@ jobs:
             target/release/bundle/nsis/*-setup.exe.sig
             latest.json
           fail_on_unmatched_files: true
-
-      - name: Keep what the rehearsal produced
-        if: needs.decide.outputs.publish != 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-rehearsal
-          path: |
-            target/release/bundle/nsis/*-setup.exe
-            target/release/bundle/nsis/*-setup.exe.sig
-            latest.json
-          if-no-files-found: error
-
-      - name: Say that nothing was published
-        if: needs.decide.outputs.publish != 'true'
-        run: |
-          Write-Host '::notice::Rehearsal only. The installer, its signature and latest.json are attached to this run as an artifact. A release happens when a push to main carries a version that has no tag yet.'
